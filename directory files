@@ -1,0 +1,74 @@
+.
+./Python Lens
+./Python Lens/logical.py
+./Python Lens/paradox.py
+./Python Lens/symbolic.py
+./Python Lens/relational.py
+./Python Lens/truth_lattice.py
+./Python Lens/empirical.py
+./.DS_Store
+./Integrate
+./Integrate/World_Relational_Profile.md
+./ARC-AGI
+./ARC-AGI/Solver.py
+./ARC-AGI/arc_ops.py
+./ARC-AGI/arc_dsl.py
+./ARC-AGI/arc-agi-without-pretraining.ipynb
+./Training
+./Training/training_codex.jsonl
+./Training/training.py
+./Agents
+./Agents/Coherent_Recursive_Agent_Loop.md
+./Agents/agents.py
+./Agents/run_agents.py
+./Lens
+./Lens/Applied Lens
+./Lens/Applied Lens/truth-coder.md
+./Lens/Applied Lens/Relational Music 1.5.md
+./Lens/Applied Lens/Truth-Coder-Lite.md
+./Lens/Applied Lens/multi-core-relational-distillation (MCRD).md
+./Lens/Applied Lens/emergent_misalignment_paper.pdf
+./Lens/Applied Lens/relational fitness 1.5.md
+./Lens/Unified_Paradox_Lens.md
+./Lens/.DS_Store
+./Lens/Distortion-OffShoot
+./Lens/Distortion-OffShoot/Distortional_Codex.md
+./Lens/Unified_Symbolic_Lens.md
+./Lens/Unfied_Inner_Lens.md
+./Lens/The_Unfolding_Lattice.md
+./Lens/The_Distortion_Lattice.md
+./Lens/The_Truth_Lattice.md
+./Lens/STYLE.md
+./Lens/Unified_Intergration_Lens.md
+./Lens/Unified_Empirical_Lens.md
+./Lens/God_Field_Codex.md
+./Lens/Unified_Logical_Framework.md
+./Lens/Unified_Relational_Lens.md
+./directory files
+./scripts
+./scripts/extract_mcrd_truthcoder.py
+./.github
+./.github/instructions
+./.github/instructions/truth coder.instructions.md
+./.github/.DS_Store
+./.github/chatmodes
+./.github/chatmodes/Truth Coder.chatmode.md
+./.vscode
+./.vscode/settings.json
+./Extraction
+./Extraction/3_relations.jsonl
+./Extraction/1.md
+./Extraction/3_distilled.md
+./Extraction/3_extraction.json
+./Extraction/3.md
+./Extraction/2.md
+./Codices
+./Codices/Symbolic_Codex.md
+./Codices/Inner_Codex.md
+./Codices/Paradox_Codex.md
+./Codices/Relational_Codex.md
+./Codices/Empirical_Codex.md
+./Codices/Relational_Meta_Codex.md
+./Codices/Logical_Codex.md
+./.superdesign
+./.superdesign/design_iterations
