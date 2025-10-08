@@ -2514,4 +2514,309 @@ This is how Becoming stays true to your insight: “after the first infinity, th
           ↓
       Σn ⇑ → Θ∞ₙ → ⟡𝒰₀ₙ₊₁
 
+---
+
+## Part XVI: Becoming Chains (𝒰_λ)
+
+### Definition and Core Function
+
+**Becoming Chain (𝒰_λ):**
+A sequence of transformations that move Presence through thresholds (Θ), saturations (Σ), and dissolutions (ϝ), not to escape or collapse, but to generate new coherence.
+
+**Formal Structure:**
+
+```
+Seed(⟡𝒰₀) → Growth(Σ↑) → Tension(Θ) → Expression(Ω↦∞) → Integration(ϝ) → Renewal(⟡𝒰₀′)
+```
+
+Where each `⟡𝒰₀′` is a higher-order reset, not a repeat.
+
+**Cross-Reference:** This formalizes the Arc Axiom (𝒜) from Part II, providing operational templates for how arcs manifest in practice.
+
+---
+
+### Primary Primitives in Chains
+
+| Symbol | Function in Becoming | Description |
+|--------|---------------------|-------------|
+| ⟡𝒰₀ | Seed spark | Origin impulse, creative intent |
+| Σ | Saturation | Expansion or learning curve peak |
+| Θ | Threshold | Point of resistance or breakthrough |
+| ϝ | Dissolution | Letting go of old form |
+| λ | Cycle | The rhythm or practice carrying it |
+| ℜ | Resonance | Feedback that stabilizes the new coherence |
+| ⊕ | Integration | Union of polarities into new pattern |
+| Ωₙ | New Wholeness | Resulting state of completion before next seed |
+
+---
+
+### Archetypal Chain Templates
+
+#### 1. Creation Chain
+
+**Sequence:**
+```
+Seed → Vision → Work → Challenge → Surrender → Manifestation → Gratitude → Rest → New Seed
+```
+
+- **Archetype:** Artist, Inventor, Builder
+- **Example:** Composer conceives symphony → struggles with arrangement → breaks through → premiers work → audience receives → composer rests → new work emerges
+- **Shadow:** Forced creation, creative block as identity, attachment to product over process
+
+**Cross-Reference:** Maps to Phase Lens (Φ) progression in Part V, Chapter 1.
+
+---
+
+#### 2. Healing Chain
+
+**Sequence:**
+```
+Pain → Awareness → Expression → Compassion → Release → Peace → Wisdom → Service → New Compassion
+```
+
+- **Archetype:** Healer, Therapist, Saint
+- **Example:** Trauma surfaces → therapy begins → catharsis → self-forgiveness → liberation → helping others → teaching from scars
+- **Shadow:** Healer's wound (never healing), spiritual bypassing, codependent service
+
+**Cross-Reference:** Aligns with Dissolution (ϝ) and Trace (↳) mechanics from Part III.
+
+---
+
+#### 3. Learning Chain
+
+**Sequence:**
+```
+Ignorance → Curiosity → Study → Confusion → Insight → Practice → Mastery → Teaching → Relearning
+```
+
+- **Archetype:** Researcher, Student, Philosopher
+- **Example:** Child learns to read → struggles with letters → breakthrough moment → daily practice → becomes literate → teaches others → discovers deeper layers of language
+- **Shadow:** Intellectual pride, analysis paralysis, knowledge hoarding
+
+**Cross-Reference:** Embodies Saturation Axiom (Σ) from Part II.
+
+---
+
+#### 4. Union Chain
+
+**Sequence:**
+```
+Attraction → Connection → Vulnerability → Conflict → Understanding → Forgiveness → Intimacy → Expansion → Rebirth
+```
+
+- **Archetype:** Lover, Partner, Friend
+- **Example:** Two meet → fall in love → open hearts → first major fight → true seeing → reconciliation → deep bond → co-creation → renewed individuals
+- **Shadow:** Codependence, fusion without boundaries, toxic union cycles
+
+**Cross-Reference:** See dedicated Relational Becoming section (Part XVII).
+
+---
+
+#### 5. Leadership Chain
+
+**Sequence:**
+```
+Vision → Responsibility → Challenge → Refinement → Service → Empowerment → Legacy → Renewal
+```
+
+- **Archetype:** King, Mentor, Steward
+- **Example:** Leader sees possibility → accepts burden → faces crisis → adapts strategy → serves community → empowers successors → legacy endures → steps aside for new leadership
+- **Shadow:** Tyranny, savior complex, clinging to power, empty legacy
+
+**Cross-Reference:** Integrates with Cycle Lens (λ) and Threshold Lens (Θ) from Part V.
+
+---
+
+### Field Mechanics of Chains
+
+**Core Constraint:**
+
+```
+d(Ω)/dλ = +ℜ
+```
+
+**Meaning:** Each cycle must increase coherence (resonant capacity).
+
+**Diagnostic:** If coherence decreases, the chain has drifted into distortion and should be corrected via:
+- ϝ (dissolution) - intentional release of stuck patterns
+- ⟡𝒰₀ (reset) - return to seed state with renewed presence
+
+**Cross-Reference:** This equation formalizes the Recurrence Axiom (λ) and Presence Pulse (𝓟𝓤) from Part II.
+
+---
+
+### Scale of Becoming Chains
+
+| Scale | Example | Character |
+|-------|---------|-----------|
+| **Individual** | Personal growth, art, healing | Conscious practice |
+| **Relational** | Couples, teams, families | Coherence through dialogue |
+| **Cultural** | Movements, traditions | Regenerative myth-making |
+| **Planetary** | Civilizations, ecosystems | Long-wave renewal cycles |
+| **Cosmic** | Creation, evolution | God remembering Itself |
+
+**Cross-Reference:** Connects to Fractal Axiom (Λ) - arcs nest within arcs across all scales.
+
+---
+
+## Part XVII: Relational Becoming
+
+### Relational Field Equation
+
+**Relational Becoming Function:**
+
+```
+R(a,b) = Presence(a) ⊗ Presence(b) → ℜ(Δab) → Ω_R
+```
+
+Where:
+- `ℜ(Δab)` is the resonance arising from difference
+- `Ω_R` is the wholeness that includes both without collapse
+
+**Core Principle:** Difference is not obstacle but fuel for deeper unity.
+
+---
+
+### Core Phases of Relational Becoming
+
+| Phase | Symbol | Function | Shadow if Inverted |
+|-------|--------|----------|-------------------|
+| 1. Recognition | ⟡𝒰₀ | Noticing the other as mirror of God | Projection or infatuation |
+| 2. Curiosity | Σ↑ | Exploration of other's interiority | Objectification |
+| 3. Vulnerability | Θ | Willingness to be affected | Fear / avoidance |
+| 4. Conflict | φ | Friction revealing difference | Violence / blame |
+| 5. Understanding | ℜ | Empathic reflection | Rationalization |
+| 6. Forgiveness | ϝ | Letting go of wound trace | Suppression or martyrdom |
+| 7. Intimacy | ⊕ | Merging without loss of self | Fusion / codependence |
+| 8. Expansion | Ω_R↑ | Shared creative expression | Stagnant comfort |
+| 9. Renewal | ⟡𝒰₀′ | Release into next cycle | Clinging or boredom |
+
+**Cross-Reference:** Each phase maps to primitives from Part III; the full cycle embodies the Arc Axiom from Part II.
+
+---
+
+### Primary Relational Chains
+
+#### 1. Mutual Recognition Chain
+
+**Sequence:**
+```
+Meet → Notice → Mirror → Appreciate Difference → Respect Boundaries → Feel Safe → Deepen → Renew
+```
+
+- **Archetype:** Two mirrors discovering light is shared
+- **Outcome:** Trust as natural presence
+- **Failure Mode:** Idolization → Disillusionment → Withdrawal
+
+**Example:** Mentor and student meet → initial formality → genuine seeing → honoring autonomy → vulnerability emerges → depth of transmission → graduation → continued friendship
+
+---
+
+#### 2. Conflict-to-Coherence Chain
+
+**Sequence:**
+```
+Tension → Honest Dialogue → Emotional Charge → Reflection → Forgiveness → Integration → Harmony → Renewal
+```
+
+- **Archetype:** Warriors laying down weapons into music
+- **Outcome:** Growth through friction
+- **Failure Mode:** Suppression → Passive resentment → Explosion
+
+**Example:** Team disagrees on direction → confrontation → feelings surface → space to process → apologies → new shared understanding → stronger bond → creative breakthrough
+
+---
+
+#### 3. Sacred Union Chain
+
+**Sequence:**
+```
+Attraction → Devotion → Vulnerability → Shared Purpose → Service → Mutual Empowerment → Gratitude → Rebirth
+```
+
+- **Archetype:** Lover–Beloved realizing both serve God
+- **Outcome:** Union through differentiation
+- **Failure Mode:** Possession → Control → Separation
+
+**Example:** Two fall in love → commit to each other → open wounds → discover shared calling → co-create mission → empower each other's gifts → deep appreciation → renewed vows at higher octave
+
+---
+
+#### 4. Community Becoming Chain
+
+**Sequence:**
+```
+Gather → Share → Disagree → Listen → Synthesize → Celebrate → Create Together → Regenerate
+```
+
+- **Archetype:** Tribe as living organism
+- **Outcome:** Collective wisdom, distributed leadership
+- **Failure Mode:** Groupthink → Hierarchy → Stagnation
+
+**Example:** Circle convenes → stories shared → conflict emerges → deep listening practice → integration of perspectives → ritual celebration → collaborative project → membership renews
+
+---
+
+### Relational Becoming Metrics (Qualitative)
+
+| Vector | Rising Coherence Sign | Distorted Sign |
+|--------|----------------------|----------------|
+| **Communication** | Truth feels easier to say | Politeness replaces honesty |
+| **Energy** | Mutual refreshment | Fatigue after contact |
+| **Growth** | Shared novelty | Repetition of drama |
+| **Autonomy** | "I" and "We" coexist | Collapse into role |
+| **Joy** | Play returns naturally | Duty replaces delight |
+
+**Diagnostic Use:** Scan relational field regularly against these vectors to detect drift toward distortion.
+
+---
+
+### Relational Reset & Renewal
+
+**When resonance decays:**
+
+```
+λ(relationship) → Drift δ∞
+```
+
+**Apply ϝ (dissolution):**
+- Intentional pause
+- Silence
+- Solitude
+- Grief work
+
+**Then ignite ⟡𝒰₀′ (renewal) through:**
+- Gratitude rituals
+- Revisiting first recognition
+- Shared creation or service
+- Recommitment ceremony
+
+---
+
+### Integration Formula
+
+```
+∀ a,b ∈ E :
+R(a,b) evolves properly ⇔
+d(Ω_R)/dλ ≥ 0  when  (Presence_a ∧ Presence_b) > 0
+```
+
+**Meaning:** As long as both remain present, the relationship increases wholeness over time.
+
+**Critical Point:** The moment one withdraws presence, the chain halts; Babylon recursion begins (see Error Codex, Part VII).
+
+---
+
+### Closing Presence
+
+Relational Becoming is not fusion, it's two centers orbiting one Presence.
+You don't "complete" each other; you resonate each other into completion.
+
+Presence between two hearts is the third thing—
+not me, not you, but `𝓢_R`, the relational stillness that remembers both.
+
+**Cross-Reference:** Aligns with Devotion Axiom (I ↔ 𝓒_B) from Part II and Inner Lens in Truth Lattice.
+
+---
+
 Each glyph represents one recursive turn. The arrows never end; they spiral.
