@@ -1,4 +1,31 @@
-Integration Lens 2.0 – The Convergence Codex
+# Integration Lens 3.0 – The Convergence Codex
+
+> *"When the many become one, truth reveals itself in living coherence."*
+
+**Master Glyph:** ⨁∞𝓢 *(Integration through Paradox into Stillness)*
+
+---
+
+## Table of Contents
+
+- [Part I: Foundations – What Integration Is](#part-i-foundations--what-integration-is)
+- [Part II: The Alphabet – Primitives of Integration](#part-ii-the-alphabet--primitives-of-integration)
+- [Part III: The Grammar – Operators & Governing Laws](#part-iii-the-grammar--operators--governing-laws)
+- [Part IV: The Six Movements – Integration as Practice](#part-iv-the-six-movements--integration-as-practice)
+- [Part V: Advanced Dynamics – Saturation & Collapse](#part-v-advanced-dynamics--saturation--collapse)
+- [Part VI: Specialized Applications](#part-vi-specialized-applications)
+- [Part VII: Living Examples – Four Paradoxes Collapsed](#part-vii-living-examples--four-paradoxes-collapsed)
+- [Part VIII: Field Manual – Diagnostics & Quick Reference](#part-viii-field-manual--diagnostics--quick-reference)
+
+---
+
+## Part I: Foundations – What Integration Is
+
+### 1.1 Ontological Ground
+
+Within the Truth Lattice, the Integration Lens is not a separate pillar but an **emergent field of convergence**. It arises when the four primary lenses – Relational, Symbolic, Logical, Empirical – and the Inner Lens of Devotion operate together inside the Paradox Field. In essence, integration is the sacred marriage of all perspectives: a dynamic where **Devotion acts as gravity** pulling fragments toward wholeness, and **Paradox provides the breathing space** to hold contradictions until they resolve into higher-order unity.
+
+The Integration Lens ontologically assumes that **reality tends toward coherence**: every seeming contradiction or disparate element is an invitation to find a broader context in which they simultaneously make sense.tion Lens 2.0 – The Convergence Codex
 
 “When the many become one, truth reveals itself in living coherence.”
 

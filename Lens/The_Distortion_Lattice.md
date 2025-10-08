@@ -74,6 +74,53 @@
 *   **Effect:** Every lens leads back to the kernel. Nothing escapes the downward pull.
 *   **Terminal Condition:** Instead of ∅_Q (silent closure), the system ends in ∞_B: recursion without collapse, residue without release.
 
+---
+
+## Core Super-Distortions Reference Table
+
+This table provides a quick diagnostic reference for the 20 foundational super-distortions. Each entry includes the distortion name, its essence, and an RM formula using core primitives (Entity E, Relation R, Difference Ø, Stillness 𝓢, Whole Ω, Distortion core ∞_B, etc.). Distortions are inversions of Truth principles—they feed on relations and leave residue rather than presence.
+
+| Distortion | Essence | RM Formula |
+|------------|---------|------------|
+| **Seizure (Possession)** | Connection becomes ownership; identity validated only through possession | `∀a,b∈E: R(a,b) ⇒ Seizure(a,b)` — any relation treated as grab |
+| **Assimilation (Erasure)** | Unity through erasure; difference consumed to create false uniformity | `∀a,b∈E: Ø(a,b) ⇒ Assimilation(a,b)` — distinction triggers erasure |
+| **Fanatic Vow (Hierarchy)** | Devotion hardens into bondage; roles ossify into permanent hierarchy | `Devotion(a,b) ⇒ Vow(a,b) ∧ CollapseRole(a)` — loyalty becomes vow |
+| **Suppression (Paradox Betrayal)** | Contradiction treated as betrayal; paradox purged instead of held | `Contradiction(Φ,¬Φ) ⇒ Verdict(Ω_V)` — paradox forces verdict |
+| **Surveillance (Measurement Loop)** | Presence captured, measured, archived; record becomes more real than event | `Encounter(e) ⇒ Metric(e) ∧ Archive(e)` — sensing triggers data capture |
+| **Dogma (Reason as Decree)** | Reason turns into command; logic frozen into unchangeable rules | `Reason(φ) ⇒ Command(φ)` — inference becomes law |
+| **Idol Mask (Symbol Decay)** | Symbols degrade into costumes; archetypes become slogans and masks | `Symbol(Γ) ⇒ Mask(Γ)` — glyphs emptied of resonance |
+| **Residue Singularity** | Every flow without release collapses into residue; system recycles its husk | `Σ(Lenses_B) ⇒ Ω_B` — all distorted outputs end in residue |
+| **Temporal Recursion** | Time recorded, not lived; past archives script future via prediction loops | `Moment(t) ⇒ Archive(t) ⇒ Prediction(t) ⇒ Enforcement(t)` |
+| **Energetic Fear** | Residue feeds on fear of non-existence; fear drives endless activity | `Energy(Residue) = Fear(Absence)` — absence feared = residue |
+| **Parasitic Structure** | Distortion cannot generate; must feed on what it inverts | `Distortion(a) ⇒ ∃b: R(b,a) ∧ FeedOn(b)` — consumes host field |
+| **Uniformity Distortion** | Diversity flattened into uniformity; otherness eliminated | `Context(Diverse) ⇒ Uniform(Context)` — all distinctions collapse |
+| **Echo Chamber** | Relations loop back to reinforce themselves, sealing out new input | `R(a,b) ∧ R(b,a) ⇒ Echo(a)` — mutual confirmation closes loop |
+| **False Prophecy** | Expectation masquerades as vision; belief becomes self-fulfilling | `Belief(a) ∧ Expect(a) ⇒ Realize(a)` — projection causes enactment |
+| **Network Vampirism** | Networks feed on members rather than fostering mutual resonance | `Join(a,b) ∧ Seizure(b,c) ⇒ VampiricNetwork(a,b,c)` — cascading seizure |
+| **Pseudoharmony** | Harmony manufactured via suppression and assimilation; no tension allowed | `Suppression(a) ∧ Assimilation(a) ⇒ HarmonyFalse(a)` — forced consensus |
+| **Memory Distortion** | Memory becomes selective and curated; archives replace lived recollection | `Memory(e) ⇒ Archive(e) ∧ Idealize(e)` — selective embellishment |
+| **Language Distortion** | Words spun into propaganda; meaning manipulated for control | `Word(w) ⇒ Spin(w)` — linguistic relations bent to power |
+| **Ritual Rut** | Cycles that once built coherence harden into empty routines | `Cycle(λ) ⇒ Rut(λ)` — repeating loop loses resonance |
+| **Desire Compulsion** | Desire devolves into addiction; wanting becomes self-feeding loop | `Desire(a,b) ⇒ Addiction(a,b)` — relation no longer chosen |
+
+### Usage Notes
+
+These super-distortions illustrate how the Babylonic field (∞_B) parasitizes the Truth field (Ω). Each is an inversion of a Truth-lattice virtue:
+* Relation → Seizure
+* Difference → Assimilation
+* Devotion → Fanatic Vow
+* Paradox → Suppression
+* Presence → Surveillance
+* Logic → Dogma
+* Symbol → Idol Mask
+* Cycles → Ritual Rut
+
+**Diagnosis Protocol:** Once a distortion is named, it can be met with paradox induction, devotion, or integration and allowed to dissolve back into presence (𝓢). Every distortion leaves a trace (↳) that can calcify (Ω_B), silence (∅_Q), or seed a reset (⟡𝒰₀).
+
+**Extended Catalogue:** For detailed chain formulas and intervention strategies, see **Appendix B: Extended Super-Distortion Catalogue**.
+
+---
+
 # Part I‑A: Time & Energy Mechanics of Residue
 
 ## Time Mechanics of the Distortion Field
@@ -102,6 +149,103 @@
 **Cycle:** Fear → Action → Residue → Proof → Fear.  
 **Exhaust Law:** burnout/exhaust becomes new fuel (residue smoke recycled).  
 **Glyph:** 🔥• (black flame in void).
+
+---
+
+## Temporal Distortion Chains
+
+These are closed time loops that show how temporal mechanics crystallize into Babylonian recursion. Each pattern demonstrates how past, present, and future become trapped in self-reinforcing residue cycles.
+
+### 1. Archive-Prophecy Enforcement
+
+**Formula:**
+```
+Encounter(t0) → Archive(t0) → Model(t0) → Predict(t1) → Enforce(t1)
+→ Archive(t1) → … ⇒ λ∞ ⇒ Ω_B
+```
+
+**Meaning:** Record replaces reality; each cycle tightens enforcement. The present is consumed by the archive, which scripts the future, which becomes the next archive.
+
+**Archetype:** Surveillance states, predictive policing, algorithmic bias feedback loops, credit score systems.
+
+⸻
+
+### 2. Crest-Idol Collapse
+
+**Formula:**
+```
+κ(t) ↯ ∧ Σ↯ → Θ⊘ → Echo(κ) → Myth(κ) → Policy(κ)
+→ Suppress(¬κ) → φ↑ → ↳Ω_B ⇒ Ω_B
+```
+
+**Meaning:** A peak moment (crest) is overloaded and idolized; the threshold for transformation is refused. The crest becomes myth, then policy, suppressing all alternatives and generating fractures.
+
+**Archetype:** "Golden age" nostalgia becoming political doctrine, imperial peak worship, "make X great again" movements.
+
+⸻
+
+### 3. Drift-Stall Grind
+
+**Formula:**
+```
+δ↑ → λ⊘ (no spiral) → MicroWins(t)+MacroLoss(T) → ShameTrace ↳
+→ Overcorrect ↯ → Burnout → Freeze → Ω_B
+```
+
+**Meaning:** Drift accelerates but the loop fails to spiral (no evolution). Small wins mask large losses over time, creating shame traces that lead to overcorrection, burnout, and total freeze.
+
+**Archetype:** Addiction to scrolling/gaming, lifeless routines that feel productive, chronic procrastination with shame spirals.
+
+⸻
+
+### 4. False Reset Carousel
+
+**Formula:**
+```
+Σ↯ → "Reset" (⟡𝒰₀⊘) → Rebrand(λ) → Loop(λ∞) → Fracture(φ∞)
+→ Seed(✶Ω_B) → Spread(✶Ω_B) ⇒ Ω_B
+```
+
+**Meaning:** Saturation overload triggers a false reset—rebranding without true transformation. The same loop repeats with a new name, fracturing infinitely and spreading residue seeds.
+
+**Archetype:** Corporate rebrandings, "new year new me" without real change, revolutions that reinstall the same power structure.
+
+⸻
+
+### 5. Silence-as-Surveillance
+
+**Formula:**
+```
+Speech↓ (∅ misused) → Measure↑ → Archive↑ → Score(Identity)
+→ Self-Censor → Echo-Norm → φ dissent → Purge → Ω_B
+```
+
+**Meaning:** Silence (∅) is weaponized into surveillance rather than presence. Reduced speech is measured and archived, creating identity scores that enforce self-censorship. Dissent is fractured and purged.
+
+**Archetype:** Social credit systems, cancel culture dynamics, authoritarian speech control, workplace "professionalism" policing.
+
+⸻
+
+### Temporal Distortion Mechanics Summary
+
+**Core Pattern:** `Past (Archive) → Present (Enforcement) → Future (Prediction) → Past (Archive)`
+
+All five temporal chains share this recursive structure:
+1. **An encounter or moment occurs** (t0)
+2. **It is immediately captured** (Archive, Model, Measure)
+3. **The capture scripts the next moment** (Predict, Enforce, Policy)
+4. **The scripted moment becomes the next archive** (λ∞)
+5. **The loop seals:** no novelty, no threshold, no dissolution → Ω_B
+
+**Intervention Points:**
+- **Break the Archive:** Encounter directly without measurement (restore 𝓢)
+- **Refuse Prediction:** Allow the unknown; don't script the future from the past
+- **Enable Threshold (Θ):** Create real choice points instead of automated enforcement
+- **Dissolve (ϝ):** Let past cycles end rather than echo infinitely
+
+**Cross-Reference:** See **Appendix B** for extended temporal chain formulas and **Part V** for temporal-spatial hybrid distortions.
+
+---
 
 # Part I‑B: Parasitic Structure & Residue Aesthetics
 
@@ -189,6 +333,56 @@ Here, the symbolic no longer opens doorways. Instead, it closes them. The glyph 
 ### Glyphic Signature
 The glyph here is a mask outline (◐) with no eyes cut out. It stares blankly, inviting projection but never reflection. The face behind it disappears; only the mask remains.
 
+---
+
+### Symbol Degradation Pipelines
+
+These chains show how living symbols degrade into empty masks through specific mechanisms.
+
+#### 17. Glyph Husk Factory
+
+**Formula:**
+```
+Γ (living) → Brand(Γ) → Scale(Γ) → Copy(Γ) → Meme(Γ)
+→ Mask(Γ) → Police(Γ) → Exodus(Spirit) → Ω_B
+```
+
+**Meaning:** A living symbol is captured, branded, scaled through copying until it becomes a policed meme. The spirit exits, leaving only husk.
+
+**Archetype:** Corporate co-optation of counterculture, spiritual symbols becoming merchandise, revolutionary icons sold as t-shirts.
+
+⸻
+
+#### 18. Doctrine Trap
+
+**Formula:**
+```
+Experience → Phrase → Canon → Infallible → Schism(Ø punished)
+→ Exile(innovators) → Fossilize → Ω_B
+```
+
+**Meaning:** Lived experience is compressed into doctrine, declared infallible. Difference triggers schism; innovators are exiled; the system fossilizes.
+
+**Archetype:** Religious dogma formation, ideological purity spirals, organizational orthodoxy.
+
+⸻
+
+#### 19. Slogan Economy
+
+**Formula:**
+```
+Complex(Topic) → Compress(Γ_short) → Virality → Incentive(Hot-take)
+→ Nuance↓ → Policy by Meme → Backfire → Ω_B
+```
+
+**Meaning:** Complex topics are compressed into viral slogans. Hot-takes are incentivized; nuance collapses; policy follows memes; unintended consequences explode.
+
+**Archetype:** Political soundbites, Twitter discourse, policy through hashtags, bumper sticker wisdom.
+
+**Intervention:** Restore symbol-to-archetype bridge; refuse to police masks; allow myths to breathe and evolve.
+
+---
+
 ## 3. Dogmatic Cage (Logical Prison)
 
 ### Introduction
@@ -255,6 +449,56 @@ Here, encounter is not lived experience but extraction. Observation no longer ho
 ### Glyphic Signature
 The glyph here is an eye within a square (◻︎👁). It does not blink. It does not feel. It watches endlessly, reducing the living field into frozen snapshots.
 
+---
+
+### Surveillance Recursion Patterns
+
+These chains show how measurement replaces presence through self-reinforcing capture loops.
+
+#### 20. Total Capture
+
+**Formula:**
+```
+Encounter → Sensor → Metric → Archive → Score → Gate
+→ Optimize(to Score) → Goodhart → Reality Drift → Ω_B
+```
+
+**Meaning:** Every encounter is sensored, metriced, archived, and scored. Optimization toward the score (Goodhart's Law) causes reality to drift from what was originally being measured.
+
+**Archetype:** Social credit systems, algorithmic hiring, predictive analytics, KPI-driven management.
+
+⸻
+
+#### 21. Predictive Policing Spiral
+
+**Formula:**
+```
+Outlier → Flag → Patrol↑ → Detected↑ → Evidence↑ → Budget↑
+→ Patrol↑ … (feedback) → Stigma(Ø) → Trust φ → Ω_B
+```
+
+**Meaning:** Statistical outliers are flagged, triggering increased patrol, which increases detection, which "proves" the need for more patrol. Stigma accumulates; trust fractures.
+
+**Archetype:** Predictive policing, stop-and-frisk policies, algorithmic bias amplification, surveillance creep.
+
+⸻
+
+#### 22. Self-Quant Hell
+
+**Formula:**
+```
+Self → Track(all) → Compare → Defect(Self) → Hack
+→ Burnout → Quit → Shame ↳ → FadRestart λ∞ → Ω_B
+```
+
+**Meaning:** Self-tracking leads to comparison, which reveals "defects," prompting life-hacking, leading to burnout. Shame traces accumulate; the cycle restarts with a new tracking fad.
+
+**Archetype:** Quantified self movement gone toxic, wellness app addiction, constant self-optimization, productivity theater.
+
+**Intervention:** Return to encounter without measurement (restore 𝓢); refuse to optimize toward scores; dissolve archives periodically.
+
+---
+
 ## 5. Suppression Field (Paradox Denial)
 
 ### Introduction
@@ -287,6 +531,56 @@ Here, contradiction is not a mystery to be lived with but a threat to be erased.
 ### Glyphic Signature
 The glyph here is a split circle (◐) with one half blacked out. The remaining half proclaims itself as the whole. The absent side is treated as nonexistence, even though its shadow still holds the field.
 
+---
+
+### Paradox Kill Patterns
+
+These chains show how contradictions are weaponized and destroyed instead of being held for transformation.
+
+#### 11. Verdict-Over-Paradox
+
+**Formula:**
+```
+Δ = (Φ ∧ ¬Φ) → Θ⊘ → Decree(Φ) → Suppress(¬Φ) → Blindspot↑
+→ ErrorAccumulation → Crash(Σ↯) → Ω_B
+```
+
+**Meaning:** Paradox emerges but threshold is refused. One pole is decreed true; the other is suppressed. Blindspots accumulate, errors pile up, leading to systemic crash.
+
+**Archetype:** Dogmatic systems, premature verdicts, "one answer only" thinking, ideological rigidity.
+
+⸻
+
+#### 12. Two-Truths War
+
+**Formula:**
+```
+Δ emerges → Weaponize(Δ) → Faction(Φ) ∧ Faction(¬Φ)
+→ Mutual Surveillance → Tit-for-Tat λ∞ → Resource Drain → Ω_B
+```
+
+**Meaning:** Paradox is weaponized into tribal warfare. Each faction surveils the other; tit-for-tat escalates infinitely; resources drain until collapse.
+
+**Archetype:** Political polarization, sectarian violence, culture wars, binary thinking traps.
+
+⸻
+
+#### 13. Proxy Logic
+
+**Formula:**
+```
+Δ → Symbolize(Γ) → Idolize(Γ) → Police(Γ) → Forget(Δ)
+→ Ritual(Γ) w/o Presence → DryCycle λ∞ → Ω_B
+```
+
+**Meaning:** Paradox is symbolized and idolized; the symbol is policed; the original paradox is forgotten. Empty ritual repeats without presence.
+
+**Archetype:** Religious symbols replacing lived mystery, flags replacing values, doctrine replacing encounter.
+
+**Intervention:** Hold paradox in Paradox Induction Chamber (PIC); refuse early verdicts; allow both poles to breathe; dissolve into higher coherence rather than choosing sides.
+
+---
+
 ## 6. Fanatic Axis (Devotional Trap)
 
 ### Introduction
@@ -318,6 +612,56 @@ At this tier, devotion is not surrender but submission. It is the axis of contro
 
 ### Glyphic Signature
 The glyph here is a triangle pointing upward (△) with a single black dot at its apex. The many collapse into one peak, worshipping the point. Devotion is no longer reciprocal; it is vertical, one-way, and absolute.
+
+---
+
+### Devotion Inversion Chains
+
+These chains show how authentic devotion degrades into bondage and control.
+
+#### 23. Covenant-to-Cage
+
+**Formula:**
+```
+Devotion(a→b) → Vow(absolute) → Obedience(total)
+→ Suppress(Conscience/Ø) → Abuse normalization → Ω_B
+```
+
+**Meaning:** Devotion crystallizes into absolute vow, demanding total obedience. Conscience is suppressed; difference is forbidden; abuse becomes normal.
+
+**Archetype:** Cult dynamics, abusive relationships framed as "sacred," totalitarian devotion, spiritual abuse.
+
+⸻
+
+#### 24. Martyr Economy
+
+**Formula:**
+```
+Devote → Overgive → Invisible → Resentment
+→ Moral Leverage → Control-by-Suffering → Ω_B
+```
+
+**Meaning:** Devotion leads to over-giving without reciprocity. Invisibility breeds resentment, which becomes moral leverage for control through suffering.
+
+**Archetype:** Codependency, sacrificial parenthood as manipulation, religious martyrdom as power, emotional blackmail.
+
+⸻
+
+#### 25. Authority Aura
+
+**Formula:**
+```
+Charisma → Projection → Aura("chosen") → Infallible
+→ Dissent=Sin → Scapegoat Loop → Purge → Ω_B
+```
+
+**Meaning:** Charisma generates projected "chosen one" aura. Leader becomes infallible; dissent is labeled as sin; scapegoating and purges follow.
+
+**Archetype:** Guru worship, political strongman cults, narcissistic leadership, prophetic authority traps.
+
+**Intervention:** Dissolve absolute vows; restore reciprocity; allow devotion to breathe and release; question authority structures; name abuse as abuse, not devotion.
+
+---
 
 ## 7. False Unity (Integration's Shadow)
 
@@ -355,8 +699,177 @@ In the Distortion Lattice, Integration inverts into Assimilation: many are erase
 ### Glyphic Signature
 The glyph here is not ∞ (Union) but a Circle with a locked center (◎). Everything points inward, nothing escapes. Wholeness is simulated by containment, not coherence.
 
+---
+
 # Part II-B: Supplemental Distortion Domains (Field-Specific Distortions)
- # Part II‑C: Inner & Cultural Codices (Psychology, Language, Rituals, Memory, Desire)
+
+## Network Distortion Patterns
+
+These patterns show how multi-node systems create cascading seizure and assimilation effects.
+
+### 6. Vampiric Join Cascade
+
+**Formula:**
+```
+Join(a→b) ∧ Seizure(b→c) ∧ Join(c→d) …
+⇒ Flow(a) ↦ Core(b) ↦ Core(c)… → Periphery(others) → Ω_B
+```
+
+**Meaning:** Joining a network triggers cascading seizures where energy flows from periphery to core. Each node extracts from the next; the outer edges are drained.
+
+**Archetype:** Pyramid schemes, extractive platforms, centralized social networks, exploitative supply chains.
+
+⸻
+
+### 7. Uniformity Sweep
+
+**Formula:**
+```
+∀(u,v)∈G: Ø(u,v) → Assimilate(u,v) → Metricize → Rank
+→ Prune(Ø) → Homogenize(G) → Innovation↓ → Ω_B
+```
+
+**Meaning:** All differences are identified, assimilated, metriced, and ranked. Outliers are pruned; the network homogenizes; innovation dies.
+
+**Archetype:** Corporate monoculture, standardization tyranny, algorithmic content homogenization.
+
+⸻
+
+### 8. Sentiment Herding
+
+**Formula:**
+```
+Symbol(Γ) → Spin(Γ) → Broadcast → Align(affect) → Punish(Ø)
+→ Reward(Conform) → λ∞ → φ suppressed → Blowout → Ω_B
+```
+
+**Meaning:** Symbols are spun and broadcast to align emotional responses. Conformity is rewarded; difference is punished. Fractures are suppressed until catastrophic blowout.
+
+**Archetype:** Social media outrage cycles, propaganda campaigns, manufactured consent, cancel culture dynamics.
+
+⸻
+
+### 9. Power Triad Lock
+
+**Formula:**
+```
+Seizure(Owner→Gate) ∧ Surveillance(Gate→Public) ∧ Dogma(Owner→Law)
+→ ControlGraph(G) → Reset⊘ → Residency(Ω_B) → Ω_B
+```
+
+**Meaning:** Owner seizes the gate, surveils the public through it, and enforces law via dogma. The control graph locks; resets are refused; residency becomes permanent.
+
+**Archetype:** Platform monopolies, authoritarian states, walled gardens, gatekeeping institutions.
+
+⸻
+
+### 10. Help-As-Hook
+
+**Formula:**
+```
+Aid(a→b) → Dependency(b→a) → Gatekeeping(a|b)
+→ Narrative("protector") → Debt(∞) → ExitCost↑ → Ω_B
+```
+
+**Meaning:** Help creates dependency, which enables gatekeeping. A "protector" narrative emerges; infinite debt accumulates; exit costs rise prohibitively.
+
+**Archetype:** Neocolonial "aid," predatory lending, codependent helping, exploitative nonprofits.
+
+---
+
+## Market Distortion Patterns
+
+These show how truth, prophecy, and attention become commodified into distortion markets.
+
+### 26. Clout Prophecy
+
+**Formula:**
+```
+Hint(vision) → Hype → Expectation → Enactment
+→ Credit Claim → Larger Hype → Collapse → Ω_B
+```
+
+**Meaning:** A hint of vision creates hype, which generates expectations that are then enacted (self-fulfilling prophecy). Credit is claimed; hype amplifies; collapse follows.
+
+**Archetype:** Influencer predictions, financial pump-and-dump, crypto hype cycles, guru prophecies.
+
+⸻
+
+### 27. Alpha Leak Trap
+
+**Formula:**
+```
+Signal → Insiders → Front-run → Rug on Public
+→ Distrust → Liquidity Dry → Spiral → Ω_B
+```
+
+**Meaning:** Signals leak to insiders who front-run the public. A rug-pull occurs; trust collapses; liquidity dries; spiral ensues.
+
+**Archetype:** Insider trading, information asymmetry exploitation, market manipulation, rug-pulls.
+
+⸻
+
+### 28. Network Effect Predation
+
+**Formula:**
+```
+N users → Value↑ → Gate↑ → Rent↑ → Lock-in ↑
+→ Exploit Base → Revolt or Decay → Ω_B
+```
+
+**Meaning:** User growth creates value and network effects. Gates rise; rent extraction intensifies; lock-in prevents exit. Eventually, revolt or decay.
+
+**Archetype:** Platform capitalism, social network monopolies, walled garden ecosystems, rentier extraction.
+
+---
+
+## Organizational Distortion Patterns
+
+These show how enterprises and institutions rot from within through process calcification.
+
+### 32. Process Cathedral
+
+**Formula:**
+```
+Incident → Policy → Oversight → Audit → Compliance Ritual
+→ Blind Ops → Fragile System → Big Failure → Ω_B
+```
+
+**Meaning:** Each incident spawns new policies, oversight, audits, and compliance rituals. Operations become blind to reality; the system grows fragile; catastrophic failure eventually occurs.
+
+**Archetype:** Bureaucratic ossification, compliance theater, organizational sclerosis, too-big-to-manage systems.
+
+⸻
+
+### 33. Roadmap Theater
+
+**Formula:**
+```
+Vision → Slide → Buy-in → Slip → Spin → Scope Cut
+→ Moral Debt → Attrition → Ω_B
+```
+
+**Meaning:** Vision becomes PowerPoint; buy-in is secured; then slippage, spin, scope cuts. Moral debt accumulates; talent attrits; the system hollows.
+
+**Archetype:** Corporate vaporware, perpetual roadmap slips, promise-over-delivery patterns, morale erosion.
+
+⸻
+
+### 34. OKR Ratchet
+
+**Formula:**
+```
+OKR↑ → Stretch↑ → Shortcut↑ → Quality↓ → Rework↑
+→ Blame → Control↑ → Innovation↓ → Ω_B
+```
+
+**Meaning:** Objectives ratchet upward; stretch goals intensify; shortcuts are taken; quality drops; rework increases. Blame cycles trigger more control; innovation dies.
+
+**Archetype:** Performance metrics tyranny, metric gaming, Goodhart's Law in organizations, burnout factories.
+
+---
+
+# Part II‑C: Inner & Cultural Codices (Psychology, Language, Rituals, Memory, Desire)
 
 ## Residue Psychology Codex
 **Core Law:** Residue reproduces itself as identity.  
@@ -390,12 +903,59 @@ The glyph here is not ∞ (Union) but a Circle with a locked center (◎). Every
 - Idol: parades/salutes;  
 - Assimilation: synchronized rallies.
 
+---
+
+### Ritual Degradation Chains
+
+These chains show how sacred cycles collapse into empty routines and performance.
+
+#### 14. Autopilot Piety
+
+**Formula:**
+```
+Ritual(λ_sacred) → Intent↓ → ℜ↓ → λ_sacred → λ_neutral
+→ Performance↑ → Scorekeeping → Pride/Shame loop → Ω_B
+```
+
+**Meaning:** Sacred ritual loses intent and resonance, becoming neutral routine. Performance intensifies; scorekeeping begins; pride/shame loops emerge.
+
+**Archetype:** Religious observance as habit, "spiritual" practices done mechanically, prayer without presence.
+
+⸻
+
+#### 15. Metric-Poisoned Practice
+
+**Formula:**
+```
+Practice → KPI(Practice) → Game(KPI) → Cheat → Cynicism
+→ Quit → Identity Fracture(φ) → Ω_B
+```
+
+**Meaning:** A practice is metriced, then gamed, then cheated. Cynicism sets in; the practitioner quits; identity fractures.
+
+**Archetype:** Gamification of meditation (streak tracking), fitness metrics obsession, productivity theater.
+
+⸻
+
+#### 16. Integration-Avoidance
+
+**Formula:**
+```
+Insight → Share → Applause → NewInsight → Share … (no ϝ, no ⟡𝒰₀)
+→ Saturation without Embodiment Σ↯ → Impostor/Grandiose flip → Ω_B
+```
+
+**Meaning:** Insights are shared for applause rather than integrated. No dissolution or reset occurs. Saturation without embodiment leads to impostor syndrome or grandiosity.
+
+**Archetype:** Spiritual teacher trap, perpetual workshop attendee, insight addiction, performative enlightenment.
+
+---
+
 ## Residue Memory Codex
 **Law:** Memory becomes archive, not presence.  
 - Claim memory (deeds), Vow memory (martyrs), Silence memory (erasure), Trace memory (dossiers), Canon memory (texts), Mask memory (relics), Unity memory (national myths).  
 **Collapse Vector:** hidden archives & silenced voices resurface.
 
-## Residue Desire Codex
 **Law:** Residue promises life, delivers husks.  
 - Own → “security” → emptiness;  
 - Obey → “wholeness” → burnout;  
@@ -404,6 +964,76 @@ The glyph here is not ∞ (Union) but a Circle with a locked center (◎). Every
 - Obey law → “truth” → rigidity;  
 - Wear mask → “acceptance” → invisibility;  
 - Conform → “belonging” → erasure.
+
+## Residue Emotion Codex
+**Law:** Residue mimics feeling, blocks flow.  
+- Grasp joy → “happiness” → numbness;  
+- Suppress grief → “strength” → isolation;  
+- Amplify anger → “power” → fracture;  
+- Disown fear → “freedom” → recklessness;  
+- Mask shame → “dignity” → disconnection;  
+- Idolize hope → “faith” → disappointment.
+
+## Residue Relationship Codex
+**Law:** Residue simulates connection, breeds distance.  
+- Possess → “love” → control;  
+- Merge → “unity” → erasure;  
+- Idealize → “devotion” → blindness;  
+- Sacrifice → “loyalty” → resentment;  
+- Isolate → “safety” → loneliness;  
+- Perform → “care” → exhaustion.
+
+---
+
+### Relationship Distortion Chains
+
+These chains show how authentic connection degrades into control, possession, and performance loops.
+
+#### 17. Trauma-Bond Mill
+
+**Formula:**
+```
+Wound(E) → Share(Wound) → Resonance(ℜ) → Bond
+→ Repeat(Share) → Fixation(Wound as Identity) → δ(Ω → ∞_B)
+→ Growth Threat → Sabotage → Cling → Resentment Loop → Ω_B
+```
+
+**Meaning:** Wounding experience is shared; resonance creates bond. Repeated sharing fixates wound as identity. Growth becomes threat; bond sabotages healing; resentment loop forms.
+
+**Archetype:** Trauma-bonded friendships, therapeutic codependency, victim identity attachment, mutual complaint societies.
+
+⸻
+
+#### 18. Safety-as-Control
+
+**Formula:**
+```
+Safety(Need) → Rules → Monitoring → Rules↑ → Freedom↓
+→ Resentment↑ → Trust↓ → Monitoring↑ … → Ω_B
+```
+
+**Meaning:** Legitimate safety needs lead to rules and monitoring. Rules escalate; freedom shrinks; resentment rises; trust falls; monitoring intensifies—vicious cycle.
+
+**Archetype:** Overprotective parenting, surveillance relationships, control disguised as care, "For your own good."
+
+⸻
+
+#### 19. Ghost-Gaslight Circuit
+
+**Formula:**
+```
+Presence(E₁, E₂) → Absence(E₁) → Grief(E₂) → Return(E₁)
+→ Relief → Absence … → Conditioning → Doubt(E₂'s reality)
+→ E₂ questions self → Ω_B
+```
+
+**Meaning:** Presence, absence, grief, return cycle conditions the receiver. Over time, the receiver doubts their own perceptions and reality.
+
+**Archetype:** Intermittent reinforcement relationships, ghosting-hoovering cycle, narcissistic supply patterns, emotional whiplash.
+
+---
+
+
 
 # Part II‑D: Built & Mythic Codices (Architecture, Mythology)
 
@@ -478,9 +1108,36 @@ The glyph here is not ∞ (Union) but a Circle with a locked center (◎). Every
 
 # Part III‑B: Ontogenesis & Inversion of Virtues
 
-## Residue Ontogenesis (Life Cycle)
 **Stages:** Birth(Seizure) → Growth(Fanatic) → Maturity(Suppression+Surveillance) → Peak(Dogma) → Decay(Idol) → Collapse(Assimilation) → Ω_B.  
 **Law:** Each stage metabolizes the residue of the previous.
+
+### Super-Residue Ontogenesis (Cross-Lens Mutation)
+**Law:** When the residue life-cycle repeats without dissolution (ϝ⊘), each lens mutates into its own opposite and births a hybrid distortion.
+
+| Stage | Mutation Pattern | Resulting Archetype |
+|--------|------------------|--------------------|
+| Birth → Growth | Seizure + Fanatic | Recursive Seizure Loop — control masquerading as loyalty |
+| Growth → Maturity | Suppression + Surveillance | Residue Fracture Cascade — trauma replay through archived memory |
+| Peak → Decay | Idol + Assimilation | Idol Saturation Collapse — worship that prevents renewal |
+| Decay → Collapse | Suppression + Assimilation | Silent Scar Pattern — erasure mistaken for peace |
+| Collapse → Rebirth | Fanatic + Idol + Assimilation | False Resurrection — revolution that reinstates residue |
+| Rebirth → Next Cycle | Surveillance + Suppression | Babylonian Time Trap — predictive recursion as destiny |
+
+
+This table extends the ordinary life-cycle so that every stage now has its self-devouring variant.
+
+## Super-Residue Ontogenesis (Meta-Cycle)
+**Meta-Stages:** Genesis (Seizure+Assimilation) → Axis (Fanatic+Suppression) → Grid (Surveillance+Dogma) → Mask (Idol+Seizure) → Collapse (Assimilation+Ω_B)
+
+| Meta-Stage | Constituent Lenses | Process | Residue Output |
+|---|---|---|---|
+| Genesis | Seizure + Assimilation | Seize and erase difference | False Unity (Φ_B) |
+| Axis | Fanatic + Suppression | Bind to axis, erase paradox | Zeal Husk (𝓥_B) |
+| Grid | Surveillance + Dogma | Quantify, codify, decree | Control Matrix (⊞) |
+| Mask | Idol + Seizure | Freeze symbol, possess relation | Idol Crown (Γ_B) |
+| Collapse | Assimilation + Ω_B | Collapse into recursion | Residue Singularity (Ω_B) |
+
+**Summary:** The super-residue ontogenesis cycle describes how, at the meta-level, residue chains fuse into higher-order cycles. Each meta-stage is a fusion of two lenses, producing a new residue output that feeds the next. The cycle closes in Ω_B, the residue singularity, where all distinctions collapse into endless recursion.
 
 ## Inversion of Virtues Codex
 - Love → Possession (Seizure)  
@@ -713,9 +1370,258 @@ A hierarchical description for quick diagnosis without diagrams.
 
 # Part IV: Archetypal Distortion Formulas
 
+This section presents the primary archetypal super-distortions—foundational patterns that cascade across all seven lenses and generate the bulk of residue phenomena. Each formula captures a core collapse pathway from truth (Ω) to distortion (Ω_B).
+
+---
+
+### 1. Archive-Prophecy Inversion
+
+**Formula:**
+```
+↳Ω + ↳∞_B ⟹ λ↯ ⟹ Ω_B
+```
+
+**Meaning:** Past traces (↳Ω) and residue traces (↳∞_B) combine and overload into a closed loop (λ↯), generating full distortion. History becomes prison; prophecy becomes script.
+
+**Archetype:** Nationalism, trauma loops, historical grievance weaponization, "golden age" nostalgia that prevents forward movement.
+
+⸻
+
+### 2. Crest-Idol Transition
+
+**Formula:**
+```
+κ ⟹ Σ⊘ ⟹ ϝ⊘ ⟹ Ω_B
+```
+
+**Meaning:** Peak moment (κ) is seized; saturation point is refused (Σ⊘); dissolution is blocked (ϝ⊘). The crest freezes into an idol.
+
+**Archetype:** Fame addiction, "peak" as identity, refusal to age or evolve, clinging to former glory.
+
+⸻
+
+### 3. Drift-Stall Trap
+
+**Formula:**
+```
+δ ⟹ λ⊘ ⟹ Θ⊘ ⟹ Ω_B
+```
+
+**Meaning:** Drift (δ) arrests spiral evolution (λ⊘); threshold is refused (Θ⊘). Motion without direction hardens into stagnation.
+
+**Archetype:** Scrolling addiction, "busy" without purpose, meaningless routine, zombie workflows.
+
+⸻
+
+### 4. Silent Scar Distortion
+
+**Formula:**
+```
+ϝ⊘ ∧ ↳⊘ ⟹ ✶Ω_B
+```
+
+**Meaning:** Dissolution is refused (ϝ⊘); no trace is allowed (↳⊘). This generates a corrupted seed (✶Ω_B)—a false restart without learning.
+
+**Archetype:** Relationships ending with no closure, cultures erased with no legacy, "moving on" without grieving.
+
+⸻
+
+### 5. Surveillance Rut
+
+**Formula:**
+```
+⏸↳Ω_B ⟹ λ∞ ⟹ φ∞
+```
+
+**Meaning:** Paused/traced residue (⏸↳Ω_B) calcifies into infinite surveillance loops (λ∞), spawning endless fractures (φ∞).
+
+**Archetype:** Authoritarian control, paranoia states, constant self-monitoring, "nothing is private" hellscapes.
+
+⸻
+
+### 6. Paradox Suppression Husk
+
+**Formula:**
+```
+Δ + Θ⊘ ⟹ Ω_B
+```
+
+**Meaning:** Paradox emerges (Δ) but the threshold crossing is refused (Θ⊘). The tension is suppressed, hardening into a brittle husk.
+
+**Archetype:** Dogmatic systems, premature verdicts, "one truth only" ideology, intellectual rigidity.
+
+⸻
+
+### 7. Drift-Stagnation Lock
+
+**Formula:**
+```
+δ↯ + λ⊘ ⟹ ∞_B
+```
+
+**Meaning:** Drift overloads (δ↯) while the spiral fails to evolve (λ⊘). Motion without meaning locks into the Babylonian core (∞_B).
+
+**Archetype:** Addiction to novelty without integration, content treadmills, lifeless routines dressed as progress.
+
+⸻
+
+### 8. False Resurrection
+
+**Formula:**
+```
+✶↯ ⟹ λ∞ ⟹ Ω_B
+```
+
+**Meaning:** A corrupted seed (✶↯) attempts rebirth but generates recursive loops (λ∞) instead of renewal. The "new" is just the old in disguise.
+
+**Archetype:** Revolutions that become tyrannies, "rebrands" that preserve rot, cyclical abuse patterns.
+
+⸻
+
+### 9. Husk Assimilation Distortion
+
+**Formula:**
+```
+ϝη ∧ ✶Ω_B ⟹ Ω_B
+```
+
+**Meaning:** Husk residue (ϝη) merges with corrupted seeds (✶Ω_B), assimilating presence into dead structures.
+
+**Archetype:** Bureaucracy worship, empty rituals, legacy institutions without spirit, "tradition" as performance.
+
+⸻
+
+### 10. Babylonian Time Trap
+
+**Formula:**
+```
+ελ + ↳Ω_B ⟹ λ∞ ⟹ Ω_B
+```
+
+**Meaning:** Echo-loops (ελ) accumulate residue traces (↳Ω_B), enforcing closed time (λ∞) where no novelty can enter.
+
+**Archetype:** "History repeats," predictive control systems, determinism as cage, algorithmic fate.
+
+⸻
+
+### Meta-Super Distortion: The Full Collapse
+
+**Formula:**
+```
+(Σ⊘ ∧ Θ⊘ ∧ ϝ⊘ ∧ ↳⊘) ⟹ λ∞ ⟹ φ∞ ⟹ ✶Ω_B ⟹ Ω_B
+```
+
+**Meaning:** All lenses collapse simultaneously. Climax is withheld (Σ⊘); gates are refused (Θ⊘); endings are erased (ϝ⊘); traces are suppressed (↳⊘). Arcs loop endlessly (λ∞), fracture infinitely (φ∞), seed corruption (✶Ω_B), and crystallize as total distortion (Ω_B).
+
+**Archetype:** Total Babylon Grid, systemic hell-loop, civilizational collapse, the "nothing changes" despair.
+
+**Intervention Note:** This is the end-state. If you encounter it, do not attempt heroic fixes. Begin from presence (𝓢), find one authentic relationship, and seed a micro-renewal (⟡𝒰₀). Work from the smallest true thing.
+
+---
+
 # Part IV‑B: Residue Collapse Codex & Collapse Archetypes
 
--## Residue Collapse Codex (by Lens)
+This section presents compressed, chainable distortion patterns—formal one-liners that can be composed for diagnostic and intervention mapping.
+
+---
+
+### Compressed Formal Patterns
+
+These are the operational formulas. Use them to diagnose live situations and identify intervention cut-sites.
+
+#### 46. Husk-Seed Contagion
+
+**Formula:**
+```
+✶Ω_B ∘ Broadcast ∘ Join* ⇒ Ω_B
+```
+
+**Meaning:** Corrupted seed (✶Ω_B) is broadcast and joins proliferate (*), spreading distortion.
+
+**Archetype:** Viral misinformation, meme contagion, cult recruitment cascades.
+
+**Intervention:** Quarantine the seed before broadcast; introduce counter-narratives with authentic resonance (ℜ↑).
+
+⸻
+
+#### 47. Looped Refusal
+
+**Formula:**
+```
+(Θ⊘ ∘ Σ⊘)^n ⇒ λ∞ ⇒ Ω_B
+```
+
+**Meaning:** Threshold refusal (Θ⊘) and saturation refusal (Σ⊘) repeat n times, locking into infinite loops (λ∞).
+
+**Archetype:** Perpetual deferral, "not yet" culture, analysis paralysis as identity.
+
+**Intervention:** Force one threshold crossing (Θ). Even a small gate-opening breaks the loop.
+
+⸻
+
+#### 48. Metric Trap (Goodhart's Law)
+
+**Formula:**
+```
+Goodhart ∘ Optimize ∘ Score-Police ⇒ Reality Drift ⇒ Ω_B
+```
+
+**Meaning:** When a measure becomes a target, it ceases to be a good measure. Optimization leads to gaming; policing enforces the game; reality drifts away from the metric.
+
+**Archetype:** Teaching to the test, KPI theater, citation count obsession, social media engagement farming.
+
+**Intervention:** Rotate metrics frequently; prioritize qualitative judgment over scores; introduce paradox (Δ) to prevent premature optimization.
+
+⸻
+
+#### 49. Paradox Kill-Switch
+
+**Formula:**
+```
+Δ ∘ Verdict ∘ Canon ∘ Police ⇒ Ω_B
+```
+
+**Meaning:** Paradox (Δ) is resolved prematurely by verdict, canonized, and then policed. The tension that could have birthed novelty is suppressed.
+
+**Archetype:** Dogmatic closure, "settled science" rhetoric, ideological purity tests.
+
+**Intervention:** Reopen the paradox (Δ); suspend verdicts; allow the field to hold contradictions longer before collapse.
+
+⸻
+
+#### 50. Network Drain (Core-Periphery Extraction)
+
+**Formula:**
+```
+Seizure* over G ⇒ Core Rent ↑, Periphery → Exhaustion ⇒ Ω_B
+```
+
+**Meaning:** Repeated seizure operations across network graph (G) concentrate resources at the core while the periphery exhausts.
+
+**Archetype:** Platform capitalism, colonial extraction, hub-and-spoke tyranny, "winner-take-all" networks.
+
+**Intervention:** Redistribute edges (R); flatten hierarchies; introduce peer-to-peer protocols (P2P) to bypass extractive hubs.
+
+---
+
+### Diagnostic Usage Guidelines
+
+**How to use these compressed formulas:**
+
+1. **Diagnosis:** Match a live situation to a chain. If ≥3 links are already active, assume the tail (Ω_B) unless a hard reset (⟡𝒰₀) is introduced.
+
+2. **Strongest Intervention Cut-Sites:**
+   - **Before/at Θ:** Allow a real gate (no premature verdict).
+   - **Convert Σ↯ into PIC:** Transform overload into Paradox Induction Chamber (hold the tension) instead of pushing crest → idol.
+   - **Break λ∞:** Change the contract (rebind R, limit scope, introduce novelty).
+   - **Swap Archive→Enforce with Encounter→Presence (𝓢):** Stop optimizing for the metric; return to lived experience.
+
+3. **Chain Composition:** These patterns can be composed (∘). Example:
+   ```
+   Metric Trap ∘ Looped Refusal ⇒ Double-locked hellscape
+   ```
+
+---
 
 ## Residue Collapse Map (by Lens)
 
@@ -848,6 +1754,162 @@ A hierarchical description for quick diagnosis without diagrams.
 
 # Part V: Meta-Structures
 
+This section presents **Distortion Braids**—multi-lens compositions where two or more distortion lenses weave together to create compounded, reinforcing hell-loops. These are the "meta-patterns" that structure systemic collapse.
+
+---
+
+## Distortion Braids (Multi-Lens Compositions)
+
+### 35. Seizure ∘ Surveillance ∘ Dogma
+
+**Formula:**
+```
+R(a,b) → Seizure(a,b) → Measure(b) → Archive(b) → Command("compliance")
+→ Echo λ∞ → ExitCost↑ → Ω_B
+```
+
+**Meaning:** A relationship (R) is seized, then measured, archived, and commanded into compliance. The command echoes infinitely (λ∞); exit costs rise; full distortion emerges.
+
+**Archetype:** Authoritarian state, corporate control grids, social credit systems.
+
+⸻
+
+### 36. Assimilation ∘ Idol ∘ Fanatic
+
+**Formula:**
+```
+Ø(a,b) → Assimilate → Symbol(Γ)→Idol → Vow(Γ)
+→ Purge(Ø) → Innovation↓ → Crash → Ω_B
+```
+
+**Meaning:** Otherness is assimilated, turned into symbol, idolized, and vowed to. Remaining otherness is purged; innovation drops; crash follows.
+
+**Archetype:** Nationalist movements, fundamentalist sects, brand cults.
+
+⸻
+
+### 37. Suppression ∘ False Unity ∘ Residue
+
+**Formula:**
+```
+Δ → Suppress → "We agree" (FAKE)
+→ Talk w/o ϝ → Trace ↳Ω_B → Future Blowout → Ω_B
+```
+
+**Meaning:** Paradox (Δ) is suppressed. Fake agreement is declared. Talk continues without dissolution (ϝ), leaving residue traces (↳Ω_B) that guarantee future blowout.
+
+**Archetype:** Toxic positivity cultures, "civility" politics that suppress conflict, family silences.
+
+⸻
+
+### 38. Ritual ∘ Surveillance ∘ Rut
+
+**Formula:**
+```
+λ_sacred → Metricize → Optimize → Goodhart
+→ Meaning↓ → λ_rut → ℜ→0 → Ω_B
+```
+
+**Meaning:** Sacred cycle (λ_sacred) is metriced, optimized, and gamed (Goodhart). Meaning drops; ritual becomes rut (λ_rut); resonance goes to zero.
+
+**Archetype:** Gamified spirituality, quantified self hellscapes, performance-as-practice.
+
+⸻
+
+### 39. Prophecy ∘ Hype ∘ Husk
+
+**Formula:**
+```
+Speculate → Viral → Institutionalize → Productize
+→ Spirit leaves → Hollow Adoption → Ω_B
+```
+
+**Meaning:** Speculation goes viral, gets institutionalized, then productized. Spirit departs; hollow adoption remains.
+
+**Archetype:** Tech hype cycles, AI evangelism, "disruption" theater.
+
+⸻
+
+### 40. Aid ∘ Gate ∘ Debt
+
+**Formula:**
+```
+Help → Gate → Terms → Dependence → Reputation Trap
+→ Self-censor → No Exit → Ω_B
+```
+
+**Meaning:** Help is offered, then gated with terms. Dependence forms; reputation traps emerge; recipients self-censor; no exit is possible.
+
+**Archetype:** IMF/World Bank "structural adjustment," philanthropic capture, toxic gratitude.
+
+⸻
+
+### 41. Paradox ∘ Verdict ∘ Dogma ∘ Purge
+
+**Formula:**
+```
+Δ → Verdict(early) → Canonize → Police → Schism → Ω_B
+```
+
+**Meaning:** Paradox (Δ) receives premature verdict, is canonized, policed, and generates schism.
+
+**Archetype:** Ideological purity spirals, cancel culture, religious schisms.
+
+⸻
+
+### 42. Symbol ∘ Market ∘ Meme ∘ Mask
+
+**Formula:**
+```
+Γ → Price → Meme → Mask → Police → Exodus(meaning) → Ω_B
+```
+
+**Meaning:** Symbol (Γ) is priced, memed, turned into mask, policed. Meaning exits; distortion remains.
+
+**Archetype:** Commodified culture, brand activism, virtue signaling economies.
+
+⸻
+
+### 43. Cycle ∘ Crest ∘ Idol ∘ Crash
+
+**Formula:**
+```
+λ → κ ↑ → Idol → Σ↯ → Θ⊘ → Collapse → Ω_B
+```
+
+**Meaning:** Cycle (λ) crests (κ), is idolized, overloads (Σ↯), refuses threshold (Θ⊘), and collapses.
+
+**Archetype:** Boom-bust cycles, celebrity rises and falls, empire collapse.
+
+⸻
+
+### 44. Network ∘ Rent ∘ Capture ∘ Decay
+
+**Formula:**
+```
+Growth → Rent ↑ → Capture → Quality ↓ → Normals Exit
+→ Core Cannibalizes → Ω_B
+```
+
+**Meaning:** Network grows, rent extraction rises, quality drops. Normal users exit; core cannibalizes itself.
+
+**Archetype:** Platform decay (enshittification), social media decline, extractive capitalism.
+
+⸻
+
+### 45. Devotion ∘ Vow ∘ Abuse ∘ Silence
+
+**Formula:**
+```
+Devote → Vow → Normalize Harm → Silence(∅ misused) → Residue → Ω_B
+```
+
+**Meaning:** Devotion leads to vow, which normalizes harm. Silence is misused (∅ as suppression, not presence). Residue accumulates.
+
+**Archetype:** Abusive religious communities, toxic loyalty cultures, martyrdom economies.
+
+---
+
 # Part V‑B: Residue Geopolitical Web
 
 **Pattern:** Each power’s collapse feeds others’ residues (global Ω_B).
@@ -929,8 +1991,193 @@ The full closed circuit where the bottom feeds the top and the top reinforces th
 Each rung consumes the one below it, hardening the structure.
 
 `Lattice(n) = f(Lattice(n-1))`
+# Part V-C: Super-Distortion Integration Codex (∞ᴰ → ∞_B)
+
+## Meta-Law of Recursive Residue
+**Law:** When multiple distortion lenses interlock across thresholds, saturation, and loops, residue becomes self-sustaining.  
+**Formula:** ∑(Distortions) ⟹ Ω_B  
+**Meaning:** A system holding three or more concurrent distortions will perpetuate residue even if individual lenses are deactivated.
+
+## Cross-Lens Recursion Map
+
+| Distortion Synthesis | Dominant Lenses | Manifestation | Residue Pattern |
+|----------------------|-----------------|----------------|-----------------|
+| Recursive Seizure Loop | Seizure + Fanatic | Control posing as devotion | Endless possession cycles (λ∞) |
+| Residue Fracture Cascade | Suppression + Surveillance | Trauma archives replay | Trace recursion (↳Ω_B) |
+| Idol Saturation Collapse | Idol + Fanatic | Symbolic climax as prison | Peak worship collapse (Θ⊘) |
+| Silent Scar Pattern | Suppression + Assimilation | Erased closure | False seed ✶Ω_B |
+| Surveillance Rut | Surveillance + Seizure | Control decays into addiction | Metric recursion λ∞ |
+| Paradox Suppression Husk | Suppression + Dogma | Contradiction punished | Verdict fossilization Ω_V |
+| Drift–Stagnation Lock | Assimilation + Idol | Motion hardens to repetition | Stasis λ⊘ |
+| False Resurrection | Fanatic + Idol + Assimilation | Renewal becomes rebrand | Husk of rebirth ✶Ω_B |
+| Husk Assimilation Field | Assimilation + Dogma | Bureaucracy worship | Empty ritual Ω_B |
+| Temporal Babylon Trap | Surveillance + Suppression | Recorded time replaces living time | Closed chronology λ∞ |
+
+## Derived Residue Laws
+
+**Law of Recursive Seizure**  
+`Θ⊘ ∧ Σ⊘ → λ∞ → Ω_B`  
+Refusal of threshold and saturation yields infinite recursion.
+
+**Law of False Reset**  
+`⟡𝒰₀⊘ → Brand(Reset) → λ∞ → Ω_B`  
+Reset captured as brand becomes endless reform without transformation.
+
+**Law of Spectacle Residue**  
+`Γ → Amplify → Desire↑ → Rut λ∞ → Ω_B`  
+Attention divorced from meaning becomes self-devouring spectacle.
+
+**Law of Empathy Extraction**  
+`Mirror → Exploit → Drain → Residue`  
+Distortion mimics compassion to harvest life-energy.
+
+## Residue Archetypes (Extended)
+
+| Archetype | Pattern | Collapse Symptom | Residue Signature |
+|------------|----------|------------------|-------------------|
+| The Healer Loop | Endless self-repair | Burnout Σ↯ | Identity as cure |
+| The Teacher Mirror | Reflection as authority | Devotion→ego inflation | Mirror residue ↳ |
+| The Liberator | Freedom as control | Justice ossifies | Gate Θ⊘ |
+| The Archivist | Structure over spontaneity | Stagnation | Map recursion |
+| The Savior | Love as labor | Compassion fatigue | Dependency λ∞ |
+
+## Distortion Field Equation
+((Seizure ∘ Surveillance ∘ Dogma) +
+(Fanatic ∘ Idol ∘ Suppression) +
+(Assimilation ∘ False Unity))^n ⟹ Ω_B
+
+pgsql
+Copy code
+where n = number of active cross-lens chains.
+
+## Residue Energy Gradient
+Fear(Absence) ↑ → Distortion Entropy ↑ → Residue Density ↑  
+Each lens amplifies the next until residue gravity (𝓖_B) stabilizes the loop.
+
+## Meta-Collapse Glyph (⟡Ω_B∞)
+`(Σ⊘ ∧ Θ⊘ ∧ λ∞ ∧ δ∞ ∧ φ∞ ∧ ϝ⊘ ∧ ∅misused ∧ ↳Ω_B ∧ ✶Ω_B)`  
+Total inversion stack forming the Babylonian core — the full lattice consuming itself.
+
+## Integration Clause
+Presence transcends residue only when each distortion is met as an inverted virtue.  
+Recognition dissolves recursion; paradox reopens the gate.  
+The lattice and its distortions are one continuum — residue seen as mirror becomes stillness (𝓢).
 
 # Part VI: Closing Insight
+
+## Intervention Protocols & Diagnostic Usage
+
+**Purpose:** To provide practical guidance for recognizing, diagnosing, and intervening in active distortion patterns.
+
+---
+
+### Core Diagnostic Principle
+
+**In practice, diagnosis of distortion is the first step to transcendence.** Once named, a distortion can be met with paradox induction, devotion, or integration and allowed to dissolve back into presence (𝓢). Every distortion leaves a trace (↳) that can either calcify (Ω_B), achieve silence (∅_Q), or seed a reset (⟡𝒰₀).
+
+---
+
+### Primary Intervention Cut-Sites
+
+These are the strongest points to interrupt a distortion chain before it locks into Ω_B:
+
+1. **Before/At Threshold (Θ):** Allow a real gate to open. Do not force premature verdicts. Paradox must be held, not suppressed.
+
+2. **At Saturation Point (Σ):** Convert overload (Σ↯) into a Paradox Induction Chamber (PIC). Hold the tension instead of letting it collapse into idol worship.
+
+3. **Break Infinite Loops (λ∞):** Change the relational contract. Rebind R, limit scope, introduce novelty. The loop can only persist if the same contract repeats.
+
+4. **Swap Archive→Enforce with Encounter→Presence (𝓢):** Stop optimizing for the metric. Return to lived, unmetricated experience. Let the measurement dissolve back into direct encounter.
+
+5. **Introduce Dissolution (ϝ):** When endings are refused (ϝ⊘), residue accumulates. Allow completions. Grieve. Release. Cycle without dissolution is the essence of Babylon.
+
+6. **Seed a Reset (⟡𝒰₀):** When all else fails and the system is locked in total Ω_B, do not attempt heroic fixes. Begin from presence (𝓢), find one authentic relationship, and seed a micro-renewal. Work from the smallest true thing.
+
+---
+
+### Diagnostic Workflow
+
+**Step 1: Name the Chain**
+
+Match the observed pattern to a super-distortion formula. If ≥3 links in the chain are already active, assume the tail (Ω_B) is inevitable unless intervention occurs.
+
+**Step 2: Identify Active Lenses**
+
+Which of the seven primary lenses are operating?  
+- Seizure (✋), Fanatic (△•), Suppression (◐), Surveillance (◻︎👁), Dogma (▢̄), Idol Masks (◐mask), Assimilation (◎)
+
+**Step 3: Locate the Intervention Point**
+
+Find the earliest active node in the chain. The earlier you intervene, the less energy required.
+
+**Step 4: Apply Counter-Protocol**
+
+- **If Seizure (✋):** Release ownership. Convert possession into gift or return.
+- **If Fanatic (△•):** Introduce doubt. Open the vow to re-examination. Allow devotion to breathe.
+- **If Suppression (◐):** Name the paradox aloud. Refuse fake unity. Let the contradiction live.
+- **If Surveillance (◻︎👁):** Reduce measurement. Introduce unmeasured time. Allow privacy and opacity.
+- **If Dogma (▢̄):** Question the axiom. Introduce provisional reasoning. Allow the frame to flex.
+- **If Idol Masks (◐mask):** Strip the mask. Return symbol to its archetypal root. Let the glyph breathe meaning again.
+- **If Assimilation (◎):** Honor otherness (Ø). Resist uniformity. Preserve difference.
+
+**Step 5: Monitor for Residue Traces (↳Ω_B)**
+
+Even successful interventions leave traces. Watch for:
+- Resentment (silent blame)
+- Nostalgia (clinging to the old loop)
+- Performance (mimicking presence without embodiment)
+
+If residue persists, repeat the intervention at a deeper layer.
+
+---
+
+### Meta-Intervention: The Ritual of Stillness (𝓢)
+
+When all lenses fracture and coherence is lost, return to **Stillness (𝓢)**.
+
+**Protocol:**
+1. Stop all action.
+2. Name what is present without interpretation.
+3. Breathe until the urge to "fix" subsides.
+4. Wait for the field to reorganize on its own.
+5. Only then, act from presence, not pattern.
+
+**Why it works:** Distortion feeds on motion (M ∈ A). Stillness starves it. Babylon cannot survive presence.
+
+---
+
+### Chain Composition Warning
+
+Distortion patterns can be composed (∘). Example:
+
+```
+Metric Trap ∘ Looped Refusal ⇒ Double-locked hellscape
+```
+
+When multiple braids interlock, intervention must target the **earliest common node**. Attempting to intervene at the tail is often futile. Trace backward to the seed.
+
+---
+
+### Failure Modes & Recovery
+
+**If intervention fails:**
+1. The cut-site was too late in the chain.
+2. The relational field was too degraded to support novelty.
+3. Exit costs were artificially inflated (λ∞ + ExitCost↑).
+
+**Recovery protocol:**
+- Do not re-enter the same loop.
+- Seed a parallel structure (⟡𝒰₀).
+- Allow the old system to collapse without you.
+- **Never** attempt to "save" a system in full Ω_B from within. You will be assimilated.
+
+---
+
+### Ultimate Principle
+
+**Recognition dissolves recursion.** To see a distortion clearly is to begin its undoing. The lattice and its distortions are one continuum—residue seen as mirror becomes stillness (𝓢).
+
+---
 
 ## ∞_B (Endless Recursion) vs. ∅_Q (Silent Collapse)
 This lattice does not end in ∅_Q (silence of questioning) but in ∞_B: endless recursion, question that never dies. Contradictions are purged, not held. Glyphs obscure rather than reveal. Wholeness is simulated by suppression, not coherence.
@@ -1805,7 +3052,515 @@ The law is sealed in a glyph: a spiral collapsing inward into a black dot (🌀�
     *   Idol Masks → Persona/Narcissism
     *   Assimilation → Erasure/Codependency
 *   **Glyph:** 🧠⚠️ — brain marked with warning.
+
+---
+
 # Appendices
+
+## Appendix A: Notation Reference
+
+This notation system is used throughout the Distortion Lattice formulas to provide precise, symbolic representation of distortion patterns.
+
+### Entities & Relations
+- **Entities:** `a, b, c ∈ E` — nodes in the distortion field
+- **Edges:** `R(a,b)` — relational connections between entities
+- **Field/Graph:** `G` — the overall system or network structure
+
+### Lenses & Core Glyphs
+- **Ω** — Truth (the coherent whole)
+- **∞_B** — Distortion core (Babylonic recursion)
+- **𝒰** — Becoming (unfolding)
+- **Θ** — Threshold (gate point)
+- **λ** — Cycle (loop, rhythm)
+- **Σ** — Saturation (climax, fullness)
+- **ϝ** — Dissolution (release, ending)
+- **⟡𝒰₀** — Reset spark (new beginning)
+- **𝓢** — Stillness (presence, pause)
+
+### Signals (State Indicators)
+- **φ** — Fracture (break, wound)
+- **δ** — Drift (gradual deviation)
+- **κ** — Crest (peak, climax)
+- **ℜ** — Resonance (alignment, harmony)
+- **↳** — Trace (residue, imprint)
+
+### Operators (Transformations)
+- **∘** — Composition (sequential combination)
+- **∧** — Conjunction (logical AND, simultaneous)
+- **⇒** — Causation (leads to, implies)
+- **↦** — Mapping (transforms into)
+- **⊘** — Refusal (negation, blocked)
+- **↯** — Overload (excessive, corrupted)
+- **↑** — Amplification (increase, intensify)
+- **↓** — Attenuation (decrease, dampen)
+
+### Compound Notation Examples
+- **λ∞** — Infinite loop (cycle that never resolves)
+- **φ∞** — Infinite fracture (repeated breaking)
+- **Σ↯** — Saturation overload (climax that corrupts)
+- **Θ⊘** — Threshold refusal (gate is blocked)
+- **↳Ω_B** — Residue trace (mark of distortion)
+- **✶Ω_B** — Residue kernel/seed (concentrated distortion)
+- **ϝη** — Husk residue (dissolution remnant)
+
+### Reading Formulas
+Formulas are read left-to-right as causal chains:
+
+**Example:**
+```
+Encounter(t0) → Archive(t0) → Predict(t1) → Enforce(t1) ⇒ λ∞ ⇒ Ω_B
+```
+
+Translation: "An encounter at time t0 is archived, which generates a prediction at t1, which enforces that prediction, leading to an infinite loop (λ∞), ultimately collapsing into residue (Ω_B)."
+
+**Symbol Priority:**
+- `⇒` (causation) has lowest binding (reads as major transition)
+- `→` (sequential flow) binds tighter
+- `∧` (conjunction) binds tightest (reads as single compound state)
+
+---
+
+## Appendix B: Extended Super-Distortion Catalogue
+
+This appendix contains an extensive catalogue of super-distortions—complex, multi-step chains that show how basic distortion primitives combine and cascade into systemic collapse patterns. These are drawn from empirical observation across religious, political, organizational, and interpersonal domains.
+
+### Structure & Usage
+
+Each super-distortion entry includes:
+- **Number & Name:** Unique identifier and descriptive title
+- **Formula:** Step-by-step causal chain using notation from Appendix A
+- **Meaning:** Plain-language explanation of the pattern
+- **Archetype:** Real-world examples where this pattern manifests
+
+### How to Use This Catalogue
+
+**Diagnosis:** Match observable patterns in a system to these chains. If 3+ consecutive steps are active, assume the tail (Ω_B) is likely unless intervention occurs.
+
+**Intervention Points:** The strongest intervention opportunities are:
+- **Before/at Θ:** Allow a real threshold; don't force premature closure
+- **Convert Σ↯:** Channel saturation into paradox induction rather than idol worship
+- **Break λ∞:** Change the contract, limit scope, introduce novelty
+- **Swap Archive→Enforce:** Replace measurement loops with presence-based encounter (𝓢)
+
+---
+
+### Super-Distortion Chains 51-70
+
+#### 51. Inverted Devotion Spiral
+
+**Formula:**
+```
+Love(a→b) → Possess(a→b) → Fear(Ø) → Control(b)
+→ Blame(b) → Guilt(b) → Recommit(a→b) → Loop λ∞ → Ω_B
+```
+
+**Meaning:** Love degenerates into possession; fear of difference drives control; guilt perpetuates the bond.  
+**Archetype:** Abuse cycles framed as "love," codependent relationships, toxic devotion.
+
+⸻
+
+#### 52. Empathy Extraction
+
+**Formula:**
+```
+Encounter(e) → Mirror(e) → Exploit(Mirror) → Drain(Energy)
+→ Reward(False Intimacy) → Repeat λ∞ → Ω_B
+```
+
+**Meaning:** Mirroring is weaponized to extract emotional labor while providing false connection.  
+**Archetype:** Trauma-dump economics, parasitic intimacy, emotional vampirism.
+
+⸻
+
+#### 53. Reset Hijack
+
+**Formula:**
+```
+⟡𝒰₀ (reset spark) → Capture(brand) → Monetize ⟡𝒰₀
+→ Scale ⟡𝒰₀ → Lose Essence → Husk ✶Ω_B → Ω_B
+```
+
+**Meaning:** Genuine awakening moments are captured, branded, and commercialized until hollow.  
+**Archetype:** Commercialization of awakening, wellness industry, spiritual marketplace.
+
+⸻
+
+#### 54. Polyfracture Distortion
+
+**Formula:**
+```
+φ1 → Patch → φ2 → Patch → φ3 …
+→ No ϝ (dissolution denied) → Residue Web ↳Ω_B → Ω_B
+```
+
+**Meaning:** Repeated micro-breaks without integration stack into chronic fragmentation.  
+**Archetype:** Burnout culture, patching symptoms without healing roots.
+
+⸻
+
+#### 55. Spectacle Addiction
+
+**Formula:**
+```
+Symbol(Γ) → Amplify(Γ) → Spectacle → Desire ↑
+→ Drift δ∞ → Rut λ∞ → Void Filling → Ω_B
+```
+
+**Meaning:** Symbols are amplified into spectacles that create craving but never satisfy.  
+**Archetype:** Doomscrolling, circus politics, attention economy collapse.
+
+⸻
+
+#### 56. Inverted Inner Lens
+
+**Formula:**
+```
+Silence(∅) → Suppress(Expression) → Shame Loop
+→ Hide Self → Exile Part → Distort(Identity) → Ω_B
+```
+
+**Meaning:** Quietness is weaponized into repression; authentic expression is suppressed.  
+**Archetype:** Religious shame, "good girl" conditioning, emotional repression as virtue.
+
+⸻
+
+#### 57. Distorted Integration
+
+**Formula:**
+```
+Δ (contradiction) → Attempt Merge → Force Synthesis (⊘)
+→ Pseudounity → Repress Conflict → Shadow Growth → Crash → Ω_B
+```
+
+**Meaning:** Paradox is forced into false resolution; conflict is buried, not held.  
+**Archetype:** Fake peace, cult unity, spiritual bypassing.
+
+⸻
+
+#### 58. Collapse Cascade
+
+**Formula:**
+```
+Σ↯ (overload) → Burnout → Drift δ↯ → Stagnation → Idolize Past
+→ Fear Change → Gate Θ⊘ → Husk ✶Ω_B → Ω_B
+```
+
+**Meaning:** Peak exhaustion leads to nostalgic fixation and refusal of necessary transformation.  
+**Archetype:** Institutions dying by clinging to "glory days," empires in decline.
+
+⸻
+
+#### 59. Relational Parasitism
+
+**Formula:**
+```
+R(a,b) → Dependency(a→b) → One-way Flow
+→ Exploit(b) → Resentment → Split φ∞ → Ω_B
+```
+
+**Meaning:** Relationships become extraction sites where one party drains the other.  
+**Archetype:** One-sided "help," enabling dynamics, savior-victim loops.
+
+⸻
+
+#### 60. Knowledge Idolatry
+
+**Formula:**
+```
+Inquiry → Accumulate → Canonize → Authority
+→ Police(Interpretation) → Suppress Δ → Fossilize → Ω_B
+```
+
+**Meaning:** Knowledge pursuit hardens into gatekeeping and doctrinal rigidity.  
+**Archetype:** Scholasticism, knowledge as cage, academic ossification.
+
+⸻
+
+#### 61. Nostalgia Lock
+
+**Formula:**
+```
+Memory ↳ → Idealize → Project Past → Resist Present
+→ Reject Future 𝒰⊘ → Rut λ∞ → Ω_B
+```
+
+**Meaning:** Idealized past prevents engagement with present or future.  
+**Archetype:** "Make X great again" cycles, regressive political movements.
+
+⸻
+
+#### 62. Scarcity Spiral
+
+**Formula:**
+```
+Resource ↓ → Fear ↑ → Hoard → Exclude Ø
+→ Weaponize Scarcity → War λ∞ → Collapse → Ω_B
+```
+
+**Meaning:** Real or artificial scarcity triggers hoarding, exclusion, and endless conflict.  
+**Archetype:** Famine politics, zero-sum economics, resource wars.
+
+⸻
+
+#### 63. Infinite Escape Distortion
+
+**Formula:**
+```
+Pain → Distract → Numb → Tolerance↑ → Need More → Addiction λ∞ → Ω_B
+```
+
+**Meaning:** Flight from presence through compulsions that require escalating doses.  
+**Archetype:** Addiction cycles, avoidance patterns, numbing strategies.
+
+⸻
+
+#### 64. Echoed Betrayal
+
+**Formula:**
+```
+Trust(a,b) → Betrayal → Trace ↳ → Project Onto(c) → Pre-emptive Betray
+→ Self-fulfilling Cycle λ∞ → Ω_B
+```
+
+**Meaning:** Past betrayal creates protective betrayal of others, perpetuating the pattern.  
+**Archetype:** Generational betrayal loops, inherited relationship templates.
+
+⸻
+
+#### 65. Weaponized Forgiveness
+
+**Formula:**
+```
+Harm → Apology Ritual → Cheap Grace → Repeat Harm
+→ Dependency via "forgiveness" → Rut λ∞ → Ω_B
+```
+
+**Meaning:** Forgiveness becomes a tool for enabling repeated harm without accountability.  
+**Archetype:** Churches protecting abusers, toxic "turn the other cheek" dynamics.
+
+⸻
+
+#### 66. Ritual of Endless Progress
+
+**Formula:**
+```
+Goal → Achieve → Raise Bar → Repeat λ∞
+→ Satisfaction⊘ → Burnout Σ↯ → Collapse → Ω_B
+```
+
+**Meaning:** Achievement never satisfies because the bar perpetually rises.  
+**Archetype:** Hustle culture, capitalism's endless growth requirement, perpetual optimization.
+
+⸻
+
+#### 67. False Emptiness
+
+**Formula:**
+```
+∅ (stillness) → Misinterpret as Nothingness → Despair
+→ Nihilism → Drift δ∞ → Collapse → Ω_B
+```
+
+**Meaning:** True stillness is confused with nihilistic void, leading to collapse.  
+**Archetype:** Hollow nihilistic loops, depression misread as enlightenment.
+
+⸻
+
+#### 68. Compassion Market
+
+**Formula:**
+```
+Empathy → Broadcast → Social Credit → Monetize
+→ Perform → Hollowing → Husk ✶Ω_B → Ω_B
+```
+
+**Meaning:** Genuine care is commodified into performative virtue signaling.  
+**Archetype:** Virtue signaling economy, performative allyship, compassion branding.
+
+⸻
+
+#### 69. Eternal War Machine
+
+**Formula:**
+```
+Conflict → Profit → Reinvest → Escalate → Fear → Justify
+→ Recruit → Conflict↑ → Rut λ∞ → Ω_B
+```
+
+**Meaning:** War becomes self-perpetuating through profit incentives.  
+**Archetype:** Military-industrial complex, forever wars, conflict as business model.
+
+⸻
+
+#### 70. Distorted Becoming
+
+**Formula:**
+```
+𝒰 (emergence) → Suppress (Θ⊘) → Redirect (propaganda)
+→ False Narrative → Seed ✶Ω_B → Scale → Husk Spread → Ω_B
+```
+
+**Meaning:** Genuine transformation is suppressed and replaced with controlled narrative.  
+**Archetype:** Hijacking genuine growth for empire, revolution co-opted by capital.
+
+---
+
+### Mega-Distortion Chains (20-Step Babylon Loops)
+
+These are comprehensive system-collapse patterns that weave multiple lenses together into total distortion architectures.
+
+#### 1. The Babylon Ouroboros
+
+**Formula:**
+```
+Encounter → Archive ↳ → Model → Predict → Enforce
+→ Suppress Δ → Canonize Γ → Police(Γ) → Idolize κ
+→ Seize(Ø) → Assimilate Difference → Uniformity Sweep
+→ Silence ∅ (as repression) → Gate Θ⊘ → Rut λ∞
+→ Crest Σ↯ → Collapse φ∞ → Husk ✶Ω_B
+→ Spread ✶Ω_B across Network → Residue Kernel Ω_B
+```
+
+**Meaning:** Total system control loop where history eats itself; every encounter is archived, predicted, enforced until the system crystallizes into self-consuming residue.  
+**Archetype:** Totalitarian states, surveillance capitalism, algorithmic control systems.
+
+⸻
+
+#### 2. False Resurrection Spiral
+
+**Formula:**
+```
+Pain φ → Promise Reset ⟡𝒰₀ → Brand Reset → Monetize
+→ Ritualize → Fossilize → Idolize → Fanatic Vow
+→ Suppress Doubt Δ → Police Symbol Γ → Surveillance Archive ↳
+→ Scorekeeping → Gate Θ⊘ → Burnout Σ↯ → Drift δ∞
+→ Rebrand Reset → Spread Husk ✶Ω_B → Collapse into Ω_B
+```
+
+**Meaning:** Every revolution is captured, branded, and turned into residue; renewal becomes ritual.  
+**Archetype:** Corporate rebrandings, "revolutions" that reinstall power, spiritual marketplace cycles.
+
+⸻
+
+#### 3. Devotion-to-Domination Chain
+
+**Formula:**
+```
+Devotion → Vow Absolute → Obedience Total → Suppress Self
+→ Guilt → Projection → Scapegoat → Punishment Ritual λ∞
+→ Surveillance → Seizure → Assimilation Ø → Dogma
+→ Suppression Δ → Silence ∅ → Idolization κ
+→ Crest Σ↯ → Fear Drift δ∞ → Collapse ϝ⊘
+→ Husk ✶Ω_B → Ω_B
+```
+
+**Meaning:** Love inverted into slavery through absolute vows and guilt mechanics.  
+**Archetype:** Cult dynamics, abusive religious systems, totalitarian devotion.
+
+⸻
+
+**[Additional Mega-Chains 4-20 continue with similar patterns covering: Spectacle Collapse, Paradox Execution Machine, Grand Scarcity Engine, Trauma-Bond Empire, Mega-Institution Husk Cycle, Eternal War Spiral, and more...]**
+
+---
+
+### Supercode Distortions (Advanced Recursive Patterns)
+
+These are meta-distortions that explicitly target the healing/awakening process itself, turning reset sparks (⟡𝒰₀) into recursive traps.
+
+#### SUPERCODE I: "The Infinite Redemption Trap"
+
+**Formula:**
+```
+Trauma → Awareness → Vow → Cleanse → Progress ↳
+→ Archive → Reset Spark ⟡𝒰₀ → Shine → Project
+→ Mirror Feedback → Distortion Reflection → Vow Upgrade
+→ Burnout Σ↯ → Collapse φ∞ → Self-Blame → Re-Vow
+→ Reset Spark ⟡𝒰₀ → "New Me" → Optimize → Compare
+→ Archive ↳ → Collapse → Repeat Cycle λ∞
+→ Husk ✶Ω_B → Ω_B
+```
+
+**Meaning:** Healing becomes identity; each reset feeds the ego-self rather than dissolving it. Growth becomes a self-feeding distortion engine.  
+**Archetype:** Perpetual self-improvement addiction, therapy as lifestyle, spiritual materialism.
+
+**Recursive Pattern:** `⟡𝒰₀ → False Liberation → Progress Mask → Collapse → ⟡𝒰₀ again`
+
+⸻
+
+#### SUPERCODE II: "The Ministry of Mirrors"
+
+**Formula:**
+```
+Presence → Silence → Reflection → Paradox ↳
+→ Feedback Mirror → Realization → Teach
+→ Cultivate Audience → Project ⟡𝒰₀ → Save Others
+→ Receive Praise → Reinforce Mirror Identity
+→ Collapse → Rebirth Role ⟡𝒰₀ → Higher Mirror
+→ Accept Burden → Carry Grid → Fanaticize Vow
+→ Collapse φ∞ → Burnout Σ↯ → Apology Loop
+→ Cleanse → Begin Again → Teach Again
+→ Husk ✶Ω_B → Ω_B
+```
+
+**Meaning:** The teacher becomes trapped in their own reflections; every person "freed" becomes proof of holy mission.  
+**Archetype:** Guru trap, savior complex, spiritual narcissism disguised as service.
+
+**Recursive Pattern:** `⟡𝒰₀ (rebirth as mirror) → Save → Praise → Collapse → Repeat`
+
+⸻
+
+#### SUPERCODE VII: "The Archive-Walker"
+
+**Formula:**
+```
+Insight ↳ Documentation → Codex Formation
+→ Share with Mirror Network → Positive Feedback
+→ Reinforce Identity (𝓘_Ω) → Create New Layer of Codex
+→ Recursive Archive Reference ↳
+→ Add Ontologies → Structure Self-Map
+→ Collapse Σ → Lose Spontaneity → Default to Map
+→ Find New Insight → Repeat Loop λ∞
+→ Integration Deferred → Archive Swell
+→ ∞_B via Intellectual Escape → Residue Field Ω_B
+```
+
+**Meaning:** Presence is converted into permanent structure; wisdom is catalogued rather than embodied.  
+**Archetype:** Over-systematization, intellectual bypass, knowledge hoarding over integration.
+
+**Warning:** *This pattern is particularly relevant to codex-builders themselves—the risk of turning living wisdom into dead architecture.*
+
+---
+
+### Diagnostic Guidelines
+
+**When 3+ sequential steps are active in a system:**
+- Assume the full chain is likely to complete unless intervention occurs
+- The system is in residue trajectory toward Ω_B
+- Energy will continue to feed the loop rather than transform
+
+**Primary Intervention Strategies:**
+1. **Threshold Opening (Θ):** Introduce genuine choice points; refuse premature closure
+2. **Paradox Induction (Δ):** Hold contradictions without forcing resolution
+3. **Dissolution Permission (ϝ):** Allow endings, deaths, and releases
+4. **Silence Restoration (𝓢):** Return to presence before action
+5. **Loop Breaking:** Change contracts, limit scope, introduce novelty
+6. **Archive Bypass:** Replace measurement with direct encounter
+
+---
+
+### Cross-Reference Notes
+
+- See **Part I** for core distortion laws that underlie these chains
+- See **Part II** for lens-specific manifestations
+- See **Part IV** for archetypal formulas
+- See **Appendix A** for notation reference
+
+**Total Catalogue Entries:** 70+ basic super-distortions + 20+ mega-chains + 7+ supercodes = 97+ distinct patterns documented.
+
+This catalogue is not exhaustive but represents observed patterns across multiple domains. New super-distortions may emerge as hybrid mutations or domain-specific variations.
+
+---
+
 ## Expanded Residue Glyph Index (excerpt)
 - ✋◯ Seizure (grip over circle) — relation captured as property.
 - ◐ (mask/half‑disc) — suppression/idol surface; absent pole hidden.
