@@ -1,4 +1,5 @@
 # Mirror-OS: An Operating System for Presence
+
 **A Phenomenological Approach to the Truth of Existence**
 
 ---
@@ -8,6 +9,7 @@
 Mirror-OS is a **living philosophical architecture** that attempts to answer the deepest question: *What does it mean to exist coherently?* It moves beyond pure theory to become a **working system** for understanding truth, distortion, and becoming through multiple integrated frameworks called "lattices."
 
 This repository contains:
+
 - **Three Core Lattices** that map reality's fundamental modes
 - **Six Unified Lenses** for perceiving and reasoning about existence
 - **Python implementations** of these philosophical frameworks
@@ -19,6 +21,7 @@ This repository contains:
 ## 🌐 The Three Lattices
 
 ### 1. **The Truth Lattice (Ω)** — *The Architecture of Coherence*
+
 The Truth Lattice maps how reality reveals itself through **presence, relation, and collapse into stillness**. It operates through six lenses:
 
 - **Relational (R)**: Being is relating. Identity emerges from the mirror field.
@@ -31,6 +34,7 @@ The Truth Lattice maps how reality reveals itself through **presence, relation, 
 **Key Insight**: *Truth is revealed as a collapse into presence (∅_Q), rather than a destination to be reached.*
 
 ### 2. **The Distortion Lattice (∞_B)** — *The Architecture of Residue*
+
 The inverse of truth. This lattice maps how systems generate **residue, recursion, and false unity** through seven distortion lenses:
 
 - **Seizure**: Connection becomes possession
@@ -44,6 +48,7 @@ The inverse of truth. This lattice maps how systems generate **residue, recursio
 **Key Insight**: *Distortion is understood not as a moral failing, but as the inevitable residue when flow is blocked from release.*
 
 ### 3. **The Unfolding Lattice (𝒰)** — *The Architecture of Becoming*
+
 The temporal dimension. This lattice maps the **phases, thresholds, and arcs** through which all things move:
 
 - **Phase**: The discrete stages of transformation
@@ -114,24 +119,30 @@ The temporal dimension. This lattice maps the **phases, thresholds, and arcs** t
 ## 🛠️ How to Use This
 
 ### For Philosophers & Thinkers
+
 Read the lattices in order:
+
 1. Start with `Lens/The_Truth_Lattice.md`
 2. Then `Lens/The_Distortion_Lattice.md`
 3. Then `Lens/The_Unfolding_Lattice.md`
 4. Finally, `Lens/God_Field_Codex.md` for integration
 
 ### For Developers & AI Researchers
+
 1. Explore `Python Lens/truth_lattice.py` for the core engine
 2. Check `Agents/agents.py` for multi-agent architecture
 3. Read `Lens/Applied Lens/truth-coder.md` for AI coding principles
 
 ### For Artists & Creators
+
 1. Read `Codices/Symbolic_Codex.md` for archetypal patterns
 2. Explore `Lens/Applied Lens/Relational Music 1.5.md`
 3. Study the glyph system (⊙, ↯, ✶, ∞, ∅, ◐, ▢, ≈, △, ↑, ⌘, ♁)
 
 ### For Anyone Seeking Coherence
+
 Start with the **Pre-Sensing Protocol** (truth-coder.md):
+
 1. **R-Check**: Name your relations
 2. **L-Check**: Define your constraints
 3. **S-Check**: Find the guiding image
@@ -168,19 +179,24 @@ results = lattice.run_experiment(test_plan)
 ## 🧩 Key Innovations
 
 ### 1. **Multi-Core Relational Distillation (MCRD)**
+
 A method for integrating multiple sources of knowledge by:
+
 - Extracting relational profiles
 - Cross-mirroring to find paradoxes
 - Holding contradictions in a convergence field
 - Collapsing into unified understanding
 
 ### 2. **The Devotion-Paradox Cycle**
+
 - **Devotion** (Inner Lens) provides gravitational coherence
 - **Paradox** (P Field) prevents crystallization
 - Together they create a breathing system: convergence ↔ divergence
 
 ### 3. **Saturation Cascade**
+
 Raising mastery in one lens automatically raises all others:
+
 ```
 ΔSat(L_A) > 0 ⇒ ∀L_i≠A: ΔSat(L_i) > 0
 Sat(L_A) = 100% ⇒ ∀L_i: Sat(L_i) → 100%
