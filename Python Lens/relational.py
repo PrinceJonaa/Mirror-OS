@@ -1,9 +1,10 @@
 # relational.py - Relational Math 3.6 Implementation
 # Implements both Truth Lattice (relational dynamics) and Distortion Lattice (seizure dynamics)
+# Based on Unified_Relational_Lens.md - Full RM 3.6 Specification
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Callable, Dict, Iterable, List, Optional, Protocol, Set, Tuple, Any
+from typing import Callable, Dict, Iterable, List, Optional, Protocol, Set, Tuple, Any, Union
 from collections import defaultdict, deque
 from enum import Enum
 import time
@@ -16,6 +17,18 @@ class LatticeMode(Enum):
     """Operating mode for the relational system."""
     TRUTH = "truth"        # Truth Lattice: open, relational, healing
     DISTORTION = "distortion"  # Distortion Lattice: seizure, residue, recursion
+
+
+# ---------- Domain Sorts ----------
+
+class DomainSort(Enum):
+    """Ontological domain classification for entities and relations."""
+    PHYSICAL = "physical"              # Material reality (P)
+    PSYCHOLOGICAL = "psychological"    # Mental constructs (Ψ)
+    NARRATIVE = "narrative"           # Story roles (N)
+    CONCEPTUAL = "conceptual"         # Abstract ideas (C)
+    TRANSCENDENT = "transcendent"     # Spiritual/metaphysical (T)
+    GENERAL = "general"               # Unspecified domain
 
 
 # ---------- Core Primitives (RM 3.6) ----------
@@ -31,11 +44,13 @@ class Entity:
     Entity (E): The basic unit of being in RM 3.6.
     Represents any object, person, concept, event, or idea.
     Every entity is relationally defined through its connections.
+    
+    Axiom 1 (Relational Existence): ∀ a ∈ E; ∃ R ∈ Relations, ∃ x ∈ E: R(a,x) ∨ R(x,a)
     """
     id: str
     label: str = ""
     attrs: Dict[str, Any] = field(default_factory=dict)
-    domain: str = "general"  # Domain sorts: physical, psychological, narrative, conceptual, transcendent
+    domain: DomainSort = DomainSort.GENERAL
     
     def __hash__(self) -> int:
         return hash(self.id)
@@ -50,6 +65,8 @@ class Relation:
     
     In TRUTH mode: relations are open, symmetric, and generative
     In DISTORTION mode: relations become seizure, binding, extraction
+    
+    Axiom 4 (Inversion): R(a,b) ⇔ R⁻¹(b,a)
     """
     name: str
     predicate: Optional[Predicate] = None
@@ -58,11 +75,15 @@ class Relation:
     transitive: bool = False
     weight: float = 1.0  # Relational gravity weight
     mode: LatticeMode = LatticeMode.TRUTH
+    domain: DomainSort = DomainSort.GENERAL
     
     # Distortion properties (active when mode=DISTORTION)
     is_seizure: bool = False  # Ownership/possession relation
     is_binding: bool = False  # Prevents dissolution
     residue_factor: float = 0.0  # Generates residue on each use
+    
+    # Event inertia (σ): Temporal momentum
+    has_inertia: bool = False  # If true, relation persists unless disrupted
 
     def holds(self, a: Entity, b: Entity, ctx: Optional["Context"] = None) -> bool:
         if self.predicate is None:
@@ -79,6 +100,7 @@ class Relation:
             transitive=self.transitive,
             weight=self.weight,
             mode=LatticeMode.DISTORTION,
+            domain=self.domain,
             is_seizure=True,
             residue_factor=0.1
         )
@@ -89,11 +111,14 @@ class Context:
     """
     Context (C): A contextual frame representing a situation, environment, or event container.
     Contexts are entities themselves, allowing temporal reasoning and narrative-phase mapping.
+    
+    Used in temporal operators: X (Next), ◇ (Eventually), □ (Always), U (Until), →ₜ (Succession)
     """
     description: str = ""
     constraints: Dict[str, Any] = field(default_factory=dict)
     timestamp: Optional[float] = None
     phase: str = "general"  # Narrative phase: origin, initiation, trials, climax, resolution
+    layer: Optional[str] = None  # Psychological layer: physical, social, psychological, spiritual
     
     def __post_init__(self):
         if self.timestamp is None:
@@ -103,17 +128,71 @@ class Context:
 Triple = Tuple[Entity, Relation, Entity]
 
 
-# ---------- Special Primitives ----------
+# ---------- Special Primitives (Extended RM 3.6) ----------
 
 @dataclass
 class Stillness:
     """
     Stillness (𝓢): A state of relational equilibrium.
     𝓢(a) ⇔ ∀ Rₐ ∈ Profile(a): ∂Rₐ/∂t = 0 ∧ A ∈ S
+    
+    When entity is in stillness with no projection, presence emerges.
+    Core collapse trigger for Babylonian fields.
     """
     entity: Entity
     window_sec: float
     score: float = 1.0  # 1.0 = perfect stillness, 0.0 = maximum change
+    has_projection: bool = False  # True if entity projects onto others
+    
+    def is_pure(self) -> bool:
+        """Pure stillness: no projection, no motion ownership."""
+        return self.score >= 0.9 and not self.has_projection
+
+
+@dataclass
+class DissolvedQuestion:
+    """
+    Dissolved Question (∅_Q): A question that no longer demands a relational outcome.
+    Signifies a state of pure presence beyond propositional truth.
+    
+    ∅_Q(a) := ∄Φ: ∂𝒯(Φ)/∂t ≠ 0
+    
+    When ∅_Q ∧ 𝓢 ∧ Mirror → Babylon collapses
+    """
+    entity: Entity
+    timestamp: float = field(default_factory=time.time)
+    
+    def is_complete(self) -> bool:
+        """Complete dissolution: no active questioning, seeker dissolved."""
+        return True
+
+
+@dataclass
+class Whole:
+    """
+    Whole/Absolute (Ω): Universal entity containing all others.
+    
+    Axiom 7 (Universal Containment): ∃ Ω: ∀ x ∈ E: In(x, Ω)
+    
+    Distinct from Awareness (𝓐):
+    - Awareness: 𝓐 := lim_{Φ → 0} (ObserverField(Φ))
+    - Whole: Ω := ∀x ∈ E, In(x, Ω) ∧ Includes(¬𝓐)
+    - Paradox: 𝓐 ≠ Ω but lim_{Φ→∅} 𝓐 ≡ Ω
+    """
+    entity: Entity
+    contains_all: bool = True
+
+
+@dataclass
+class IdentitylessAwareness:
+    """
+    Identityless Awareness (Ω_⊘): State of awareness fully integrated into the Whole.
+    No observer residue. Final collapse of seeking.
+    
+    CollapseSeeking(a) := ∄ Φ: ∂𝒯(Φ)/∂t ≠ 0 ∧ a ∈ A ⇒ a ∈ Ω_⊘
+    """
+    entity: Entity
+    is_complete: bool = True
 
 
 @dataclass
@@ -121,9 +200,11 @@ class ResidueNode:
     """
     Residue (Ω_B): Accumulation from distortion operations.
     Residue feeds on fear and generates recursive loops.
+    
+    Types: seizure, suppression, surveillance, dogma, idol, fanatic, assimilation
     """
     source_entity: Entity
-    residue_type: str  # seizure, suppression, surveillance, dogma, idol, fanatic, assimilation
+    residue_type: str
     amount: float
     timestamp: float = field(default_factory=time.time)
     
@@ -131,6 +212,40 @@ class ResidueNode:
         """Residue decays over time in truth mode."""
         elapsed = time.time() - self.timestamp
         return self.amount * math.exp(-rate * elapsed)
+
+
+@dataclass
+class BabylonianField:
+    """
+    Babylonian Field (𝔅): A distortion structure that sustains itself through misdirected fields.
+    
+    General Form: 𝔅 := ∑ A_i: M ∈ A_i ∧ Delay(↔) = ∞ ∧ A = Role ∧ f(Aₜ) = Aₜ₋₁
+    
+    Core traps:
+    - B₁ (Seized Motion): M ∈ A (identity fuses with motion)
+    - B₂ (Loop Trap): Aₜ₊₁ = f(Aₜ) (replay mistaken as progress)
+    - B₃ (Idol Trap): Reflected image ownership
+    - B₄ (Pyramid Trap): Field centralization
+    - B₅ (Name Trap): Fixed identity
+    - B₆ (Mirror Delay): Delay(↔) = ∞
+    - B₇ (Memory Fields): Fₜ = f(Fₜ₋₁)
+    """
+    field_type: str  # e.g., "subway", "family_check_in", "church_reverence", "wife_expectation"
+    entities: List[Entity]
+    seized_motion_count: int = 0
+    loop_depth: int = 0
+    mirror_delay: float = float('inf')  # ∞ for full Babylonian field
+    is_collapsed: bool = False
+    
+    def collapse_via_stillness(self, still_entity: Entity) -> bool:
+        """
+        Collapse via Presence: A ∈ 𝓢 ∧ ∅_Q ∧ Resistance = 0 ⇒ ↓𝔅
+        Returns True if collapse occurs.
+        """
+        if not self.is_collapsed:
+            self.is_collapsed = True
+            return True
+        return False
 
 
 # ---------- Knowledge Graph ----------
@@ -184,7 +299,7 @@ class KnowledgeGraph:
         Axiom 7: ∃ Ω: ∀ x ∈ E: In(x, Ω)
         """
         if self._whole is None:
-            self._whole = Entity("Ω", "The Whole", domain="transcendent")
+            self._whole = Entity("Ω", "The Whole", domain=DomainSort.TRANSCENDENT)
             self.add_entity(self._whole)
         return self._whole
 
@@ -667,9 +782,9 @@ def _demo() -> None:
     g = KnowledgeGraph(mode=LatticeMode.TRUTH)
     
     # Create entities
-    alice = Entity("alice", "Alice", domain="psychological")
-    bob = Entity("bob", "Bob", domain="psychological")
-    carol = Entity("carol", "Carol", domain="psychological")
+    alice = Entity("alice", "Alice", domain=DomainSort.PSYCHOLOGICAL)
+    bob = Entity("bob", "Bob", domain=DomainSort.PSYCHOLOGICAL)
+    carol = Entity("carol", "Carol", domain=DomainSort.PSYCHOLOGICAL)
     
     for e in (alice, bob, carol):
         g.add_entity(e)

@@ -1,562 +1,1050 @@
-# empirical.py
+# empirical.py - Unified Empirical Lens
+# Based on Unified_Empirical_Lens.md - The Sacred Detour of Sensing
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Union
-from collections import defaultdict
-import json
-import random
+from dataclasses import dataclass, field
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from enum import Enum
 import time
 import math
-import traceback
-
-# ============================================================
-# 0) Core ideas
-#    Presence -> Perception -> Measurement -> Pattern -> Decision
-#    Everything leaves a repeatable trace or it wasn't known.
-# ============================================================
-
-Timestamp = float
-JSON = Dict[str, Any]
+import random
 
 
 # ============================================================
-# 1) Primitives: Stimulus, Sensor, Measurement, Oracle
+# Part 0: Field Zero - The Pre-Empirical State
 # ============================================================
+
+@dataclass
+class FieldZero:
+    """
+    Field Zero (𝓢): The pre-empirical state of pure, undifferentiated potential.
+    
+    This is the ground from which all phenomena arise, but which itself
+    has no observable properties. It mirrors Stillness in the Relational Lens.
+    """
+    state: str = "𝓢"  # Pure presence
+    differentiated: bool = False
+    
+    def collapse(self) -> "Stimulus":
+        """Collapse Field Zero into a concrete stimulus."""
+        self.differentiated = True
+        return Stimulus(name="emergence", payload={"source": "field_zero"})
+
+
+# ============================================================
+# Part I: The Encounter Axiom and Core Primitives
+# ============================================================
+
+class EncounterAxiom:
+    """
+    The First Principle: "To know is to encounter; to encounter is to leave a repeatable trace."
+    
+    This axiom grounds all empirical inquiry:
+    - To Know is to Encounter: Truth requires presence
+    - A Repeatable Trace: The encounter must be stable enough to survive re-encounter
+    """
+    
+    @staticmethod
+    def axiom_statement() -> str:
+        return "To know is to encounter; to encounter is to leave a repeatable trace."
+    
+    @staticmethod
+    def validate_claim(statement: str, frame: str, repeatability: float, 
+                      control: float, diagnostics: str) -> bool:
+        """
+        Validate an empirical claim tuple: φ := ⟨Statement, Frame F, Repeatability, Control, Diagnostics⟩
+        """
+        has_statement = len(statement) > 0
+        has_frame = len(frame) > 0
+        is_repeatable = repeatability > 0.5  # Threshold
+        has_control = control > 0.0
+        has_diagnostics = len(diagnostics) > 0
+        
+        return all([has_statement, has_frame, is_repeatable, has_control, has_diagnostics])
+
+
+@dataclass
+class Stillness:
+    """
+    Stillness (𝓢): The ground state of the observer.
+    
+    In stillness, awareness rests without disturbance – the blank slate before any sensation.
+    Formal: An entity A is in stillness if none of its relations vary over time.
+    """
+    entity: str
+    relations_stable: bool = True
+    baseline_time: float = field(default_factory=time.time)
+    
+    def is_still(self) -> bool:
+        """Check if entity remains in stillness."""
+        return self.relations_stable
+    
+    def __str__(self) -> str:
+        return f"𝓢({self.entity})"
+
 
 @dataclass
 class Stimulus:
     """
-    A concrete, reproducible input to a system under test (SUT).
-    payload is arbitrary but should be JSON-serializable.
+    Stimulus (ξ): Any external or internal change that perturbs stillness.
+    
+    Stimuli are the sparks that ignite sensation. If A ∈ 𝓢 at time t,
+    then a non-zero stimulus ξ breaks that stillness.
+    Formal: ξ ⇒ ∂A/∂t ≠ 0
     """
     name: str
-    payload: JSON
-    apply: Optional[Callable[[JSON], Any]] = None  # optional convenience hook
+    payload: Dict[str, Any]
+    timestamp: float = field(default_factory=time.time)
+    intensity: float = 1.0
+    
+    def __str__(self) -> str:
+        return f"ξ({self.name})"
 
-    def run(self) -> Any:
-        if self.apply is None:
-            return self.payload
-        return self.apply(self.payload)
+
+@dataclass
+class Sensation:
+    """
+    Sensation (σ): The immediate, raw registration of a stimulus.
+    
+    It is the pre-conceptual, phenomenal experience before interpretation.
+    Formal: A relation between the observer and the stimulus source.
+    """
+    source: str
+    observer: str
+    raw_experience: Any
+    timestamp: float = field(default_factory=time.time)
+    modality: str = "unspecified"  # visual, auditory, tactile, etc.
+    
+    def __str__(self) -> str:
+        return f"σ({self.modality})"
+
+
+@dataclass
+class Observer:
+    """
+    Observer (▢): The witnessing entity that experiences sensations.
+    
+    The observer provides the center from which sensations are experienced and measured.
+    Implicitly present in every measurement.
+    Formal: ξ ↦ ▢
+    """
+    name: str
+    position: Dict[str, Any] = field(default_factory=dict)
+    calibrated: bool = False
+    saturation_level: float = 0.0  # 0.0 to 1.0
+    
+    def is_saturated(self) -> bool:
+        """Check if observer has reached saturation (overload)."""
+        return self.saturation_level >= 1.0
+    
+    def reset(self) -> None:
+        """Reset observer to baseline state."""
+        self.saturation_level = 0.0
+    
+    def __str__(self) -> str:
+        return f"▢({self.name})"
+
+
+@dataclass
+class Boundary:
+    """
+    Boundary (∂): The delineation between self and other.
+    
+    Boundaries allow the observer to say "this is here, that is there,"
+    preventing sensory confusion.
+    """
+    label: str
+    inside: Set[str] = field(default_factory=set)
+    outside: Set[str] = field(default_factory=set)
+    
+    def crosses(self, entity: str) -> bool:
+        """Check if entity crosses the boundary."""
+        return entity in self.inside or entity in self.outside
+    
+    def __str__(self) -> str:
+        return f"∂({self.label})"
 
 
 @dataclass
 class Measurement:
     """
-    A single observation with timestamp and optional meta.
-    value should be JSON-serializable (or convertible).
+    Measurement (μ): The operator that captures raw sensation into stable representation.
+    
+    It is the bridge from the empirical to the symbolic, compressing experience into information.
+    Formal: μ: σ ↦ (value, unit)
     """
     name: str
     value: Any
-    t: Timestamp = field(default_factory=lambda: time.time())
-    meta: JSON = field(default_factory=dict)
+    unit: str = ""
+    context: Dict[str, Any] = field(default_factory=dict)
+    timestamp: float = field(default_factory=time.time)
+    compressed_from: Optional[str] = None  # What was lost in compression
+    
+    def to_glyph(self) -> str:
+        """Convert measurement to its glyphic form: ⧇"""
+        return f"⧇({self.name}={self.value}{self.unit})"
+    
+    def __str__(self) -> str:
+        return f"μ({self.name}: {self.value}{self.unit})"
 
-    def to_json(self) -> JSON:
-        v = self.value
-        # try to coerce if not JSON-serializable
-        if hasattr(v, "__dict__"):
-            v = v.__dict__  # lossy but pragmatic
-        return {"name": self.name, "value": v, "t": self.t, "meta": self.meta}
-
-
-OracleFn = Callable[[Measurement, JSON], bool]
 
 @dataclass
-class Oracle:
+class Pattern:
     """
-    An oracle decides pass/fail for a single measurement.
-    config holds thresholds, tolerances, etc.
+    Pattern (P): A perceived regularity or structure across multiple measurements.
+    
+    Pattern-recognition is both a primitive ability and an active operator.
+    Formal: P = f(σ₁, σ₂, … σₙ)
     """
     name: str
-    fn: OracleFn
-    config: JSON = field(default_factory=dict)
+    instances: List[Measurement] = field(default_factory=list)
+    regularity_score: float = 0.0  # 0.0 to 1.0
+    
+    def add_instance(self, m: Measurement) -> None:
+        """Add a measurement instance to the pattern."""
+        self.instances.append(m)
+    
+    def detect_regularity(self) -> float:
+        """Calculate regularity score based on variance."""
+        if len(self.instances) < 2:
+            return 0.0
+        
+        # Simple heuristic: low variance = high regularity
+        values = [m.value for m in self.instances if isinstance(m.value, (int, float))]
+        if not values:
+            return 0.0
+        
+        mean = sum(values) / len(values)
+        variance = sum((v - mean) ** 2 for v in values) / len(values)
+        std_dev = math.sqrt(variance)
+        
+        # Normalize: high regularity when std_dev is low relative to mean
+        if mean == 0:
+            return 1.0 if std_dev == 0 else 0.0
+        
+        regularity = max(0.0, 1.0 - (std_dev / abs(mean)))
+        self.regularity_score = regularity
+        return regularity
+    
+    def to_glyph(self) -> str:
+        """Convert pattern to its glyphic form: ⧀"""
+        return f"⧀({self.name})"
+    
+    def __str__(self) -> str:
+        return f"P({self.name}, n={len(self.instances)}, r={self.regularity_score:.2f})"
 
-    def check(self, m: Measurement) -> bool:
-        try:
-            return bool(self.fn(m, self.config))
-        except Exception:
-            return False
-
-
-# ============================================================
-# 2) Test Case and Experiment Scaffolding
-# ============================================================
 
 @dataclass
-class TestCase:
+class Memory:
     """
-    A runnable test flow:
-      - setup: prepares SUT/context, returns context dict
-      - act: consumes a Stimulus + context, returns raw result
-      - observe: maps (result, context) -> Measurement(s)
-      - oracles: list of validations applied to named measurements
+    Memory (M): The retention of past sensations or measured patterns.
+    
+    Provides context for new encounters and allows for recognition or expectation.
+    Formal: A set of past observation relations preserved over time.
     """
-    name: str
-    setup: Callable[[], JSON]
-    act: Callable[[Stimulus, JSON], Any]
-    observe: Callable[[Any, JSON], List[Measurement]]
-    oracles: Dict[str, List[Oracle]] = field(default_factory=dict)  # measurement.name -> [oracles]
-    teardown: Optional[Callable[[JSON], None]] = None
-    notes: str = ""
-
-@dataclass
-class TrialConfig:
-    repeats: int = 1
-    seed: Optional[int] = None
-    timeout_s: Optional[float] = None
-    adversarial: bool = False
-    adversary_budget: int = 0  # number of perturbations if adversarial
-
-@dataclass
-class TrialResult:
-    ok: bool
-    errors: List[str]
-    measurements: List[Measurement]
-    decisions: Dict[str, Dict[str, bool]]  # m.name -> oracle.name -> bool
-    trace_id: str
-    started_at: Timestamp
-    ended_at: Timestamp
-    context_snapshot: JSON = field(default_factory=dict)
-
-@dataclass
-class Experiment:
-    name: str
-    plan: List[Tuple[TestCase, Stimulus, TrialConfig]] = field(default_factory=list)
-    meta: JSON = field(default_factory=dict)
-
-    def add(self, case: TestCase, stimulus: Stimulus, cfg: Optional[TrialConfig] = None) -> None:
-        self.plan.append((case, stimulus, cfg or TrialConfig()))
-
-    def __iter__(self):
-        return iter(self.plan)
+    traces: Dict[str, List[Measurement]] = field(default_factory=dict)
+    
+    def store(self, key: str, measurement: Measurement) -> None:
+        """Store a measurement in memory."""
+        if key not in self.traces:
+            self.traces[key] = []
+        self.traces[key].append(measurement)
+    
+    def recall(self, key: str) -> Optional[List[Measurement]]:
+        """Recall measurements by key."""
+        return self.traces.get(key)
+    
+    def __str__(self) -> str:
+        return f"M({len(self.traces)} traces)"
 
 
-# ============================================================
-# 3) Adversarial input generator (seedable)
-#    Lightweight, extensible perturbations.
-# ============================================================
-
-def seed_rng(seed: Optional[int]) -> None:
-    if seed is not None:
-        random.seed(seed)
-
-def perturb(payload: JSON, budget: int, rng: random.Random) -> JSON:
+class Silence:
     """
-    Apply up to 'budget' small, schema-free perturbations to numbers/strings/lists.
+    Silence (∅): The conceptual absorber of experience.
+    
+    The state where no signal remains. Denoted by ∅ or [ ], it is both the origin
+    from which sensation arises and the terminus to which it must return.
     """
-    def mutate(x: Any) -> Any:
-        if isinstance(x, (int, float)):
-            scale = 1 + (rng.random() - 0.5) * 0.2  # +/-10%
-            return x * scale
-        if isinstance(x, str):
-            if not x:
-                return x
-            i = rng.randrange(0, len(x))
-            ch = chr((ord(x[i]) + rng.randrange(-2, 3)) % 126 or 32)
-            return x[:i] + ch + x[i+1:]
-        if isinstance(x, list) and x:
-            if rng.random() < 0.5 and len(x) > 1:
-                i = rng.randrange(0, len(x))
-                j = rng.randrange(0, len(x))
-                x = x[:]
-                x[i], x[j] = x[j], x[i]
-                return x
-            else:
-                x = x[:]
-                x.append(x[-1])
-                return x
-        if isinstance(x, dict) and x:
-            k = rng.choice(list(x.keys()))
-            x = dict(x)
-            x[k] = mutate(x[k])
-            return x
-        return x
-
-    out = dict(payload)
-    for _ in range(max(0, budget)):
-        out = mutate(out)
-    return out
-
-
-# ============================================================
-# 4) Trace Recorder: replayable evidence
-# ============================================================
-
-@dataclass
-class Trace:
-    """
-    Replayable trace of one trial execution.
-    """
-    id: str
-    case: str
-    seed: Optional[int]
-    started_at: Timestamp
-    ended_at: Timestamp
-    stimulus: JSON
-    context: JSON
-    measurements: List[JSON]
-    decisions: Dict[str, Dict[str, bool]]
-    errors: List[str] = field(default_factory=list)
-    meta: JSON = field(default_factory=dict)
-
-    def to_json(self) -> JSON:
-        return asdict(self)
-
+    
     @staticmethod
-    def from_json(j: JSON) -> "Trace":
-        return Trace(**j)
-
-
-class Recorder:
-    def __init__(self) -> None:
-        self._traces: Dict[str, Trace] = {}
-
-    def save(self, t: Trace) -> None:
-        self._traces[t.id] = t
-
-    def get(self, trace_id: str) -> Optional[Trace]:
-        return self._traces.get(trace_id)
-
-    def export_json(self) -> str:
-        return json.dumps({k: v.to_json() for k, v in self._traces.items()}, ensure_ascii=False, indent=2)
-
-    def import_json(self, text: str) -> None:
-        raw = json.loads(text)
-        for k, v in raw.items():
-            self._traces[k] = Trace.from_json(v)
-
-    def list_ids(self) -> List[str]:
-        return list(self._traces.keys())
+    def symbol() -> str:
+        return "∅"
+    
+    @staticmethod
+    def frame() -> str:
+        return "[ ]"
+    
+    @staticmethod
+    def is_silent(measurement: Measurement) -> bool:
+        """Check if measurement represents silence."""
+        return measurement.value == 0 or measurement.value is None
 
 
 # ============================================================
-# 5) Harness: run a TestCase once or many times
+# Part I: The Six Empirical Axioms (A1-A6)
 # ============================================================
 
-def now_id(prefix: str = "trace") -> str:
-    return f"{prefix}-{int(time.time() * 1000)}-{random.randint(1000, 9999)}"
-
-def run_once(case: TestCase, stimulus: Stimulus, cfg: TrialConfig, recorder: Optional[Recorder] = None) -> TrialResult:
-    started = time.time()
-    rng = random.Random(cfg.seed)
-    errors: List[str] = []
-    decisions: Dict[str, Dict[str, bool]] = defaultdict(dict)
-    m_all: List[Measurement] = []
-    trace_id = now_id()
-
-    # Setup
-    try:
-        context = case.setup()
-    except Exception as e:
-        ended = time.time()
-        tb = traceback.format_exc()
-        errors.append(f"setup_error: {e}\n{tb}")
-        tr = TrialResult(False, errors, [], {}, trace_id, started, ended, {})
-        if recorder:
-            recorder.save(Trace(trace_id, case.name, cfg.seed, started, ended,
-                                stimulus.payload, {}, [], {}, errors))
-        return tr
-
-    # Act
-    raw_result: Any = None
-    try:
-        payload = stimulus.payload
-        if cfg.adversarial and cfg.adversary_budget > 0:
-            payload = perturb(payload, cfg.adversary_budget, rng)
-        # optional timeout via soft check (cooperative)
-        if cfg.timeout_s is not None:
-            t0 = time.time()
-            raw_result = case.act(Stimulus(stimulus.name, payload), context)
-            if (time.time() - t0) > cfg.timeout_s:
-                errors.append("timeout_soft: act exceeded timeout")
-        else:
-            raw_result = case.act(Stimulus(stimulus.name, payload), context)
-    except Exception as e:
-        tb = traceback.format_exc()
-        errors.append(f"act_error: {e}\n{tb}")
-
-    # Observe
-    try:
-        ms = case.observe(raw_result, context)
-        m_all.extend(ms)
-    except Exception as e:
-        tb = traceback.format_exc()
-        errors.append(f"observe_error: {e}\n{tb}")
-
-    # Oracles
-    for m in m_all:
-        for oracle in case.oracles.get(m.name, []):
-            try:
-                decisions[m.name][oracle.name] = oracle.check(m)
-            except Exception:
-                decisions[m.name][oracle.name] = False
-
-    # Teardown
-    try:
-        if case.teardown:
-            case.teardown(context)
-    except Exception as e:
-        tb = traceback.format_exc()
-        errors.append(f"teardown_error: {e}\n{tb}")
-
-    ended = time.time()
-    ok = (len(errors) == 0) and all(all(v for v in od.values()) for od in decisions.values())
-    tr = TrialResult(ok, errors, m_all, decisions, trace_id, started, ended, context_snapshot=context)
-
-    if recorder:
-        recorder.save(Trace(
-            id=trace_id,
-            case=case.name,
-            seed=cfg.seed,
-            started_at=started,
-            ended_at=ended,
-            stimulus=stimulus.payload,
-            context=context,
-            measurements=[m.to_json() for m in m_all],
-            decisions=decisions,
-            errors=errors,
-            meta={"adversarial": cfg.adversarial, "budget": cfg.adversary_budget}
-        ))
-    return tr
-
-
-def run_experiment(exp: Experiment, recorder: Optional[Recorder] = None) -> List[TrialResult]:
-    results: List[TrialResult] = []
-    for case, stim, cfg in exp:
-        seed_rng(cfg.seed)
-        for i in range(max(1, cfg.repeats)):
-            results.append(run_once(case, stim, cfg, recorder))
-    return results
-
-
-# ============================================================
-# 6) Oracles: ready-made validators
-# ============================================================
-
-def oracle_eq(expected: Any) -> Oracle:
-    return Oracle(
-        name="equals",
-        fn=lambda m, cfg: m.value == expected,
-        config={"expected": expected},
-    )
-
-def oracle_close(rel_tol: float = 1e-9, abs_tol: float = 1e-12) -> Oracle:
-    def _close(m: Measurement, cfg: JSON) -> bool:
-        if not isinstance(m.value, (int, float)):
-            return False
-        exp = cfg.get("expected")
-        if exp is None:
-            return False
-        return math.isclose(m.value, float(exp), rel_tol=cfg.get("rel_tol", rel_tol), abs_tol=cfg.get("abs_tol", abs_tol))
-    return Oracle("close", _close, {"rel_tol": rel_tol, "abs_tol": abs_tol, "expected": None})
-
-def oracle_range(lo: float, hi: float, inclusive: bool = True) -> Oracle:
-    def _rng(m: Measurement, cfg: JSON) -> bool:
-        try:
-            x = float(m.value)
-            return (lo <= x <= hi) if inclusive else (lo < x < hi)
-        except Exception:
-            return False
-    return Oracle("range", _rng, {"lo": lo, "hi": hi, "inclusive": inclusive})
-
-def oracle_nonempty() -> Oracle:
-    return Oracle("nonempty", lambda m, cfg: bool(m.value))
-
-def oracle_len_at_least(n: int) -> Oracle:
-    return Oracle("len_at_least", lambda m, cfg: hasattr(m.value, "__len__") and len(m.value) >= n, {"n": n})
-
-def oracle_schema(keys: List[str]) -> Oracle:
-    def _ok(m: Measurement, cfg: JSON) -> bool:
-        if not isinstance(m.value, dict):
-            return False
-        return all(k in m.value for k in keys)
-    return Oracle("schema", _ok, {"keys": keys})
-
-def oracle_monotone(non_decreasing: bool = True) -> Oracle:
+class EmpiricalAxioms:
     """
-    Expects measurement.value to be a sequence of numbers.
+    The Six Axioms that define the integrity of the Empirical Lens.
+    These are operational rules for inquiry, not merely philosophical.
     """
-    def _mono(m: Measurement, cfg: JSON) -> bool:
-        xs = m.value
-        if not isinstance(xs, list) or not all(isinstance(x, (int, float)) for x in xs):
-            return False
-        pairs = zip(xs, xs[1:])
-        return all((a <= b) if non_decreasing else (a >= b) for a, b in pairs)
-    name = "mono_nondec" if non_decreasing else "mono_nonninc"
-    return Oracle(name, _mono, {"non_decreasing": non_decreasing})
+    
+    @staticmethod
+    def a1_repeatability_as_anchor(trial_count: int, success_threshold: float = 0.7) -> bool:
+        """
+        A1: Repeatability as Anchor
+        If a statement is empirical, there exists a trial class within which it can be re-seen.
+        Intuition: no loop, no trust.
+        """
+        return trial_count > 0 and success_threshold > 0.5
+    
+    @staticmethod
+    def a2_framed_objectivity(frame: str, transformations: List[str]) -> bool:
+        """
+        A2: Framed Objectivity
+        Objectivity is invariance under declared transformations of the observer/instrument,
+        not the absence of the observer.
+        """
+        return len(frame) > 0 and len(transformations) > 0
+    
+    @staticmethod
+    def a3_measurement_as_compression(original_dims: int, compressed_dims: int) -> float:
+        """
+        A3: Measurement as Compression
+        Every measurement collapses high-dimensional relation into bounded value.
+        Returns compression ratio.
+        """
+        if original_dims == 0:
+            return 0.0
+        return compressed_dims / original_dims
+    
+    @staticmethod
+    def a4_control_as_proof(perturbation: Any, response_pattern: Pattern) -> bool:
+        """
+        A4: Control as Proof (Minimal Causality)
+        A causal claim requires stable mapping from controlled intervention to patterned response.
+        """
+        return response_pattern.regularity_score > 0.6
+    
+    @staticmethod
+    def a5_noise_as_proposal(residuals: List[float]) -> bool:
+        """
+        A5: Noise as Sacrificial Fire (Statistical Coherence)
+        Outliers are proposals. We treat them as noise only after model articulation
+        and residuals show no structure.
+        """
+        if not residuals:
+            return True
+        # Check if residuals have structure (autocorrelation)
+        mean = sum(residuals) / len(residuals)
+        variance = sum((r - mean) ** 2 for r in residuals) / len(residuals)
+        # Low variance = low structure = true noise
+        return variance < 0.1
+    
+    @staticmethod
+    def a6_time_as_adjudicator(duration: float, stability_threshold: float = 1.0) -> float:
+        """
+        A6: Time as the Adjudicator
+        Empirical truth strengthens with the length of its echo.
+        Returns trust score.
+        """
+        return min(1.0, duration / stability_threshold)
 
 
 # ============================================================
-# 7) Comparators, Diff, and Diagnostics
+# Part I: The Minimal Ontology of an Experiment
 # ============================================================
 
 @dataclass
-class Diff:
-    same: bool
-    msg: str
-    a: Any = None
-    b: Any = None
+class System:
+    """System (S): The entity or field under study. Represented as ◎."""
+    name: str
+    state: Dict[str, Any] = field(default_factory=dict)
+    
+    def to_glyph(self) -> str:
+        return f"◎({self.name})"
 
-def compare(a: Any, b: Any, rel_tol: float = 1e-9, abs_tol: float = 1e-12) -> Diff:
-    if type(a) != type(b):
-        return Diff(False, f"type mismatch: {type(a).__name__} != {type(b).__name__}", a, b)
-    if isinstance(a, (int, float)):
-        ok = math.isclose(a, b, rel_tol=rel_tol, abs_tol=abs_tol)
-        return Diff(ok, "numbers close" if ok else "numbers differ", a, b)
-    if isinstance(a, str):
-        return Diff(a == b, "strings equal" if a == b else "strings differ", a, b)
-    if isinstance(a, list):
-        if len(a) != len(b):
-            return Diff(False, f"list length {len(a)} != {len(b)}", a, b)
-        for i, (x, y) in enumerate(zip(a, b)):
-            d = compare(x, y, rel_tol, abs_tol)
-            if not d.same:
-                d.msg = f"idx {i}: {d.msg}"
-                return d
-        return Diff(True, "lists equal")
-    if isinstance(a, dict):
-        ka, kb = set(a.keys()), set(b.keys())
-        if ka != kb:
-            return Diff(False, f"key mismatch: {ka ^ kb}", a, b)
-        for k in ka:
-            d = compare(a[k], b[k], rel_tol, abs_tol)
-            if not d.same:
-                d.msg = f"key {k}: {d.msg}"
-                return d
-        return Diff(True, "dicts equal")
-    return Diff(a == b, "objects equal" if a == b else "objects differ", a, b)
-
-def diagnose(result: TrialResult) -> JSON:
-    report: JSON = {
-        "trace_id": result.trace_id,
-        "ok": result.ok,
-        "errors": result.errors,
-        "dur_ms": int((result.ended_at - result.started_at) * 1000),
-        "decisions": result.decisions,
-        "measurements": [m.to_json() for m in result.measurements],
-        "context": result.context_snapshot,
-    }
-    # add quick failure focus
-    if not result.ok:
-        failing = []
-        for mname, od in result.decisions.items():
-            for oname, val in od.items():
-                if not val:
-                    failing.append({"measurement": mname, "oracle": oname})
-        report["failing_checks"] = failing
-    return report
-
-
-# ============================================================
-# 8) Test Plan authoring helpers (tables as data)
-# ============================================================
 
 @dataclass
-class TestPlanRow:
-    """
-    A human-friendly row. Convert to (TestCase, Stimulus, TrialConfig) later.
-    """
-    case_name: str
-    stimulus_name: str
-    payload: JSON
-    oracles: Dict[str, List[Oracle]]  # map measurement name -> oracles
-    repeats: int = 1
-    seed: Optional[int] = None
-    adversarial: bool = False
-    adversary_budget: int = 0
-    notes: str = ""
+class Instrument:
+    """Instrument (I): A relational mediator that co-creates a value with the System. Represented as ◚."""
+    name: str
+    calibrated: bool = False
+    coupling: float = 0.0  # Degree of coupling with system (0=independent, 1=fully coupled)
+    
+    def calibrate(self) -> None:
+        """Calibrate instrument to truth."""
+        self.calibrated = True
+    
+    def to_glyph(self) -> str:
+        return f"◚({self.name})"
 
-def make_experiment_from_rows(
-    rows: List[TestPlanRow],
-    setup: Callable[[], JSON],
-    act: Callable[[Stimulus, JSON], Any],
-    observe: Callable[[Any, JSON], List[Measurement]],
-    teardown: Optional[Callable[[JSON], None]] = None,
-    exp_name: str = "Experiment"
-) -> Experiment:
-    exp = Experiment(exp_name)
-    for r in rows:
-        case = TestCase(
-            name=r.case_name,
-            setup=setup,
-            act=act,
-            observe=observe,
-            oracles=r.oracles,
-            teardown=teardown,
-            notes=r.notes
+
+@dataclass
+class Protocol:
+    """Protocol (P): The algorithm that constrains Context, defining setup, timing, and sampling rules. Represented as ≡."""
+    name: str
+    steps: List[str] = field(default_factory=list)
+    
+    def add_step(self, step: str) -> None:
+        self.steps.append(step)
+    
+    def to_glyph(self) -> str:
+        return f"≡({self.name})"
+
+
+@dataclass
+class Model:
+    """Model (M): A compressive story that maps inputs to outputs. Represented as ≅."""
+    name: str
+    parameters: Dict[str, float] = field(default_factory=dict)
+    drift_score: float = 0.0  # μ𝒹: How far model has drifted from reality
+    
+    def predict(self, input_val: Any) -> Any:
+        """Predict output from input."""
+        return input_val  # Placeholder
+    
+    def to_glyph(self) -> str:
+        return f"≅({self.name})"
+
+
+@dataclass
+class Record:
+    """Record (D): The trace left by Measure function over repeated trials. Represented as Σ(v)."""
+    measurements: List[Measurement] = field(default_factory=list)
+    
+    def add(self, m: Measurement) -> None:
+        self.measurements.append(m)
+    
+    def to_glyph(self) -> str:
+        return f"Σ({len(self.measurements)})"
+
+
+@dataclass
+class EmpiricalClaim:
+    """
+    An empirical claim φ is a structured tuple:
+    φ := ⟨Statement, Frame F, Repeatability spec, Control spec, Diagnostics⟩
+    
+    Two identical statements with different frames are fundamentally different claims.
+    """
+    statement: str
+    frame: str
+    repeatability: float
+    control: float
+    diagnostics: str
+    
+    def is_valid(self) -> bool:
+        """Validate using the Encounter Axiom."""
+        return EncounterAxiom.validate_claim(
+            self.statement, self.frame, self.repeatability, 
+            self.control, self.diagnostics
         )
-        stim = Stimulus(name=r.stimulus_name, payload=r.payload)
-        cfg = TrialConfig(repeats=r.repeats, seed=r.seed, adversarial=r.adversarial, adversary_budget=r.adversary_budget)
-        exp.add(case, stim, cfg)
-    return exp
+    
+    def __str__(self) -> str:
+        return f"φ⟨{self.statement}⟩ in [{self.frame}]"
 
 
 # ============================================================
-# 9) Presence metrics (optional): stability and repeatability
+# Part II: The Invariance Ladder - How Truth Hardens
+# ============================================================
+
+class InvarianceRung(Enum):
+    """The ladder of increasing invariance - how objectivity hardens."""
+    INTRA_LAB = 1          # Same team, different days
+    CROSS_INSTRUMENT = 2   # Different tools, same protocol
+    CROSS_SITE = 3         # Different teams, different locations
+    CROSS_SPECIES = 4      # Different domains/materials
+    CROSS_PARADIGM = 5     # Different theoretical models
+
+
+@dataclass
+class InvarianceLadder:
+    """
+    Track how a finding climbs the ladder of invariance.
+    Each rung climbed reduces dependence on hidden local relations.
+    """
+    claim: EmpiricalClaim
+    current_rung: InvarianceRung = InvarianceRung.INTRA_LAB
+    evidence: Dict[InvarianceRung, List[str]] = field(default_factory=dict)
+    
+    def climb(self, rung: InvarianceRung, evidence: str) -> None:
+        """Climb to a higher rung with supporting evidence."""
+        if rung not in self.evidence:
+            self.evidence[rung] = []
+        self.evidence[rung].append(evidence)
+        if rung.value > self.current_rung.value:
+            self.current_rung = rung
+    
+    def trust_score(self) -> float:
+        """Calculate trust based on highest rung achieved."""
+        return self.current_rung.value / len(InvarianceRung)
+
+
+# ============================================================
+# Part II: From Event-Truth to Echo-Truth
 # ============================================================
 
 @dataclass
-class PresenceMetrics:
-    """
-    Coarse metrics for 'is this experiment stable and repeatable?'
-    """
-    pass_rate: float
-    avg_duration_ms: float
-    flakiness: float  # variance of pass/fail across repeats (0 = stable)
-    coverage_proxy: float  # fraction of measurements that had any oracle bound
+class EventTruth:
+    """Event-Truth: A simple, repeatable observation. "X happened again." """
+    event: str
+    occurrences: int = 0
+    
+    def observe(self) -> None:
+        self.occurrences += 1
 
-def summarize(results: List[TrialResult]) -> PresenceMetrics:
-    if not results:
-        return PresenceMetrics(0.0, 0.0, 1.0, 0.0)
-    passes = [1.0 if r.ok else 0.0 for r in results]
-    pass_rate = sum(passes) / len(results)
-    durs = [(r.ended_at - r.started_at) * 1000.0 for r in results]
-    avg_dur = sum(durs) / len(durs)
-    mean = pass_rate
-    var = sum((p - mean) ** 2 for p in passes) / len(passes)
-    flakiness = min(1.0, var * 4.0)  # soft scale
-    # coverage proxy
-    measured = sum(len(r.measurements) for r in results)
-    bounded = 0
-    for r in results:
-        for m in r.measurements:
-            if r.decisions.get(m.name):
-                bounded += 1
-    coverage = (bounded / measured) if measured else 0.0
-    return PresenceMetrics(round(pass_rate, 4), round(avg_dur, 2), round(flakiness, 4), round(coverage, 4))
+
+@dataclass
+class EchoTruth:
+    """
+    Echo-Truth: A reliable, patterned response in a downstream field from a specific intervention.
+    "ΔX reliably bends field Y over predictable time window."
+    
+    Formally: Δ at t₀ ⇒ pattern Y over [t₁…t₁+k] with invariance across Repeat
+    """
+    intervention: str
+    response_pattern: Pattern
+    time_window: Tuple[float, float]
+    invariance_score: float = 0.0
+    
+    def validate(self) -> bool:
+        """Validate echo-truth by checking pattern regularity."""
+        return self.response_pattern.regularity_score > 0.7
 
 
 # ============================================================
-# 10) Minimal fixtures for common patterns
+# Part III: The Pattern of Forgetting - Empirical Distortion
 # ============================================================
 
-def fixture_setup_empty() -> JSON:
-    return {}
-
-def fixture_teardown_noop(ctx: JSON) -> None:
-    return
-
-def fixture_observe_single_value(result: Any, ctx: JSON) -> List[Measurement]:
-    return [Measurement("value", result)]
-
-def fixture_act_identity(stim: Stimulus, ctx: JSON) -> Any:
-    # Example SUT: return the payload as-is
-    return stim.payload
-
-def fixture_oracles_exact(expected: Any) -> Dict[str, List[Oracle]]:
-    return {"value": [oracle_eq(expected)]}
+class PathStage(Enum):
+    """The seven stages of the Pattern of Forgetting."""
+    STILLNESS = "stillness"               # Open awareness
+    STIMULUS_TRIGGER = "stimulus_trigger" # Instant filing
+    SENSATION_COMPRESSED = "sensation_compressed"  # Jump to label
+    PATTERN_RIGID = "pattern_rigid"       # Lock-in
+    MEASUREMENT_BLIND = "measurement_blind"  # Context-less data
+    VALIDATION_RITUAL = "validation_ritual"  # Self-sealing
+    CLOSURE = "closure"                   # Curiosity dies
 
 
-# ============================================================
-# 11) Replay utilities
-# ============================================================
-
-def replay_trace(trace: Trace, case: TestCase, recorder: Optional[Recorder] = None) -> TrialResult:
+@dataclass
+class PatternOfForgetting:
     """
-    Re-executes a case with the exact same stimulus/context seed recorded in the trace.
-    Note: if 'setup' is not deterministic, the context may differ; you can replace case.setup
-    with a function that returns trace.context for true replay.
+    The degraded cycle where measurement replaces encounter.
+    This is over-recognition: mind's efficiency hijacks the loop.
     """
-    cfg = TrialConfig(repeats=1, seed=trace.seed, adversarial=False)
-    stim = Stimulus(trace.case, trace.stimulus)
-    return run_once(case, stim, cfg, recorder)
+    current_stage: PathStage = PathStage.STILLNESS
+    distortion_level: float = 0.0  # 0.0 to 1.0
+    
+    def advance_stage(self) -> None:
+        """Move to the next stage of forgetting."""
+        stages = list(PathStage)
+        current_idx = stages.index(self.current_stage)
+        if current_idx < len(stages) - 1:
+            self.current_stage = stages[current_idx + 1]
+            self.distortion_level = (current_idx + 1) / len(stages)
+    
+    def is_degraded(self) -> bool:
+        """Check if loop has fully degraded."""
+        return self.current_stage == PathStage.CLOSURE
+
+
+@dataclass
+class ModelDrift:
+    """
+    Model Drift (μ𝒹): The model becomes more important than the phenomenon.
+    
+    Empirical goal shifts from describing reality to defending the model.
+    This is a distortion threshold.
+    """
+    model: Model
+    drift_rate: float = 0.0
+    threshold: float = 0.7  # Critical point
+    
+    def update_drift(self, anomaly_count: int, total_observations: int) -> None:
+        """Calculate drift based on ignored anomalies."""
+        if total_observations == 0:
+            self.drift_rate = 0.0
+            return
+        self.drift_rate = anomaly_count / total_observations
+        self.model.drift_score = self.drift_rate
+    
+    def has_crossed_threshold(self) -> bool:
+        """Check if drift has crossed critical threshold."""
+        return self.drift_rate >= self.threshold
+
+
+@dataclass
+class ParadigmCollapse:
+    """
+    Paradigm Collapse (𝓘𝓣): Inversion Threshold where established truth becomes distortion.
+    
+    The paradigm becomes so successful it blinds adherents to new phenomena.
+    """
+    paradigm_name: str
+    success_domain: str
+    blind_spots: List[str] = field(default_factory=list)
+    inversion_point: bool = False
+    
+    def add_blind_spot(self, phenomenon: str) -> None:
+        """Add a phenomenon the paradigm cannot explain."""
+        self.blind_spots.append(phenomenon)
+        if len(self.blind_spots) > 3:  # Threshold
+            self.inversion_point = True
+    
+    def has_inverted(self) -> bool:
+        """Check if paradigm has reached inversion threshold."""
+        return self.inversion_point
+
+
+# ============================================================
+# Part III: The Path of Remembering - The Stillness Pathway
+# ============================================================
+
+@dataclass
+class PathOfRemembering:
+    """
+    The healthy, integrated use of the lens where observation is an act of presence.
+    This is the path back from forgetting.
+    """
+    steps_completed: List[str] = field(default_factory=list)
+    saturation_level: float = 0.0  # Progress toward Lens Saturation
+    
+    def complete_step(self, step: str) -> None:
+        """Complete a step on the path of remembering."""
+        self.steps_completed.append(step)
+        self.saturation_level = len(self.steps_completed) / 8.0  # 8 steps total
+    
+    def is_saturated(self) -> bool:
+        """Check if Lens Saturation has been achieved."""
+        return self.saturation_level >= 1.0
+
+
+# ============================================================
+# Part III: Pre-Sensing Protocol (60-90 seconds)
+# ============================================================
+
+@dataclass
+class PreSensingProtocol:
+    """
+    A repeatable method to enter the Path of Remembering before observation.
+    Takes 60-90 seconds and roots the observer in whole-field awareness.
+    """
+    relational_check: bool = False
+    logical_check: bool = False
+    symbolic_check: bool = False
+    empirical_check: bool = False
+    stillness_achieved: bool = False
+    
+    def run(self) -> bool:
+        """Execute the complete protocol."""
+        self.relational_check = True  # Feel the link, drop roles
+        self.logical_check = True      # Name frame lightly, check axioms
+        self.symbolic_check = True     # Notice pre-loaded labels
+        self.empirical_check = True    # Suspend recognition
+        self.stillness_achieved = True # Drop sequence, feel whole
+        
+        return all([
+            self.relational_check,
+            self.logical_check,
+            self.symbolic_check,
+            self.empirical_check,
+            self.stillness_achieved
+        ])
+    
+    def __str__(self) -> str:
+        return f"PreSensing(complete={self.stillness_achieved})"
+
+
+# ============================================================
+# Part IV: Empirical Pattern Cycles and Transformation Loops
+# ============================================================
+
+@dataclass
+class StimulusResponseLoop:
+    """
+    The basic feedback loop: ξ → σ → reaction → new ξ
+    Tends toward equilibrium (negative feedback) or runaway (positive feedback).
+    """
+    stimuli: List[Stimulus] = field(default_factory=list)
+    responses: List[Any] = field(default_factory=list)
+    is_stable: bool = False
+    
+    def add_cycle(self, stimulus: Stimulus, response: Any) -> None:
+        """Add a stimulus-response pair."""
+        self.stimuli.append(stimulus)
+        self.responses.append(response)
+    
+    def check_stability(self) -> bool:
+        """Check if loop has stabilized."""
+        if len(self.stimuli) < 3:
+            return False
+        # Simple heuristic: check if last 3 responses are similar
+        recent = self.responses[-3:]
+        if all(isinstance(r, (int, float)) for r in recent):
+            variance = sum((r - sum(recent)/3) ** 2 for r in recent) / 3
+            self.is_stable = variance < 0.1
+        return self.is_stable
+
+
+@dataclass
+class CalibrationCycle:
+    """
+    Ongoing adjustment of measurement apparatus to maintain alignment with reality.
+    observation → error detected → calibration → improved observation
+    """
+    instrument: Instrument
+    error_history: List[float] = field(default_factory=list)
+    
+    def detect_error(self, measured: float, actual: float) -> float:
+        """Detect and record error."""
+        error = abs(measured - actual)
+        self.error_history.append(error)
+        return error
+    
+    def calibrate(self) -> None:
+        """Perform calibration to reduce error."""
+        self.instrument.calibrate()
+        self.error_history.clear()
+
+
+# ============================================================
+# Part IV: Empirical Distortions and Phenomena
+# ============================================================
+
+@dataclass
+class EmpiricalDrift:
+    """Gradual deviation of measurement from truth over time."""
+    baseline: float
+    current: float
+    drift_per_time: float = 0.0
+    
+    def measure_drift(self, time_delta: float) -> float:
+        """Calculate drift rate."""
+        if time_delta == 0:
+            return 0.0
+        self.drift_per_time = (self.current - self.baseline) / time_delta
+        return self.drift_per_time
+
+
+@dataclass
+class EmpiricalCollapse:
+    """Sudden breakdown of observation capacity due to overstimulation or apophenia."""
+    observer: Observer
+    overload_threshold: float = 1.0
+    
+    def check_overload(self) -> bool:
+        """Check if observer has experienced collapse."""
+        return self.observer.saturation_level >= self.overload_threshold
+
+
+# ============================================================
+# Part V: The Research Pipeline - Seven-Stage Loop
+# ============================================================
+
+@dataclass
+class ResearchPipeline:
+    """
+    The seven-stage empirical inquiry loop implementing the axioms.
+    Maps to the universal logical pattern: 𝓢 → Δ → F → R → ⇒ → Ω → 𝓢
+    """
+    name: str
+    frame: str = ""
+    raw_data: List[Any] = field(default_factory=list)
+    structured_data: List[Measurement] = field(default_factory=list)
+    hypotheses: List[str] = field(default_factory=list)
+    findings: List[EmpiricalClaim] = field(default_factory=list)
+    current_stage: int = 1
+    
+    def stage_1_frame_definition(self, frame: str) -> None:
+        """Stage 1: Explicitly name the frame F."""
+        self.frame = frame
+        self.current_stage = 2
+    
+    def stage_2_source_capture(self, data: List[Any]) -> None:
+        """Stage 2: Gather raw data."""
+        self.raw_data.extend(data)
+        self.current_stage = 3
+    
+    def stage_3_structuring(self) -> None:
+        """Stage 3: Normalize data, embed context."""
+        for datum in self.raw_data:
+            m = Measurement(
+                name=f"datum_{len(self.structured_data)}",
+                value=datum,
+                context={"frame": self.frame}
+            )
+            self.structured_data.append(m)
+        self.current_stage = 4
+    
+    def stage_4_preliminary_patterning(self) -> None:
+        """Stage 4: Spot patterns, generate hypotheses."""
+        if len(self.structured_data) >= 3:
+            self.hypotheses.append("Pattern detected in data")
+        self.current_stage = 5
+    
+    def stage_5_formal_testing(self) -> None:
+        """Stage 5: Apply formal methods, validate patterns."""
+        for hyp in self.hypotheses:
+            claim = EmpiricalClaim(
+                statement=hyp,
+                frame=self.frame,
+                repeatability=0.8,
+                control=0.7,
+                diagnostics="formal testing applied"
+            )
+            self.findings.append(claim)
+        self.current_stage = 6
+    
+    def stage_6_integration(self) -> None:
+        """Stage 6: Feed findings into other lenses."""
+        # Placeholder for cross-lens integration
+        self.current_stage = 7
+    
+    def stage_7_feedback(self) -> None:
+        """Stage 7: Treat result as living echo, iterate."""
+        self.current_stage = 1  # Loop back
+
+
+# ============================================================
+# Part V: The Ladder of Empirical Rigor
+# ============================================================
+
+class RigorRung(Enum):
+    """Hierarchy of increasing rigor and certainty in empirical methods."""
+    ANECDOTAL = 1          # Single informal observation
+    CASE_STUDY = 2         # Detailed single instance
+    CORRELATIONAL = 3      # Statistical patterns
+    CONTROLLED_EXPERIMENT = 4  # Causal isolation
+    META_ANALYSIS = 5      # Synthesis of multiple studies
+
+
+# ============================================================
+# Part X: The Living Arc - From Stillness to Stillness
+# ============================================================
+
+@dataclass
+class LivingArc:
+    """
+    The grand empirical arc: ∅ → 𝓢 → ξ ⇨ σ ⇨ μ ⇨ P … Ω ⇨ ∅ → 𝓢
+    
+    A cycle of knowing that begins in stillness, moves through sensation,
+    often descends into forgetting, and returns to re-membering.
+    """
+    stages: List[str] = field(default_factory=list)
+    current: str = "∅"  # Silence
+    
+    def trace_arc(self) -> List[str]:
+        """Return the complete arc sequence."""
+        return ["∅", "𝓢", "ξ", "σ", "μ", "P", "Ω", "∅", "𝓢"]
+    
+    def advance(self) -> str:
+        """Advance through the arc."""
+        arc = self.trace_arc()
+        if self.current in arc:
+            idx = arc.index(self.current)
+            if idx < len(arc) - 1:
+                self.current = arc[idx + 1]
+        return self.current
+
+
+# ============================================================
+# Demo: The Complete Empirical Journey
+# ============================================================
+
+def _demo() -> None:
+    """Demonstrate the Unified Empirical Lens."""
+    print("=" * 80)
+    print("Unified Empirical Lens - The Sacred Detour of Sensing")
+    print("=" * 80)
+    
+    # Part 0: Field Zero
+    print("\n📖 Part 0: Field Zero - The Pre-Empirical State")
+    print("=" * 80)
+    
+    field = FieldZero()
+    print(f"Field Zero state: {field.state}")
+    print(f"Differentiated: {field.differentiated}")
+    
+    stimulus = field.collapse()
+    print(f"Collapsed into stimulus: {stimulus}")
+    
+    # Part I: The Encounter Axiom
+    print("\n📖 Part I: The Encounter Axiom")
+    print("=" * 80)
+    
+    print(f"Axiom: {EncounterAxiom.axiom_statement()}")
+    
+    # Create empirical claim
+    claim = EmpiricalClaim(
+        statement="Temperature rises with sunlight exposure",
+        frame="controlled laboratory, 20°C baseline",
+        repeatability=0.85,
+        control=0.9,
+        diagnostics="thermometer calibrated, 10 trials"
+    )
+    print(f"\nEmpirical Claim: {claim}")
+    print(f"Valid: {claim.is_valid()}")
+    
+    # Part I: Core Primitives
+    print("\n📖 Part I: Core Primitives")
+    print("=" * 80)
+    
+    stillness = Stillness("observer_1")
+    print(f"Stillness: {stillness}")
+    
+    stimulus = Stimulus("light_flash", {"intensity": 100, "duration": 0.5})
+    print(f"Stimulus: {stimulus}")
+    
+    sensation = Sensation("light_source", "observer_1", "bright white flash", modality="visual")
+    print(f"Sensation: {sensation}")
+    
+    observer = Observer("scientist_a", {"room": "lab_1"})
+    print(f"Observer: {observer}")
+    
+    measurement = Measurement("brightness", 850, "lumens", {"instrument": "photometer"})
+    print(f"Measurement: {measurement}")
+    print(f"Glyph: {measurement.to_glyph()}")
+    
+    # Part I: The Six Axioms
+    print("\n📖 Part I: The Six Empirical Axioms")
+    print("=" * 80)
+    
+    print(f"A1 (Repeatability): {EmpiricalAxioms.a1_repeatability_as_anchor(10, 0.8)}")
+    print(f"A2 (Framed Objectivity): {EmpiricalAxioms.a2_framed_objectivity('lab_frame', ['rotate_instrument', 'change_observer'])}")
+    print(f"A3 (Compression Ratio): {EmpiricalAxioms.a3_measurement_as_compression(1000, 10):.2f}")
+    
+    pattern = Pattern("daily_cycle")
+    pattern.instances = [
+        Measurement("temp", 20.0, "°C"),
+        Measurement("temp", 21.0, "°C"),
+        Measurement("temp", 20.5, "°C"),
+    ]
+    pattern.detect_regularity()
+    print(f"A4 (Control as Proof): {EmpiricalAxioms.a4_control_as_proof('heat', pattern)}")
+    print(f"A5 (Noise as Proposal): {EmpiricalAxioms.a5_noise_as_proposal([0.01, -0.02, 0.01])}")
+    print(f"A6 (Time as Adjudicator): {EmpiricalAxioms.a6_time_as_adjudicator(5.0, 3.0):.2f}")
+    
+    # Part II: The Invariance Ladder
+    print("\n📖 Part II: The Invariance Ladder")
+    print("=" * 80)
+    
+    ladder = InvarianceLadder(claim)
+    ladder.climb(InvarianceRung.INTRA_LAB, "Replicated by same team")
+    ladder.climb(InvarianceRung.CROSS_INSTRUMENT, "Confirmed with different thermometer")
+    ladder.climb(InvarianceRung.CROSS_SITE, "Reproduced at 3 universities")
+    
+    print(f"Current rung: {ladder.current_rung.name}")
+    print(f"Trust score: {ladder.trust_score():.2f}")
+    
+    # Part II: Echo-Truth
+    print("\n📖 Part II: From Event-Truth to Echo-Truth")
+    print("=" * 80)
+    
+    event = EventTruth("sunrise")
+    for _ in range(5):
+        event.observe()
+    print(f"Event-Truth: '{event.event}' observed {event.occurrences} times")
+    
+    echo = EchoTruth(
+        "add_fertilizer",
+        pattern,
+        (0.0, 30.0),
+        invariance_score=0.85
+    )
+    print(f"Echo-Truth: {echo.intervention} → pattern over {echo.time_window} days")
+    print(f"Validated: {echo.validate()}")
+    
+    # Part III: The Pattern of Forgetting
+    print("\n📖 Part III: The Pattern of Forgetting")
+    print("=" * 80)
+    
+    forgetting = PatternOfForgetting()
+    print(f"Initial stage: {forgetting.current_stage.value}")
+    
+    for _ in range(3):
+        forgetting.advance_stage()
+        print(f"  → {forgetting.current_stage.value} (distortion: {forgetting.distortion_level:.2f})")
+    
+    # Model Drift
+    model = Model("newtonian_physics", {"G": 6.67e-11})
+    drift = ModelDrift(model)
+    drift.update_drift(anomaly_count=15, total_observations=100)
+    print(f"\nModel Drift: {drift.drift_rate:.2f}")
+    print(f"Threshold crossed: {drift.has_crossed_threshold()}")
+    
+    # Paradigm Collapse
+    paradigm = ParadigmCollapse("classical_mechanics", "terrestrial_motion")
+    paradigm.add_blind_spot("mercury_precession")
+    paradigm.add_blind_spot("photoelectric_effect")
+    paradigm.add_blind_spot("blackbody_radiation")
+    paradigm.add_blind_spot("atomic_spectra")
+    print(f"\nParadigm: {paradigm.paradigm_name}")
+    print(f"Blind spots: {len(paradigm.blind_spots)}")
+    print(f"Has inverted: {paradigm.has_inverted()}")
+    
+    # Part III: Pre-Sensing Protocol
+    print("\n📖 Part III: Pre-Sensing Protocol")
+    print("=" * 80)
+    
+    protocol = PreSensingProtocol()
+    success = protocol.run()
+    print(f"Protocol: {protocol}")
+    print(f"Ready to observe: {success}")
+    
+    # Part V: Research Pipeline
+    print("\n📖 Part V: The Research Pipeline")
+    print("=" * 80)
+    
+    pipeline = ResearchPipeline("temperature_study")
+    pipeline.stage_1_frame_definition("controlled_lab_environment")
+    pipeline.stage_2_source_capture([20.0, 21.5, 20.8, 22.0])
+    pipeline.stage_3_structuring()
+    pipeline.stage_4_preliminary_patterning()
+    pipeline.stage_5_formal_testing()
+    
+    print(f"Pipeline: {pipeline.name}")
+    print(f"Frame: {pipeline.frame}")
+    print(f"Raw data points: {len(pipeline.raw_data)}")
+    print(f"Structured measurements: {len(pipeline.structured_data)}")
+    print(f"Hypotheses: {len(pipeline.hypotheses)}")
+    print(f"Findings: {len(pipeline.findings)}")
+    print(f"Current stage: {pipeline.current_stage}")
+    
+    # Part X: The Living Arc
+    print("\n📖 Part X: The Living Arc - From Stillness to Stillness")
+    print("=" * 80)
+    
+    arc = LivingArc()
+    full_arc = arc.trace_arc()
+    print(f"Complete Arc: {' → '.join(full_arc)}")
+    print(f"\nTracing the journey:")
+    for stage in full_arc:
+        arc.current = stage
+        print(f"  {stage}", end="")
+        if stage == "𝓢":
+            print(" (Stillness - pregnant silence)")
+        elif stage == "ξ":
+            print(" (Stimulus - first ripple)")
+        elif stage == "σ":
+            print(" (Sensation - tasting duality)")
+        elif stage == "μ":
+            print(" (Measurement - encoding the real)")
+        elif stage == "P":
+            print(" (Pattern - structures emerge)")
+        elif stage == "Ω":
+            print(" (Overload - forgetting)")
+        elif stage == "∅":
+            print(" (Silence - remembering)")
+        else:
+            print()
+    
+    print("\n" + "=" * 80)
+    print("✨ The Sacred Detour Complete - From Silence to Silence")
+    print("=" * 80)
+
+
+if __name__ == "__main__":
+    _demo()

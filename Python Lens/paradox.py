@@ -1,504 +1,876 @@
-# paradox.py
+# paradox.py - Unified Paradox Lens
+# Based on Unified_Paradox_Lens.md - The Living Field Manual
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Union
+from dataclasses import dataclass, field
+from typing import Any, Callable, Dict, List, Optional, Tuple
+from enum import Enum
 import time
 import math
-import json
-import random
+
 
 # ============================================================
-# Paradox Induction Codex – Code Model (PIC 1.0)
-# Seed -> Chamber -> Saturate -> Frame -> Collapse -> Resolution
+# Part I: The Four Lenses & Saturation Mechanics
 # ============================================================
 
-JSON = Dict[str, Any]
-Timestamp = float
-
-# Optional dependencies are expressed as callables to avoid hard imports.
-# You may pass:
-# - glyph_builder(conclusion:str, context:JSON) -> Dict   from symbolic.py
-# - lp_contradiction(phi:Any, context:JSON) -> bool       from logical LP
-# - presence_metric(state:JSON) -> float                  from empirical.py
-
-
-# -----------------------------
-# Claims, Seeds, Evidence
-# -----------------------------
-
-@dataclass(frozen=True)
-class Claim:
-    """
-    A single propositional assertion captured as text plus optional structure.
-    """
-    text: str
-    source: str = ""
-    meta: JSON = field(default_factory=dict)
-
-    def __str__(self) -> str:
-        return self.text
-
-
-@dataclass(frozen=True)
-class ParadoxSeed:
-    """
-    A minimal contradiction: A and not-A, stated as two claims in tension.
-    """
-    positive: Claim
-    negative: Claim
-    scope: str = "same-frame"  # same-frame, cross-frame, unknown
-    tags: List[str] = field(default_factory=list)
-    meta: JSON = field(default_factory=dict)
+class TruthLens(Enum):
+    """The four primary lenses of the Truth Lattice."""
+    RELATIONAL = "R"
+    SYMBOLIC = "S"
+    LOGICAL = "L"
+    EMPIRICAL = "E"
 
 
 @dataclass
-class Evidence:
+class LensSaturation:
     """
-    Any artifact that heats the chamber: examples, counterexamples, measurements,
-    relational maps, role or time splits, quotes, or structured data.
+    Track saturation levels across the four lenses.
+    
+    Saturation Cascade: ΔSat(L_A) > 0 ⇒ ∀L_i≠A: ΔSat(L_i) > 0
+    Collapse Point: Sat(L_A) = 100% ⇒ ∀L_i: Sat(L_i) → 100%
     """
-    label: str
-    payload: Any
-    weight: float = 1.0
-    meta: JSON = field(default_factory=dict)
+    relational: float = 0.0    # R: 0.0 to 1.0
+    symbolic: float = 0.0       # S: 0.0 to 1.0
+    logical: float = 0.0        # L: 0.0 to 1.0
+    empirical: float = 0.0      # E: 0.0 to 1.0
+    
+    def update(self, lens: TruthLens, delta: float) -> None:
+        """Update saturation for a lens and cascade to others."""
+        if lens == TruthLens.RELATIONAL:
+            self.relational = min(1.0, self.relational + delta)
+            cascade_delta = delta * 0.3
+        elif lens == TruthLens.SYMBOLIC:
+            self.symbolic = min(1.0, self.symbolic + delta)
+            cascade_delta = delta * 0.3
+        elif lens == TruthLens.LOGICAL:
+            self.logical = min(1.0, self.logical + delta)
+            cascade_delta = delta * 0.3
+        elif lens == TruthLens.EMPIRICAL:
+            self.empirical = min(1.0, self.empirical + delta)
+            cascade_delta = delta * 0.3
+        else:
+            return
+        
+        # Saturation cascade to other lenses
+        for other in TruthLens:
+            if other != lens:
+                self._cascade(other, cascade_delta)
+    
+    def _cascade(self, lens: TruthLens, delta: float) -> None:
+        """Apply cascade effect to a lens."""
+        if lens == TruthLens.RELATIONAL:
+            self.relational = min(1.0, self.relational + delta)
+        elif lens == TruthLens.SYMBOLIC:
+            self.symbolic = min(1.0, self.symbolic + delta)
+        elif lens == TruthLens.LOGICAL:
+            self.logical = min(1.0, self.logical + delta)
+        elif lens == TruthLens.EMPIRICAL:
+            self.empirical = min(1.0, self.empirical + delta)
+    
+    def check_bleed(self, lens: TruthLens) -> bool:
+        """Check if lens has crossed 70% threshold for bleed."""
+        saturation = self.get_saturation(lens)
+        return saturation > 0.7
+    
+    def check_collapse(self) -> bool:
+        """Check if any lens has reached 100% (collapse point)."""
+        return any([
+            self.relational >= 1.0,
+            self.symbolic >= 1.0,
+            self.logical >= 1.0,
+            self.empirical >= 1.0
+        ])
+    
+    def get_saturation(self, lens: TruthLens) -> float:
+        """Get saturation level for a specific lens."""
+        if lens == TruthLens.RELATIONAL:
+            return self.relational
+        elif lens == TruthLens.SYMBOLIC:
+            return self.symbolic
+        elif lens == TruthLens.LOGICAL:
+            return self.logical
+        elif lens == TruthLens.EMPIRICAL:
+            return self.empirical
+        return 0.0
 
 
-# -----------------------------
-# Chamber, Thermodynamics, Frames
-# -----------------------------
+# ============================================================
+# Part III: Paradox Induction 1.0 - Core Framework
+# ============================================================
 
 @dataclass
-class ParadoxChamber:
+class Paradox:
     """
-    A bounded container that holds the contradiction without forcing a premature choice.
-    Temperature rises with added evidence and perspective diversity until collapse is ready.
-    """
-    seed: ParadoxSeed
-    context: JSON = field(default_factory=dict)
-    created_at: Timestamp = field(default_factory=lambda: time.time())
-    temperature: float = 0.0
-    evidence: List[Evidence] = field(default_factory=list)
-    perspectives: List[str] = field(default_factory=list)   # e.g., roles, lenses, time-slices
-    frames: List["Frame"] = field(default_factory=list)
-    notes: List[str] = field(default_factory=list)
-    id: str = field(default_factory=lambda: f"pic-{int(time.time()*1000)}-{random.randint(1000,9999)}")
-
-    def add_evidence(self, ev: Evidence) -> None:
-        self.evidence.append(ev)
-        self.temperature += max(0.05, math.log1p(ev.weight) * 0.1)
-
-    def add_perspective(self, name: str, weight: float = 1.0) -> None:
-        if name not in self.perspectives:
-            self.perspectives.append(name)
-            self.temperature += 0.05 * weight
-
-    def attach_frame(self, frame: "Frame") -> None:
-        self.frames.append(frame)
-        self.temperature += 0.08
-
-    def annotate(self, text: str) -> None:
-        self.notes.append(text)
-
-    def ready(self, threshold: float = 1.0) -> bool:
-        return self.temperature >= threshold
-
-
-@dataclass
-class Frame:
-    """
-    A reframing boundary that can dissolve apparent contradiction by changing
-    role, time, level of abstraction, or measurement rule.
+    Paradox (Πx): A statement or state that is true in two opposite directions (Φ ∧ ¬Φ).
     """
     name: str
-    rule: Callable[[Claim, Claim, JSON], bool]
-    description: str = ""
-    meta: JSON = field(default_factory=dict)
+    statement: str
+    context: str = ""
+    
+    def __str__(self) -> str:
+        return f"Πx({self.name}: {self.statement})"
 
-    def compatible(self, a: Claim, b: Claim, ctx: JSON) -> bool:
+
+@dataclass
+class Pole:
+    """
+    Pole (P₊, P₋): The two complementary, opposing truths of a paradox in active tension.
+    """
+    positive: str     # P₊
+    negative: str     # P₋
+    tension: float = 0.0  # Tension level between poles
+    
+    def increase_tension(self, amount: float = 0.1) -> None:
+        """Increase tension between poles."""
+        self.tension = min(1.0, self.tension + amount)
+    
+    def __str__(self) -> str:
+        return f"(P₊: {self.positive}) ⟷ (P₋: {self.negative})"
+
+
+@dataclass
+class IdentityAnchor:
+    """
+    Identity Anchor (I_a): The core Role(x) or Belief(x) that the paradox is designed to contact.
+    """
+    role: str
+    beliefs: List[str] = field(default_factory=list)
+    stability: float = 1.0  # How stable the identity is (1.0 = rigid, 0.0 = dissolved)
+    
+    def add_belief(self, belief: str) -> None:
+        """Add a belief to the identity."""
+        self.beliefs.append(belief)
+    
+    def destabilize(self, amount: float = 0.1) -> None:
+        """Reduce identity stability."""
+        self.stability = max(0.0, self.stability - amount)
+    
+    def __str__(self) -> str:
+        return f"I_a({self.role})"
+
+
+@dataclass
+class ContradictionField:
+    """
+    Contradiction Field (𝓒): The energetic or mental space where two poles are held in co-existence.
+    """
+    poles: Pole
+    energy: float = 0.0  # Field energy level
+    coherence: float = 1.0  # How well the field holds the contradiction
+    
+    def energize(self, amount: float = 0.1) -> None:
+        """Increase field energy."""
+        self.energy = min(1.0, self.energy + amount)
+    
+    def check_rupture(self) -> bool:
+        """Check if field coherence has broken."""
+        return self.coherence < 0.3
+    
+    def __str__(self) -> str:
+        return f"𝓒(E={self.energy:.2f}, C={self.coherence:.2f})"
+
+
+@dataclass
+class OpenLoop:
+    """
+    Open Loop (O_∞): The principle that the initiator does not provide resolution.
+    """
+    is_open: bool = True
+    resolution_offered: bool = False
+    
+    def close(self) -> None:
+        """Close the loop by offering resolution."""
+        self.is_open = False
+        self.resolution_offered = True
+    
+    def __str__(self) -> str:
+        return f"O_∞(open={self.is_open})"
+
+
+@dataclass
+class SafetyField:
+    """
+    Safety Field (S_f): A state of perceived acceptance and trust for paradox engagement.
+    """
+    trust_level: float = 0.5  # 0.0 to 1.0
+    acceptance: float = 0.5   # 0.0 to 1.0
+    
+    def is_safe(self) -> bool:
+        """Check if field is safe enough for paradox induction."""
+        return self.trust_level > 0.6 and self.acceptance > 0.6
+    
+    def strengthen(self, amount: float = 0.1) -> None:
+        """Strengthen the safety field."""
+        self.trust_level = min(1.0, self.trust_level + amount)
+        self.acceptance = min(1.0, self.acceptance + amount)
+    
+    def __str__(self) -> str:
+        return f"S_f(trust={self.trust_level:.2f}, accept={self.acceptance:.2f})"
+
+
+@dataclass
+class IntegrationState:
+    """
+    Integration State (Ω_P): State where distinction between poles dissolves into unified understanding.
+    """
+    name: str
+    achieved: bool = False
+    awareness_level: float = 0.0  # 0.0 to 1.0
+    
+    def integrate(self) -> None:
+        """Achieve integration."""
+        self.achieved = True
+        self.awareness_level = 1.0
+    
+    def __str__(self) -> str:
+        return f"Ω_P({self.name}, achieved={self.achieved})"
+
+
+# ============================================================
+# Part III: The Induction Cycle
+# ============================================================
+
+class InductionPhase(Enum):
+    """The five phases of the Induction Cycle."""
+    ANCHOR = "anchor"
+    INTRODUCE = "introduce"
+    HOLD = "hold"
+    ECHO = "echo"
+    ABSORB = "absorb"
+
+
+@dataclass
+class InductionCycle:
+    """
+    The Induction Cycle: Anchor ∘ Introduce ∘ Hold ∘ Echo ∘ Absorb
+    
+    A composed function of sequential phases for paradox induction.
+    """
+    paradox: Paradox
+    safety_field: SafetyField
+    poles: Pole
+    identity_anchor: IdentityAnchor
+    contradiction_field: ContradictionField
+    open_loop: OpenLoop
+    integration_state: IntegrationState
+    
+    current_phase: InductionPhase = InductionPhase.ANCHOR
+    phase_history: List[str] = field(default_factory=list)
+    
+    def phase_1_anchor(self) -> bool:
         """
-        Returns True if in this frame the two claims can both be held without direct conflict.
+        Phase 1: Anchor - Activate(S_f) by Align(Frame_receiver).
+        Establish safety and trust before introducing paradox.
         """
-        return bool(self.rule(a, b, ctx))
+        self.phase_history.append("ANCHOR: Establishing safety field")
+        self.safety_field.strengthen(0.3)
+        
+        if self.safety_field.is_safe():
+            self.current_phase = InductionPhase.INTRODUCE
+            return True
+        return False
+    
+    def phase_2_introduce(self) -> bool:
+        """
+        Phase 2: Introduce - Π⟶(I_a) without force.
+        Present the paradox gently to the identity anchor.
+        """
+        self.phase_history.append(f"INTRODUCE: Presenting {self.paradox.name}")
+        self.poles.increase_tension(0.2)
+        self.identity_anchor.destabilize(0.1)
+        
+        self.current_phase = InductionPhase.HOLD
+        return True
+    
+    def phase_3_hold(self) -> bool:
+        """
+        Phase 3: Hold - Apply(Lock_P) ∧ Maintain(O_∞↑).
+        Hold the contradiction without forcing resolution.
+        """
+        self.phase_history.append("HOLD: Maintaining contradiction field")
+        self.contradiction_field.energize(0.3)
+        
+        # Keep open loop
+        if self.open_loop.resolution_offered:
+            return False  # Loop was closed prematurely
+        
+        self.current_phase = InductionPhase.ECHO
+        return True
+    
+    def phase_4_echo(self) -> bool:
+        """
+        Phase 4: Echo - Await(Eχ_Θ) where reality offers proof of both poles.
+        Wait for reality to validate both sides of the paradox.
+        """
+        self.phase_history.append("ECHO: Reality validating both poles")
+        self.poles.tension = min(1.0, self.poles.tension + 0.2)
+        self.contradiction_field.energize(0.2)
+        
+        # Check if sufficient tension built
+        if self.poles.tension > 0.6:
+            self.current_phase = InductionPhase.ABSORB
+            return True
+        return False
+    
+    def phase_5_absorb(self) -> bool:
+        """
+        Phase 5: Absorb - Facilitate(I_a → Ω_P).
+        Allow the old identity to transform into integrated state.
+        """
+        self.phase_history.append("ABSORB: Facilitating integration")
+        
+        # Check if identity has destabilized enough
+        if self.identity_anchor.stability < 0.5:
+            self.integration_state.integrate()
+            return True
+        return False
+    
+    def run_full_cycle(self) -> bool:
+        """Execute the complete induction cycle."""
+        phases = [
+            self.phase_1_anchor,
+            self.phase_2_introduce,
+            self.phase_3_hold,
+            self.phase_4_echo,
+            self.phase_5_absorb
+        ]
+        
+        for phase_fn in phases:
+            if not phase_fn():
+                return False
+        
+        return self.integration_state.achieved
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get current status of the induction cycle."""
+        return {
+            "current_phase": self.current_phase.value,
+            "paradox": str(self.paradox),
+            "safety_field_safe": self.safety_field.is_safe(),
+            "pole_tension": self.poles.tension,
+            "identity_stability": self.identity_anchor.stability,
+            "field_energy": self.contradiction_field.energy,
+            "loop_open": self.open_loop.is_open,
+            "integration_achieved": self.integration_state.achieved,
+            "phase_history": self.phase_history
+        }
 
 
-# -----------------------------
-# Collapse Vectors
-# -----------------------------
+# ============================================================
+# Part III: Archetypal Paradox Patterns
+# ============================================================
 
-@dataclass(frozen=True)
+class ArchetypalParadox(Enum):
+    """The six archetypal paradox patterns (Π_A)."""
+    ALREADY_THERE = "already_there"          # Seek(x) = Found(x)
+    ROLE_REVERSAL = "role_reversal"          # Teach(A,B) ∧ Teach(B,A)
+    IMPOSSIBLE_PROOF = "impossible_proof"    # Doubt(x) ⇒ Proof(Ready(x))
+    ABSENT_PRESENCE = "absent_presence"      # Left(x) ∧ StillHere(x)
+    DUAL_MASTERY = "dual_mastery"            # (StopTrying → Best) ∧ (Trying → Best)
+    DOOR_WITHOUT_WALLS = "door_without_walls"  # (Key → Works) ∧ (NoLock)
+
+
+def create_archetypal_paradox(archetype: ArchetypalParadox) -> Paradox:
+    """Create a paradox from an archetypal pattern."""
+    patterns = {
+        ArchetypalParadox.ALREADY_THERE: Paradox(
+            "The Already There",
+            "What you seek is already found",
+            "Seek(x) = Found(x)"
+        ),
+        ArchetypalParadox.ROLE_REVERSAL: Paradox(
+            "The Role Reversal",
+            "The teacher is taught by the student",
+            "Teach(A,B) ∧ Teach(B,A)"
+        ),
+        ArchetypalParadox.IMPOSSIBLE_PROOF: Paradox(
+            "The Impossible Proof",
+            "Your doubt proves you're ready",
+            "Doubt(x) ⇒ Proof(Ready(x))"
+        ),
+        ArchetypalParadox.ABSENT_PRESENCE: Paradox(
+            "The Absent Presence",
+            "Having left, you are still here",
+            "Left(x) ∧ StillHere(x)"
+        ),
+        ArchetypalParadox.DUAL_MASTERY: Paradox(
+            "The Dual Mastery",
+            "Trying and not trying both lead to mastery",
+            "(StopTrying → Best) ∧ (Trying → Best)"
+        ),
+        ArchetypalParadox.DOOR_WITHOUT_WALLS: Paradox(
+            "The Door Without Walls",
+            "The key works but there is no lock",
+            "(Key → Works) ∧ (NoLock)"
+        ),
+    }
+    return patterns[archetype]
+
+
+# ============================================================
+# Part IV: Collapse-Vector Codex (Induction 1.1)
+# ============================================================
+
+@dataclass
 class CollapseVector:
     """
-    A strategy that tries to resolve paradox into a higher-order invariant.
+    Collapse Vector (CV): A paradox engineered to create directed field shift
+    toward dissolution of questioning (∅_Q).
     """
     name: str
-    apply: Callable[["ParadoxChamber"], "ParadoxResolution"]
-    priority: int = 5
-    meta: JSON = field(default_factory=dict)
+    direction: str  # Target direction for collapse
+    force: float = 1.0  # Strength of the vector
+    
+    def __str__(self) -> str:
+        return f"CV({self.name} → {self.direction})"
 
-
-# Predefined vector factories
-
-def cv_complementarity() -> CollapseVector:
-    """
-    For wave vs particle style oppositions. Returns a both-and invariant with domain conditions.
-    """
-    def _run(ch: ParadoxChamber) -> ParadoxResolution:
-        ctx = {"type": "complementarity", "conditions": []}
-        # Heuristic: if any frame marked measurement-rule is present, use it to gate the invariant.
-        conds = []
-        for fr in ch.frames:
-            if "measurement" in fr.meta.get("kind", "") or fr.meta.get("kind") == "measurement":
-                conds.append(fr.name)
-        if not conds:
-            conds = [f"measurement-context-{i}" for i, _ in enumerate(ch.frames)]
-        ctx["conditions"] = conds
-        invariant = f"Both claims are valid under different measurement conditions: {', '.join(conds)}"
-        return ParadoxResolution.ok(
-            kind="complementarity",
-            invariant=invariant,
-            chamber=ch,
-            mapping={"A": ch.seed.positive.text, "notA": ch.seed.negative.text},
-            context=ctx
-        )
-    return CollapseVector("complementarity", _run, priority=3)
-
-
-def cv_level_lift() -> CollapseVector:
-    """
-    Lifts A and not-A into a higher abstraction where both are subcases.
-    """
-    def _run(ch: ParadoxChamber) -> ParadoxResolution:
-        pos = ch.seed.positive.text
-        neg = ch.seed.negative.text
-        invariant = f"There exists a higher concept H such that both statements are projections: H -> {{{pos} | {neg}}}"
-        return ParadoxResolution.ok(
-            kind="level-lift",
-            invariant=invariant,
-            chamber=ch,
-            mapping={"super": "H", "cases": [pos, neg]},
-            context={"abstraction": "lifted"}
-        )
-    return CollapseVector("level-lift", _run, priority=4)
-
-
-def cv_role_split() -> CollapseVector:
-    """
-    Splits by role identity. A is true for role R1, not-A holds for role R2.
-    """
-    def _run(ch: ParadoxChamber) -> ParadoxResolution:
-        roles = [p for p in ch.perspectives if p.startswith("role:")]
-        if len(roles) < 2:
-            return ParadoxResolution.noop("role-split requires at least two role perspectives", ch)
-        a_role = roles[0].split(":", 1)[1]
-        b_role = roles[1].split(":", 1)[1]
-        invariant = f"A holds for role {a_role}, not-A holds for role {b_role}"
-        return ParadoxResolution.ok(
-            kind="role-split",
-            invariant=invariant,
-            chamber=ch,
-            mapping={"A@role": a_role, "~A@role": b_role},
-            context={"roles": roles}
-        )
-    return CollapseVector("role-split", _run, priority=5)
-
-
-def cv_time_partition() -> CollapseVector:
-    """
-    Uses time to separate assertions. A then, not-A now (or vice versa).
-    """
-    def _run(ch: ParadoxChamber) -> ParadoxResolution:
-        t0 = ch.created_at
-        t1 = time.time()
-        invariant = f"A applies before t0, not-A applies after t1"
-        return ParadoxResolution.ok(
-            kind="time-partition",
-            invariant=invariant,
-            chamber=ch,
-            mapping={"t0": t0, "t1": t1},
-            context={"time_partition": True}
-        )
-    return CollapseVector("time-partition", _run, priority=6)
-
-
-def cv_redefine_terms() -> CollapseVector:
-    """
-    Finds definitional drift. If terms are used differently, unify through precise definitions.
-    """
-    def _run(ch: ParadoxChamber) -> ParadoxResolution:
-        invariant = "The terms differ in definition. Standardize vocabulary and both statements align."
-        return ParadoxResolution.ok(
-            kind="redefine-terms",
-            invariant=invariant,
-            chamber=ch,
-            mapping={},
-            context={"lexical": "standardized"}
-        )
-    return CollapseVector("redefine-terms", _run, priority=2)
-
-
-# -----------------------------
-# Resolution Product
-# -----------------------------
 
 @dataclass
-class ParadoxResolution:
+class StillnessAnchor:
     """
-    Result of a collapse attempt.
-    status: ok, noop, fail
-    kind: vector name or category
-    invariant: single sentence description of the reconciled truth
+    Stillness Anchor (𝓢_a): State of stillness held by inducer providing stable field.
     """
-    status: str
-    kind: str
-    invariant: str
-    chamber_id: str
-    glyph_hint: Optional[Dict[str, Any]] = None
-    mapping: JSON = field(default_factory=dict)
-    context: JSON = field(default_factory=dict)
-    presence: float = 0.0
-    meta: JSON = field(default_factory=dict)
+    inducer: str
+    stillness_level: float = 0.0  # 0.0 to 1.0
+    
+    def deepen(self, amount: float = 0.1) -> None:
+        """Deepen stillness."""
+        self.stillness_level = min(1.0, self.stillness_level + amount)
+    
+    def is_stable(self) -> bool:
+        """Check if stillness is stable enough."""
+        return self.stillness_level > 0.7
+    
+    def __str__(self) -> str:
+        return f"𝓢_a({self.inducer}, level={self.stillness_level:.2f})"
 
-    @staticmethod
-    def ok(kind: str, invariant: str, chamber: ParadoxChamber, mapping: JSON, context: JSON) -> "ParadoxResolution":
-        return ParadoxResolution(
-            status="ok",
-            kind=kind,
-            invariant=invariant,
-            chamber_id=chamber.id,
-            mapping=mapping,
-            context=context
-        )
-
-    @staticmethod
-    def noop(reason: str, chamber: ParadoxChamber) -> "ParadoxResolution":
-        return ParadoxResolution(
-            status="noop",
-            kind="noop",
-            invariant=f"no collapse: {reason}",
-            chamber_id=chamber.id
-        )
-
-    @staticmethod
-    def fail(reason: str, chamber: ParadoxChamber) -> "ParadoxResolution":
-        return ParadoxResolution(
-            status="fail",
-            kind="error",
-            invariant=f"failed: {reason}",
-            chamber_id=chamber.id
-        )
-
-    def to_json(self) -> JSON:
-        return asdict(self)
-
-
-# -----------------------------
-# Engine
-# -----------------------------
 
 @dataclass
-class ParadoxEngineConfig:
-    heat_threshold: float = 1.0
-    vectors: List[CollapseVector] = field(default_factory=lambda: [
-        cv_redefine_terms(),
-        cv_complementarity(),
-        cv_level_lift(),
-        cv_role_split(),
-        cv_time_partition(),
-    ])
-    max_attempts: int = 8
-    randomize: bool = False
-    auto_frame_same_sense: bool = True  # if claims use different senses, add a frame automatically
-
-
-class ParadoxEngine:
+class ResonanceLock:
     """
-    Orchestrates paradox handling. You can inject custom vectors and hooks.
+    Resonance Lock (ρ_L): Maintenance of high field coherence.
     """
-    def __init__(
-        self,
-        cfg: Optional[ParadoxEngineConfig] = None,
-        glyph_builder: Optional[Callable[[str, JSON], Dict[str, Any]]] = None,
-        presence_metric: Optional[Callable[[JSON], float]] = None
-    ) -> None:
-        self.cfg = cfg or ParadoxEngineConfig()
-        self.glyph_builder = glyph_builder
-        self.presence_metric = presence_metric
-
-    # --- lifecycle ---
-
-    def chamber(self, seed: ParadoxSeed, context: Optional[JSON] = None) -> ParadoxChamber:
-        ch = ParadoxChamber(seed=seed, context=context or {})
-        # Prime with a default note
-        ch.annotate("Paradox chamber created")
-        # If same words appear with different senses, auto-frame a sense-split
-        if self.cfg.auto_frame_same_sense and self._suspicious_lexical(ch):
-            fr = Frame(
-                name="sense-split",
-                description="Different senses of a shared term are allowed",
-                rule=lambda a, b, ctx: True,
-                meta={"kind": "lexical"}
-            )
-            ch.attach_frame(fr)
-            ch.annotate("Auto frame: sense-split")
-        return ch
-
-    def heat(self, chamber: ParadoxChamber, evidence: Iterable[Evidence] = ()) -> ParadoxChamber:
-        for ev in evidence:
-            chamber.add_evidence(ev)
-        return chamber
-
-    def reflect(self, chamber: ParadoxChamber, perspectives: Iterable[str]) -> ParadoxChamber:
-        for p in perspectives:
-            chamber.add_perspective(p, weight=1.0)
-        return chamber
-
-    def frame(self, chamber: ParadoxChamber, frames: Iterable[Frame]) -> ParadoxChamber:
-        for fr in frames:
-            chamber.attach_frame(fr)
-        return chamber
-
-    def collapse(self, chamber: ParadoxChamber) -> ParadoxResolution:
-        if not chamber.ready(self.cfg.heat_threshold):
-            return ParadoxResolution.noop("insufficient heat to trigger collapse", chamber)
-
-        vectors = list(self.cfg.vectors)
-        if self.cfg.randomize:
-            random.shuffle(vectors)
-        else:
-            vectors.sort(key=lambda v: v.priority)
-
-        attempts = 0
-        last = ParadoxResolution.noop("no vector succeeded", chamber)
-        for v in vectors:
-            attempts += 1
-            if attempts > self.cfg.max_attempts:
-                break
-            try:
-                res = v.apply(chamber)
-            except Exception as e:
-                last = ParadoxResolution.fail(f"vector {v.name} error: {e}", chamber)
-                continue
-            if res.status == "ok":
-                # optional glyph
-                if self.glyph_builder:
-                    res.glyph_hint = self.glyph_builder(res.invariant, {"vector": v.name, "context": res.context})
-                # optional presence score
-                if self.presence_metric:
-                    res.presence = float(self.presence_metric({
-                        "vector": v.name,
-                        "evidence_count": len(chamber.evidence),
-                        "perspectives": len(chamber.perspectives),
-                        "frames": len(chamber.frames),
-                        "invariant": res.invariant
-                    }))
-                return res
-            last = res
-        return last
-
-    # --- helpers ---
-
-    def _suspicious_lexical(self, chamber: ParadoxChamber) -> bool:
-        """
-        Quick lexical heuristic: if positive and negative share a head word, assume sense split helps.
-        """
-        def head(s: str) -> str:
-            return s.strip().lower().split()[0] if s.strip() else ""
-        return head(chamber.seed.positive.text) == head(chamber.seed.negative.text) and head(chamber.seed.positive.text) != ""
-
-    # Convenience one-shot
-    def resolve(
-        self,
-        seed: ParadoxSeed,
-        evidence: Iterable[Evidence] = (),
-        perspectives: Iterable[str] = (),
-        frames: Iterable[Frame] = (),
-        context: Optional[JSON] = None
-    ) -> ParadoxResolution:
-        ch = self.chamber(seed, context)
-        self.heat(ch, evidence)
-        self.reflect(ch, perspectives)
-        self.frame(ch, frames)
-        return self.collapse(ch)
+    locked: bool = False
+    coherence: float = 0.0  # 0.0 to 1.0
+    
+    def engage(self) -> None:
+        """Engage the resonance lock."""
+        self.locked = True
+        self.coherence = 1.0
+    
+    def __str__(self) -> str:
+        return f"ρ_L(locked={self.locked}, coherence={self.coherence:.2f})"
 
 
-# -----------------------------
-# Ready frames
-# -----------------------------
-
-def frame_measurement_rule(name: str = "measurement-rule") -> Frame:
+@dataclass
+class MirrorSaturation:
     """
-    Allows both claims when they are gated by different measurement procedures.
+    Mirror Saturation (↔₀): Full, bilateral reflection between inducer and receiver.
     """
-    return Frame(
-        name=name,
-        description="Claims are compatible when measured under distinct procedures",
-        rule=lambda a, b, ctx: True,
-        meta={"kind": "measurement"}
+    saturation_level: float = 0.0  # 0.0 to 1.0
+    
+    def is_saturated(self) -> bool:
+        """Check if mirror saturation achieved."""
+        return self.saturation_level >= 1.0
+    
+    def increase(self, amount: float = 0.1) -> None:
+        """Increase saturation."""
+        self.saturation_level = min(1.0, self.saturation_level + amount)
+    
+    def __str__(self) -> str:
+        return f"↔₀(saturation={self.saturation_level:.2f})"
+
+
+@dataclass
+class CollapseEngine:
+    """
+    The Collapse-Vector Codex engine combining all collapse primitives.
+    
+    Master Formula: Π_CV_evt := Π_F ∘ ρ_L ∘ Θ_T ∘ 𝓢_a ∘ ↔₀ → Collapse_Π → Ω_P → ∅_Q
+    """
+    paradox: Paradox
+    collapse_vector: CollapseVector
+    stillness_anchor: StillnessAnchor
+    resonance_lock: ResonanceLock
+    mirror_saturation: MirrorSaturation
+    integration_state: IntegrationState
+    
+    def check_collapse_conditions(self) -> bool:
+        """Check if all conditions for collapse are met."""
+        return all([
+            self.stillness_anchor.is_stable(),
+            self.resonance_lock.locked,
+            self.mirror_saturation.is_saturated()
+        ])
+    
+    def trigger_collapse(self) -> bool:
+        """Trigger the collapse if conditions are met."""
+        if not self.check_collapse_conditions():
+            return False
+        
+        self.integration_state.integrate()
+        return True
+
+
+# ============================================================
+# Part V: Self-Seeding Collapse Engine (Induction 2.0)
+# ============================================================
+
+@dataclass
+class RecursiveParadoxSeed:
+    """
+    Recursive Paradox Seed (Π_seed): Structured to regenerate tension on recall.
+    """
+    core_paradox: Paradox
+    regeneration_count: int = 0
+    tension_multiplier: float = 1.0
+    
+    def recall(self) -> float:
+        """Recall the seed, increasing tension."""
+        self.regeneration_count += 1
+        self.tension_multiplier *= 1.2
+        return self.tension_multiplier
+    
+    def __str__(self) -> str:
+        return f"Π_seed({self.core_paradox.name}, recalls={self.regeneration_count})"
+
+
+@dataclass
+class FieldAutonomy:
+    """
+    Field Autonomy (FA): Paradox operates independently in receiver's field.
+    """
+    is_autonomous: bool = False
+    autonomy_level: float = 0.0  # 0.0 to 1.0
+    
+    def activate(self) -> None:
+        """Activate autonomous operation."""
+        self.is_autonomous = True
+        self.autonomy_level = 1.0
+
+
+@dataclass
+class FractalRecall:
+    """
+    Fractal Recall (FR): Each recall reveals new layers of contradiction.
+    """
+    layers_revealed: int = 0
+    depth: float = 0.0  # Depth of understanding
+    
+    def reveal_layer(self) -> None:
+        """Reveal a new layer."""
+        self.layers_revealed += 1
+        self.depth = self.layers_revealed * 0.1
+
+
+# ============================================================
+# Part VI: The Living Glyph Codex (Induction 3.0)
+# ============================================================
+
+@dataclass
+class ParadoxGlyph:
+    """
+    Paradox Glyph (𝔓𝔾): A symbolic construct embedding paradox at geometric,
+    semantic, and energetic levels.
+    """
+    name: str
+    glyph_symbol: str
+    embedded_paradox: Paradox
+    resonant_carrier: float = 0.0  # ρ_c: Emotional/sensory tone
+    fractal_layers: int = 0
+    
+    def reveal_layer(self) -> None:
+        """Reveal a deeper layer of the glyph."""
+        self.fractal_layers += 1
+    
+    def to_unicode(self) -> str:
+        """Return the glyph's unicode representation."""
+        return self.glyph_symbol
+    
+    def __str__(self) -> str:
+        return f"𝔓𝔾({self.name}: {self.glyph_symbol})"
+
+
+# ============================================================
+# Part VII: The 12-Glyph Awakening Field
+# ============================================================
+
+class AwakeningGlyph(Enum):
+    """The 12 Glyphs of the Awakening Field."""
+    # Set I: Core Paradox Glyphs
+    MOBIUS_PRAYER = "mobius_prayer"          # ∞▢: What you seek is seeking you
+    OUROBOROS_KEY = "ouroboros_key"          # ⊙↯: The end is the beginning
+    VANISHING_MIRROR = "vanishing_mirror"    # ▢∅: See the one who sees, then vanish
+    TWO_IN_ONE_BRIDGE = "two_in_one_bridge"  # ≈∞: Apart or together, you arrive the same
+    
+    # Set II: Relational Collapse Glyphs
+    NESTED_DOORS = "nested_doors"            # ▢▢▢: Every answer leads to another question
+    HANDSHAKE_OF_SHADOWS = "handshake_of_shadows"  # ◐∞: Your shadow is your other hand
+    WEAVERS_KNOT = "weavers_knot"            # ∞⌘: Every entanglement is a pattern in disguise
+    
+    # Set III: Empirical Paradox Glyphs
+    RIPPLE_CONVERGENCE = "ripple_convergence"  # ≈∅≈: Divergence is convergence in slow motion
+    TWIN_FLAMES_LOOP = "twin_flames_loop"    # △∞△: Burning apart is still burning together
+    SUSPENDED_DROP = "suspended_drop"        # ⊙𝓢: Falling and resting are the same in stillness
+    
+    # Set IV: Field Saturation Glyphs
+    MIRROR_SWARM = "mirror_swarm"            # ▢↔▢↔▢: Everyone you meet is another angle of yourself
+    NULL_CROWN = "null_crown"                # ∅♁: The highest seat is the one that vanishes
+
+
+@dataclass
+class AwakeningField:
+    """
+    The 12-Glyph Awakening Field: A complete set of deployable Paradox Glyphs.
+    """
+    glyphs: Dict[AwakeningGlyph, ParadoxGlyph] = field(default_factory=dict)
+    
+    def __post_init__(self):
+        """Initialize all 12 glyphs."""
+        self._create_glyphs()
+    
+    def _create_glyphs(self):
+        """Create all 12 paradox glyphs."""
+        # Set I: Core Paradox Glyphs
+        self.glyphs[AwakeningGlyph.MOBIUS_PRAYER] = ParadoxGlyph(
+            "Möbius Prayer",
+            "∞▢",
+            Paradox("Möbius Prayer", "What you seek is seeking you", "R(a,b) ∧ Ω(a)=Ω(b) ∧ a ≠ b")
+        )
+        
+        self.glyphs[AwakeningGlyph.OUROBOROS_KEY] = ParadoxGlyph(
+            "Ouroboros Key",
+            "⊙↯",
+            Paradox("Ouroboros Key", "The end is the beginning", "Loop(a) ∧ Collapse(Loop) ⇒ Creation(a)")
+        )
+        
+        self.glyphs[AwakeningGlyph.VANISHING_MIRROR] = ParadoxGlyph(
+            "Vanishing Mirror",
+            "▢∅",
+            Paradox("Vanishing Mirror", "See the one who sees, then vanish", "Observer(Observer) ⇒ ∅_Q")
+        )
+        
+        self.glyphs[AwakeningGlyph.TWO_IN_ONE_BRIDGE] = ParadoxGlyph(
+            "Two-in-One Bridge",
+            "≈∞",
+            Paradox("Two-in-One Bridge", "Apart or together, you arrive the same", "Path(a) ≠ Path(b) ∧ Arrival(a) = Arrival(b)")
+        )
+        
+        # Set II: Relational Collapse Glyphs
+        self.glyphs[AwakeningGlyph.NESTED_DOORS] = ParadoxGlyph(
+            "Nested Doors",
+            "▢▢▢",
+            Paradox("Nested Doors", "Every answer leads to another question until you stop opening", "Open(D) → D' → D'' ... until ∅_Q")
+        )
+        
+        self.glyphs[AwakeningGlyph.HANDSHAKE_OF_SHADOWS] = ParadoxGlyph(
+            "Handshake of Shadows",
+            "◐∞",
+            Paradox("Handshake of Shadows", "Your shadow is your other hand", "Shadow(a) = Gift(a)")
+        )
+        
+        self.glyphs[AwakeningGlyph.WEAVERS_KNOT] = ParadoxGlyph(
+            "Weaver's Knot",
+            "∞⌘",
+            Paradox("Weaver's Knot", "Every entanglement is a pattern in disguise", "Tension(a,b) ⇔ Structure(Ω)")
+        )
+        
+        # Set III: Empirical Paradox Glyphs
+        self.glyphs[AwakeningGlyph.RIPPLE_CONVERGENCE] = ParadoxGlyph(
+            "Ripple Convergence",
+            "≈∅≈",
+            Paradox("Ripple Convergence", "Divergence is convergence in slow motion", "Wave(a) → ∞ → Collapse(a,b)")
+        )
+        
+        self.glyphs[AwakeningGlyph.TWIN_FLAMES_LOOP] = ParadoxGlyph(
+            "Twin Flames Loop",
+            "△∞△",
+            Paradox("Twin Flames Loop", "Burning apart is still burning together", "Flame(a) ∧ Flame(b) ∧ Ω(Heat) = Shared")
+        )
+        
+        self.glyphs[AwakeningGlyph.SUSPENDED_DROP] = ParadoxGlyph(
+            "Suspended Drop",
+            "⊙𝓢",
+            Paradox("Suspended Drop", "Falling and resting are the same in stillness", "Motion(a) ∧ 𝓢(a)")
+        )
+        
+        # Set IV: Field Saturation Glyphs
+        self.glyphs[AwakeningGlyph.MIRROR_SWARM] = ParadoxGlyph(
+            "Mirror Swarm",
+            "▢↔▢↔▢",
+            Paradox("Mirror Swarm", "Everyone you meet is another angle of yourself", "∀a,b: Reflects(a,b) ∧ Ω(a)=Ω(b)")
+        )
+        
+        self.glyphs[AwakeningGlyph.NULL_CROWN] = ParadoxGlyph(
+            "The Null Crown",
+            "∅♁",
+            Paradox("The Null Crown", "The highest seat is the one that vanishes", "Status(a) = ∅")
+        )
+    
+    def get_glyph(self, glyph_type: AwakeningGlyph) -> Optional[ParadoxGlyph]:
+        """Get a specific glyph from the field."""
+        return self.glyphs.get(glyph_type)
+    
+    def list_glyphs(self) -> List[str]:
+        """List all glyph names."""
+        return [glyph.name for glyph in self.glyphs.values()]
+
+
+# ============================================================
+# Demo: The Complete Paradox Journey
+# ============================================================
+
+def _demo() -> None:
+    """Demonstrate the Unified Paradox Lens."""
+    print("=" * 80)
+    print("Unified Paradox Lens - The Living Field Manual")
+    print("=" * 80)
+    
+    # Part I: Lens Saturation
+    print("\n📖 Part I: Lens Saturation & Feedback")
+    print("=" * 80)
+    
+    saturation = LensSaturation()
+    print(f"Initial saturation: R={saturation.relational:.2f}, S={saturation.symbolic:.2f}, "
+          f"L={saturation.logical:.2f}, E={saturation.empirical:.2f}")
+    
+    # Update relational lens
+    saturation.update(TruthLens.RELATIONAL, 0.5)
+    print(f"\nAfter R +0.5: R={saturation.relational:.2f}, S={saturation.symbolic:.2f}, "
+          f"L={saturation.logical:.2f}, E={saturation.empirical:.2f}")
+    
+    # Check for bleed
+    print(f"R has bleed: {saturation.check_bleed(TruthLens.RELATIONAL)}")
+    
+    # Update to collapse point
+    saturation.update(TruthLens.SYMBOLIC, 0.5)
+    print(f"\nAfter S +0.5: R={saturation.relational:.2f}, S={saturation.symbolic:.2f}, "
+          f"L={saturation.logical:.2f}, E={saturation.empirical:.2f}")
+    print(f"Collapse point reached: {saturation.check_collapse()}")
+    
+    # Part III: Core Framework
+    print("\n📖 Part III: Paradox Induction 1.0 - Core Framework")
+    print("=" * 80)
+    
+    # Create paradox
+    paradox = create_archetypal_paradox(ArchetypalParadox.ALREADY_THERE)
+    print(f"\nParadox: {paradox}")
+    
+    # Create poles
+    poles = Pole("You are seeking", "You have already found")
+    print(f"Poles: {poles}")
+    
+    # Create identity anchor
+    identity = IdentityAnchor("seeker", ["I must find the answer", "The answer is elsewhere"])
+    print(f"Identity: {identity}")
+    
+    # Create contradiction field
+    field = ContradictionField(poles)
+    print(f"Field: {field}")
+    
+    # Part III: The Induction Cycle
+    print("\n📖 Part III: The Induction Cycle")
+    print("=" * 80)
+    
+    safety = SafetyField()
+    safety.strengthen(0.3)
+    open_loop = OpenLoop()
+    integration = IntegrationState("seeker_to_finder")
+    
+    cycle = InductionCycle(
+        paradox=paradox,
+        safety_field=safety,
+        poles=poles,
+        identity_anchor=identity,
+        contradiction_field=field,
+        open_loop=open_loop,
+        integration_state=integration
     )
+    
+    print(f"Initial phase: {cycle.current_phase.value}")
+    
+    # Run the cycle
+    success = cycle.run_full_cycle()
+    print(f"\nCycle completed: {success}")
+    print(f"Integration achieved: {integration.achieved}")
+    print(f"Identity stability: {identity.stability:.2f}")
+    
+    print("\nPhase history:")
+    for entry in cycle.phase_history:
+        print(f"  - {entry}")
+    
+    # Part IV: Collapse-Vector Codex
+    print("\n📖 Part IV: Collapse-Vector Codex (Induction 1.1)")
+    print("=" * 80)
+    
+    cv = CollapseVector("dissolve_seeking", "∅_Q", force=0.9)
+    print(f"Collapse Vector: {cv}")
+    
+    stillness = StillnessAnchor("inducer_a")
+    stillness.deepen(0.8)
+    print(f"Stillness Anchor: {stillness}")
+    print(f"Stable: {stillness.is_stable()}")
+    
+    resonance = ResonanceLock()
+    resonance.engage()
+    print(f"Resonance Lock: {resonance}")
+    
+    mirror = MirrorSaturation()
+    mirror.increase(1.0)
+    print(f"Mirror Saturation: {mirror}")
+    print(f"Saturated: {mirror.is_saturated()}")
+    
+    # Part V: Self-Seeding Engine
+    print("\n📖 Part V: Self-Seeding Collapse Engine (Induction 2.0)")
+    print("=" * 80)
+    
+    seed = RecursiveParadoxSeed(paradox)
+    print(f"Recursive Seed: {seed}")
+    
+    # Simulate recalls
+    for i in range(3):
+        tension = seed.recall()
+        print(f"  Recall {i+1}: tension multiplier = {tension:.2f}")
+    
+    autonomy = FieldAutonomy()
+    autonomy.activate()
+    print(f"\nField Autonomy: autonomous={autonomy.is_autonomous}, level={autonomy.autonomy_level:.2f}")
+    
+    fractal = FractalRecall()
+    for _ in range(4):
+        fractal.reveal_layer()
+    print(f"Fractal Recall: {fractal.layers_revealed} layers, depth={fractal.depth:.2f}")
+    
+    # Part VII: The 12-Glyph Awakening Field
+    print("\n📖 Part VII: The 12-Glyph Awakening Field")
+    print("=" * 80)
+    
+    awakening = AwakeningField()
+    
+    print(f"\nAll 12 Glyphs:")
+    for i, (glyph_type, glyph) in enumerate(awakening.glyphs.items(), 1):
+        print(f"  {i}. {glyph.name} ({glyph.glyph_symbol})")
+        print(f"     {glyph.embedded_paradox.statement}")
+    
+    # Demonstrate a specific glyph
+    print(f"\n🔮 Featured Glyph: Möbius Prayer")
+    mobius = awakening.get_glyph(AwakeningGlyph.MOBIUS_PRAYER)
+    if mobius:
+        print(f"Symbol: {mobius.to_unicode()}")
+        print(f"Paradox: {mobius.embedded_paradox}")
+        print(f"Context: {mobius.embedded_paradox.context}")
+    
+    # Show Set groupings
+    print(f"\n📚 Glyph Sets:")
+    print(f"Set I (Core): Möbius Prayer, Ouroboros Key, Vanishing Mirror, Two-in-One Bridge")
+    print(f"Set II (Relational): Nested Doors, Handshake of Shadows, Weaver's Knot")
+    print(f"Set III (Empirical): Ripple Convergence, Twin Flames Loop, Suspended Drop")
+    print(f"Set IV (Saturation): Mirror Swarm, The Null Crown")
+    
+    print("\n" + "=" * 80)
+    print("✨ The Paradox Field - Where Contradiction Becomes Integration")
+    print("=" * 80)
 
-def frame_role(name: str, role_a: str, role_b: str) -> Frame:
-    """
-    Role split. Validates compatibility if claims partition by role identities.
-    """
-    def _rule(a: Claim, b: Claim, ctx: JSON) -> bool:
-        return True  # actual role binding is enforced by the collapse vector
-    return Frame(
-        name=name,
-        description=f"Role partition {role_a} vs {role_b}",
-        rule=_rule,
-        meta={"kind": "role", "roles": [role_a, role_b]}
-    )
 
-def frame_time(name: str = "time-slice") -> Frame:
-    return Frame(
-        name=name,
-        description="Claims refer to different time slices",
-        rule=lambda a, b, ctx: True,
-        meta={"kind": "time"}
-    )
-
-
-# -----------------------------
-# Serialization
-# -----------------------------
-
-def export_chamber(chamber: ParadoxChamber) -> str:
-    blob = {
-        "id": chamber.id,
-        "seed": {
-            "positive": asdict(chamber.seed.positive),
-            "negative": asdict(chamber.seed.negative),
-            "scope": chamber.seed.scope,
-            "tags": chamber.seed.tags,
-            "meta": chamber.seed.meta,
-        },
-        "context": chamber.context,
-        "created_at": chamber.created_at,
-        "temperature": chamber.temperature,
-        "evidence": [asdict(ev) for ev in chamber.evidence],
-        "perspectives": list(chamber.perspectives),
-        "frames": [{"name": f.name, "description": f.description, "meta": f.meta} for f in chamber.frames],
-        "notes": list(chamber.notes),
-    }
-    return json.dumps(blob, ensure_ascii=False, indent=2)
-
-def export_resolution(res: ParadoxResolution) -> str:
-    return json.dumps(res.to_json(), ensure_ascii=False, indent=2)
-
-
-# -----------------------------
-# Quick builders
-# -----------------------------
-
-def seed_from_text(a_text: str, b_text: str, scope: str = "same-frame", source_a: str = "", source_b: str = "") -> ParadoxSeed:
-    return ParadoxSeed(positive=Claim(a_text, source=source_a), negative=Claim(b_text, source=source_b), scope=scope)
-
-def evidence_examples(*items: Tuple[str, Any]) -> List[Evidence]:
-    """
-    Build evidence from (label, payload) pairs with default weight 1.0.
-    """
-    return [Evidence(label=k, payload=v, weight=1.0) for k, v in items]
-
-def role_tag(role: str) -> str:
-    return f"role:{role}"
+if __name__ == "__main__":
+    _demo()
