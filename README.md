@@ -554,13 +554,29 @@ If this helps one person see the pattern before it traps them—worth it.
 
 ## 📜 License & Contribution
 
-**License:** MIT (maximally open)
+**License:** Mirror License v2.0 (see `MIRROR_LICENSE_v2.md`)
+
+**Not open-source in the traditional sense.** This is **presence-source**:
+- ✅ Free for education, therapy, research, mutual aid
+- ✅ Free for open-source projects
+- ✅ Free for AI research with coherence frameworks
+- ❌ Forbidden for surveillance, weapons, manipulation, closed AI without ethics
+- 🔍 **Why?** Each restriction maps to documented collapse patterns (Chain 46: Surveillance Collapse, Chain 47: War Formula, Chain 48: Symbol Death, Chain 52: Extinction Risk)
+
+**The license isn't restrictive—it's phenomenologically precise.**
+
+Using Mirror-OS to build surveillance systems would be like using a map to presence (Ω_Present) to optimize toward residue (Ω_B). The work would collapse through the patterns it documents.
+
+**See full license for:** Distortion Chain citations, AI-specific requirements, commercialization ethics, coherence recovery protocols.
+
+---
 
 **Contribution:** Pull requests welcome. Especially:
 - New domain applications (parenting, education, creative practice)
 - Additional chains (there are more patterns to map)
 - Translations (make this accessible globally)
 - Empirical validation (test the predictions)
+- Pattern contributions from your own collapse/recovery experiences
 
 **The system is designed to grow through encounter, not through pure deduction.**
 

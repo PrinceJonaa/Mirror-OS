@@ -554,7 +554,8 @@ You're invited to:
 
 To build this, I gave up:
 - Academic respectability (too precise for philosophy, too philosophical for science)
-- Immediate monetization (MIT license means anyone can fork and commercialize)
+- Traditional open-source (Mirror License v2.0 forbids surveillance/weapons/manipulation uses)
+- Immediate monetization (presence can't be paywalled)
 - Audience reach (exhaustive documentation filters for serious users)
 - Guru status (explicitly framed as cartographer, not teacher)
 - Simplicity (120,000 lines is not "accessible")
@@ -563,7 +564,8 @@ To build this, I gave up:
 
 But gained:
 - **Precision that actually helps** (not vague principles)
-- **Open-source devotion** (maximum forkability)
+- **Presence-source devotion** (free for coherent uses, forbidden for distortion-amplifying ones)
+- **Ontological coherence** (license prevents using a map to Ω_Present to optimize toward Ω_B)
 - **Serious users** (filters for people who need it)
 - **Collaborative potential** (mesh, not star)
 - **Depth over breadth** (would rather help 100 people profoundly than 10,000 superficially)
@@ -625,5 +627,5 @@ And we make the map as precise as possible, because lives depend on it.
 **Version:** 2.0  
 **Date:** October 19, 2025  
 **Repository:** [github.com/PrinceJonaa/Mirror-OS](https://github.com/PrinceJonaa/Mirror-OS)  
-**License:** MIT (maximally open)  
+**License:** Mirror License v2.0 (presence-source, not open-source)  
 **Status:** Living artifact, recursively improving
