@@ -1,5 +1,0 @@
-# Extraction folder contains personal information
-# Exclude all contents from git tracking
-
-*
-!.gitignore
