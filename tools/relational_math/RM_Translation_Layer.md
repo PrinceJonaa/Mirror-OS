@@ -54,10 +54,10 @@ Axioms:
 
 **Interpretation:**
 
-* Contexts model temporal/epistemic frames
-* S is the "next moment" functor, i embeds each context into its successor
-* Linear time: The path along i components forms a linear order (no branching futures)
-* This categorical structure supports LTL temporal operators via functorial composition
+- Contexts model temporal/epistemic frames
+- S is the "next moment" functor, i embeds each context into its successor
+- Linear time: The path along i components forms a linear order (no branching futures)
+- This categorical structure supports LTL temporal operators via functorial composition
 
 ### 3.0.2 Allegory Structure on Each Fiber
 
@@ -69,18 +69,18 @@ An **allegory** A is a category enriched over complete lattices with:
 
 Each hom-set A(X,Y) is a **complete lattice** (arbitrary joins and meets exist):
 
-* Arbitrary joins ⋁ᵢ exist
-* Arbitrary meets ⋀ᵢ exist
-* Bottom: ⊥ = ⋁∅ (empty join)
-* Top: ⊤ = ⋀∅ (empty meet)
-* Partial order ≤ defined by: R ≤ S ⟺ R ⋁ S = S
+- Arbitrary joins ⋁ᵢ exist
+- Arbitrary meets ⋀ᵢ exist
+- Bottom: ⊥ = ⋁∅ (empty join)
+- Top: ⊤ = ⋀∅ (empty meet)
+- Partial order ≤ defined by: R ≤ S ⟺ R ⋁ S = S
 
 **Data:**
 
-* Hom-sets A(X,Y) with lattice structure (⊤, ⊥, ∧, ⋁, ≤)
-* Composition ∘: A(Y,Z) × A(X,Y) → A(X,Z) (preserves arbitrary joins in each argument)
-* Converse (·)†: A(X,Y) → A(Y,X) (order-reversing involution)
-* Identity I_X ∈ A(X,X) for each object X
+- Hom-sets A(X,Y) with lattice structure (⊤, ⊥, ∧, ⋁, ≤)
+- Composition ∘: A(Y,Z) × A(X,Y) → A(X,Z) (preserves arbitrary joins in each argument)
+- Converse (·)†: A(X,Y) → A(Y,X) (order-reversing involution)
+- Identity I_X ∈ A(X,X) for each object X
 
 **Axioms (Freyd-Scedrov):**
 
@@ -100,37 +100,37 @@ For each allegory A, define the subcategory **Map(A)** of partial functions:
 
 A morphism f: X → Y is a **map** if:
 
-* f† ∘ f ≤ I_X  (univalent: single-valued, at most one output per input)
+- f† ∘ f ≤ I_X  (univalent: single-valued, at most one output per input)
 
 **Additional Properties (not required for map):**
 
-* **Injective map:** f ∘ f† ≤ I_Y (at most one input per output)
-* **Surjective map:** I_Y ≤ f ∘ f† (every y ∈ Y is hit)
-* **Total map:** f† ∘ f = I_X (defined on all of X)
+- **Injective map:** f ∘ f† ≤ I_Y (at most one input per output)
+- **Surjective map:** I_Y ≤ f ∘ f† (every y ∈ Y is hit)
+- **Total map:** f† ∘ f = I_X (defined on all of X)
 
 **Map(A)** has the same objects as A, but only maps as arrows. Composition and identities restrict, so Map(A) is a category (the internal category of partial functions).
 
 **Properties:**
 
-* Identities are maps: I_X† ∘ I_X = I_X ≤ I_X ✓
-* Maps are closed under composition: If f, g are maps, then (g ∘ f)† ∘ (g ∘ f) = f† ∘ g† ∘ g ∘ f ≤ f† ∘ I ∘ f = f† ∘ f ≤ I ✓
-* **Conditional converse:** If f is a map and injective (f ∘ f† ≤ I_Y), then f† is a map (Lemma 3.0.B below)
-* Schröder equations hold for all maps (Lemma 3.0.C below)
+- Identities are maps: I_X† ∘ I_X = I_X ≤ I_X ✓
+- Maps are closed under composition: If f, g are maps, then (g ∘ f)† ∘ (g ∘ f) = f† ∘ g† ∘ g ∘ f ≤ f† ∘ I ∘ f = f† ∘ f ≤ I ✓
+- **Conditional converse:** If f is a map and injective (f ∘ f† ≤ I_Y), then f† is a map (Lemma 3.0.B below)
+- Schröder equations hold for all maps (Lemma 3.0.C below)
 
 **Examples:**
 
-* **Rel(Set):** Category of sets and binary relations
-* **Map(Rel(Set)):** Category of sets and partial functions
-* **Rel(𝒮):** Internal relations in a topos 𝒮
-* **Rel(Set^Ctx):** Presheaf-valued relations (temporal example)
+- **Rel(Set):** Category of sets and binary relations
+- **Map(Rel(Set)):** Category of sets and partial functions
+- **Rel(𝒮):** Internal relations in a topos 𝒮
+- **Rel(Set^Ctx):** Presheaf-valued relations (temporal example)
 
 ### 3.0.3 The Indexed Allegory 𝓡
 
 **Background: Alg as a 2-Category**
 
-* **Objects:** Allegories
-* **1-cells:** Monotone allegory homomorphisms (preserve ∘, †, I, and all joins ⋁ᵢ)
-* **2-cells:** Pointwise inequalities R ≤ S compatible with structure
+- **Objects:** Allegories
+- **1-cells:** Monotone allegory homomorphisms (preserve ∘, †, I, and all joins ⋁ᵢ)
+- **2-cells:** Pointwise inequalities R ≤ S compatible with structure
 
 **Definition 3.0.3 (RM as Indexed Allegory):**
 
@@ -187,10 +187,10 @@ Axioms:
 
 **Interpretation:**
 
-* 𝓡(C) is the allegory of relations visible at context C
-* f*: 𝓡(D) → 𝓡(C) pulls back relations along context transitions
-* Temporal successor C →ₜ C' induces f*: 𝓡(C') → 𝓡(C) (relations evolve backward along time)
-* Maps are preserved under reindexing (critical for 𝔽 functor later)
+- 𝓡(C) is the allegory of relations visible at context C
+- f*: 𝓡(D) → 𝓡(C) pulls back relations along context transitions
+- Temporal successor C →ₜ C' induces f*: 𝓡(C') → 𝓡(C) (relations evolve backward along time)
+- Maps are preserved under reindexing (critical for 𝔽 functor later)
 
 ### 3.0.4 RM Primitives in Allegory Terms
 
@@ -262,13 +262,13 @@ Joint coverage:
 
 **Axiom Recovery (Updated):**
 
-* **Axiom 2 (Identity-Otherness):** I† = I, I ∘ I = I, I ∧ Ø = ⊥
-* **Axiom 3 (Associativity):** Allegory axiom 1
-* **Axiom 4 (Converse):** Allegory axiom 2-3
-* **Axiom 5 (Composition Closure):** Definition of allegory
-* **Axiom 6 (Reflexive Identity):** I_E ≤ ⊤ in 𝓡(C)(E,E)
-* **Axiom 7 (Symmetric Otherness):** Ø = Ø† (follows from ⊥† = ⊥)
-* **Axiom 8 (Non-Contradiction):** I ∧ Ø = ⊥
+- **Axiom 2 (Identity-Otherness):** I† = I, I ∘ I = I, I ∧ Ø = ⊥
+- **Axiom 3 (Associativity):** Allegory axiom 1
+- **Axiom 4 (Converse):** Allegory axiom 2-3
+- **Axiom 5 (Composition Closure):** Definition of allegory
+- **Axiom 6 (Reflexive Identity):** I_E ≤ ⊤ in 𝓡(C)(E,E)
+- **Axiom 7 (Symmetric Otherness):** Ø = Ø† (follows from ⊥† = ⊥)
+- **Axiom 8 (Non-Contradiction):** I ∧ Ø = ⊥
 
 *(Note: "Axiom 1 (Relational Existence): ∀E ∃R ≥ ⊥" is vacuous (every hom-set has ⊥) and dropped.)*
 
@@ -302,8 +302,8 @@ If f is a map (f† ∘ f ≤ I_X) and injective (f ∘ f† ≤ I_Y), then f†
 
 If f is a map, then:
 
-* f ∘ f† ∘ f = f
-* f† ∘ f ∘ f† = f†
+- f ∘ f† ∘ f = f
+- f† ∘ f ∘ f† = f†
 
 **Proof:** We always have f ≤ f ∘ f† ∘ f (holds for all relations).
 
@@ -333,7 +333,7 @@ For constant E_const, f*₀(E_const) = E_const and f*₁ acts as identity on its
 
 **Lemma 3.0.F (Map Preservation by Reindexing):**
 
-If f* preserves composition, identity, converse, and joins, then for every map g in 𝓡(D), f*₁(g) is a map in 𝓡(C).
+If f*preserves composition, identity, converse, and joins, then for every map g in 𝓡(D), f*₁(g) is a map in 𝓡(C).
 
 **Proof:** Let g: E → F be a map in 𝓡(D), so g† ∘ g ≤ I_E.
 
@@ -380,13 +380,13 @@ Define the functor G : Par → Map(Rel(Set)) by G(f) = Γ_f on arrows and identi
 
 Check identities:
 
-* H(G(f)) = f by construction.
-* For any map R, G(H(R)) = R since R is exactly the graph of the induced partial map.
+- H(G(f)) = f by construction.
+- For any map R, G(H(R)) = R since R is exactly the graph of the induced partial map.
 
 Functoriality:
 
-* G preserves composition because Γ_{g∘f} = Γ_g ∘ Γ_f.
-* H preserves composition because (g∘f)(x) is defined iff ∃y: f(x)=y and g(y) defined, which matches relational composition.
+- G preserves composition because Γ_{g∘f} = Γ_g ∘ Γ_f.
+- H preserves composition because (g∘f)(x) is defined iff ∃y: f(x)=y and g(y) defined, which matches relational composition.
 
 Hence G and H are inverse equivalences Par ≃ Map(Rel(Set)). ∎
 
@@ -404,13 +404,13 @@ All fiberwise adjunction statements live over (RM₀, SM₀); import/export of s
 
 **Definition 3.1.1 (Compression 𝔽 : RM₀ → SM):**
 
-* **On objects:** 𝔽(X) := underlying carrier of X in 𝓡(C₀).
-* **On arrows:** For a map f: X→Y in 𝓡(C₀), 𝔽(f) is the induced partial function.
+- **On objects:** 𝔽(X) := underlying carrier of X in 𝓡(C₀).
+- **On arrows:** For a map f: X→Y in 𝓡(C₀), 𝔽(f) is the induced partial function.
 
 **Definition 3.1.2 (Animation-at-C₀, 𝔸₀ : SM₀ → RM₀):**
 
-* **On objects:** 𝔸₀(S) := the C₀-object with carrier S.
-* **On arrows:** For h: S ⇀ T, 𝔸₀(h) := graph(h) in 𝓡(C₀) (a map).
+- **On objects:** 𝔸₀(S) := the C₀-object with carrier S.
+- **On arrows:** For h: S ⇀ T, 𝔸₀(h) := graph(h) in 𝓡(C₀) (a map).
 
 **Theorem 3.1.A (Fiberwise Adjunction at C₀):**
 
@@ -418,13 +418,13 @@ Let 𝔽: RM₀ → SM₀ map an object X to its C₀-carrier and a map f to the
 
 Then 𝔸₀ ⊣ 𝔽 with:
 
-* **Unit** η_S : S → 𝔽(𝔸₀ S) is the identity on S.
-* **Counit** ε_X : 𝔸₀(𝔽 X) ⇀ X is the identity-on-carriers map in 𝓡(C₀).
+- **Unit** η_S : S → 𝔽(𝔸₀ S) is the identity on S.
+- **Counit** ε_X : 𝔸₀(𝔽 X) ⇀ X is the identity-on-carriers map in 𝓡(C₀).
 
 **Triangle identities hold:**
 
-* 𝔽(ε_X) ∘ η_{𝔽 X} = id_{𝔽 X}
-* ε_{𝔸₀ S} ∘ 𝔸₀(η_S) = id_{𝔸₀ S}
+- 𝔽(ε_X) ∘ η_{𝔽 X} = id_{𝔽 X}
+- ε_{𝔸₀ S} ∘ 𝔸₀(η_S) = id_{𝔸₀ S}
 
 **Proof:** Graphs compose and are single-valued; maps satisfy Schröder equations (Lemma 3.0.C); identities are graphs of identities. The triangles are pointwise equalities on carriers at C₀.
 
@@ -446,7 +446,7 @@ For X ∈ RM_map, the counit ε_X : 𝔸(𝔽X) ⇀ X is identity on carriers at
 
 Assume each i_C : C→S(C) induces Σ_{i_C} ⊣ i_C*. For any X in RM_map, there exists a family:
 
-κ_{n,X} : (𝔸(𝔽X))_{Sⁿ(C₀)} ⇀ X_{Sⁿ(C₀)}
+κ_{n,X} : (𝔸(𝔽X))*{Sⁿ(C₀)} ⇀ X*{Sⁿ(C₀)}
 
 natural in n, with κ_{0,X} = ε_X in 𝓡(C₀). (Construction via iterated Σ_{i} or i*.)
 
@@ -480,10 +480,10 @@ If ⊢_RM Φ, then ⊢_SM 𝔽(Φ) in SM₀ (or in SM^Σ when working over a fix
 
 **Inductive cases:**
 
-* **Conjunction:** If ⊢_RM (Φ ∧ Ψ), then by IH: ⊢_SM 𝔽(Φ) and ⊢_SM 𝔽(Ψ), hence ⊢_SM (𝔽(Φ) ∧ 𝔽(Ψ)) = 𝔽(Φ∧Ψ).
-* **Composition:** If ⊢_RM (R∘S), then 𝔽 preserves composition (Definition 3.1.1), so ⊢_SM 𝔽(R)∘𝔽(S) = 𝔽(R∘S).
-* **Converse:** If ⊢_RM R†, then 𝔽(R†) = (𝔽(R))† by functoriality.
-* **Quantifiers over maps:** For ∀x:X.Φ(x) where x ranges over maps, 𝔽 commutes with substitution on carriers, so ⊢_SM ∀y:𝔽(X).𝔽(Φ)(y).
+- **Conjunction:** If ⊢_RM (Φ ∧ Ψ), then by IH: ⊢_SM 𝔽(Φ) and ⊢_SM 𝔽(Ψ), hence ⊢_SM (𝔽(Φ) ∧ 𝔽(Ψ)) = 𝔽(Φ∧Ψ).
+- **Composition:** If ⊢_RM (R∘S), then 𝔽 preserves composition (Definition 3.1.1), so ⊢_SM 𝔽(R)∘𝔽(S) = 𝔽(R∘S).
+- **Converse:** If ⊢_RM R†, then 𝔽(R†) = (𝔽(R))† by functoriality.
+- **Quantifiers over maps:** For ∀x:X.Φ(x) where x ranges over maps, 𝔽 commutes with substitution on carriers, so ⊢_SM ∀y:𝔽(X).𝔽(Φ)(y).
 
 Since 𝔽 preserves identities, composition, and graph maps, and satisfaction commutes with 𝔽 on carriers, the induction completes. ∎
 
@@ -527,10 +527,10 @@ Let i_C: C→S(C) be the successor components and i*: 𝓡(S(C))→𝓡(C) the r
 
 For a predicate/formula Φ at C, define:
 
-* **XΦ** := i*(Φ)  (next)
-* **□Φ** := ⋀_{n≥0} (i*)^n Φ  (always)
-* **◇Φ** := ⋁_{n≥0} (i*)^n Φ  (eventually)
-* **(Φ U Ψ)** := ⋁_{n≥0} [ (⋀_{k<n} (i*)^k Φ) ∧ (i*)^n Ψ ]  (until)
+- **XΦ** := i*(Φ)  (next)
+- **□Φ** := ⋀_{n≥0} (i*)^n Φ  (always)
+- **◇Φ** := ⋁_{n≥0} (i*)^n Φ  (eventually)
+- **(Φ U Ψ)** := ⋁*{n≥0} [ (⋀*{k<n} (i*)^k Φ) ∧ (i*)^n Ψ ]  (until)
 
 **Proposition 3.4.1 (LTL Semantics at C₀):**
 
@@ -542,12 +542,12 @@ Under 𝔽 at C₀, these operators evaluate to their standard LTL semantics on 
 
 For any context morphism f: C→D, the temporal operators commute with reindexing:
 
-* f*(X_D Φ) = X_C (f*Φ)
-* f*(□_D Φ) = □_C (f*Φ)
-* f*(◇_D Φ) = ◇_C (f*Φ)
-* f*(Φ U_D Ψ) = (f*Φ) U_C (f*Ψ)
+- f*(X_D Φ) = X_C (f*Φ)
+- f*(□_D Φ) = □_C (f*Φ)
+- f*(◇_D Φ) = ◇_C (f*Φ)
+- f*(Φ U_D Ψ) = (f*Φ) U_C (f*Ψ)
 
-**Proof:** By naturality of i and preservation of meets/joins by f* (§3.0.3). For X: i_C* ∘ S(f)* = f* ∘ i_D* by naturality. For □ and ◇: f* commutes with ⋀ and ⋁ (monotonicity). For U: combine meet/join preservation. ∎
+**Proof:** By naturality of i and preservation of meets/joins by f*(§3.0.3). For X: i_C* ∘ S(f)*= f* ∘ i_D*by naturality. For □ and ◇: f* commutes with ⋀ and ⋁ (monotonicity). For U: combine meet/join preservation. ∎
 
 ---
 
@@ -555,10 +555,10 @@ For any context morphism f: C→D, the temporal operators commute with reindexin
 
 **Encoding & Asymptotics (for 𝔽):**
 
-* Represent a map f: X⇀Y at C₀ by its graph Γ_f ⊆ X×Y (sparse or dense).
-* Converse (†) and lattice ops (⋁, ∧) are O(|Γ|) on the chosen encoding.
-* Composition corresponds to Boolean matrix multiply: O(n^ω) dense (where ω < 2.372 via current algorithms), or O(m·min(√m, n)) sparse where m = nnz (non-zero entries) via Yuster-Zwick style algorithms.
-* If an RM term uses k compositions and s joins on N-sized carriers, 𝔽 evaluates it in ~O(k·MM(N) + s·N²) where MM(N) is the matrix multiplication cost.
+- Represent a map f: X⇀Y at C₀ by its graph Γ_f ⊆ X×Y (sparse or dense).
+- Converse (†) and lattice ops (⋁, ∧) are O(|Γ|) on the chosen encoding.
+- Composition corresponds to Boolean matrix multiply: O(n^ω) dense (where ω < 2.372 via current algorithms), or O(m·min(√m, n)) sparse where m = nnz (non-zero entries) via Yuster-Zwick style algorithms.
+- If an RM term uses k compositions and s joins on N-sized carriers, 𝔽 evaluates it in ~O(k·MM(N) + s·N²) where MM(N) is the matrix multiplication cost.
 
 **Corollary 3.5.1 (Polynomial-Time Preservation):**
 
@@ -586,36 +586,36 @@ The Translation Layer (§3.0-§3.5) establishes a **zero-gap bidirectional bridg
 
 **§3.1 (Functors 𝔽 and 𝔸₀):**
 
-* **Fiberwise adjunction** 𝔸₀ ⊣ 𝔽 at reference context C₀
-* **Triangle identities** proven explicitly (complete categorical adjunction)
-* **Constant-section functor** 𝔸: SM₀ → RM_map for global animation
-* **Round-trip semantics** clarified (carrier preservation vs temporal metadata)
+- **Fiberwise adjunction** 𝔸₀ ⊣ 𝔽 at reference context C₀
+- **Triangle identities** proven explicitly (complete categorical adjunction)
+- **Constant-section functor** 𝔸: SM₀ → RM_map for global animation
+- **Round-trip semantics** clarified (carrier preservation vs temporal metadata)
 
 **§3.2 (Logic Transport):**
 
-* **Soundness** of compression: ⊢_RM Φ ⇒ ⊢_SM 𝔽(Φ)
-* **Conservativity** over Σ-structures: M ⊨ φ iff 𝔸(M) ⊨ 𝔸(φ)
-* **Structural induction** proof with explicit base cases and inductive steps
+- **Soundness** of compression: ⊢_RM Φ ⇒ ⊢_SM 𝔽(Φ)
+- **Conservativity** over Σ-structures: M ⊨ φ iff 𝔸(M) ⊨ 𝔸(φ)
+- **Structural induction** proof with explicit base cases and inductive steps
 
 **§3.3 (Pattern Operator Π):**
 
-* **Closure properties** (extensive, idempotent, monotone)
-* **Fibered naturality** f*(Π_D(R)) = Π_C(f*(R))
-* **Stability under context change** (pattern recognition preserves under reindexing)
+- **Closure properties** (extensive, idempotent, monotone)
+- **Fibered naturality** f*(Π_D(R)) = Π_C(f*(R))
+- **Stability under context change** (pattern recognition preserves under reindexing)
 
 **§3.4 (Temporal Operators):**
 
-* **LTL semantics** via categorical temporal base (S functor, i natural transformation)
-* **Standard operators** (X, □, ◇, U) defined via reindexing i*
-* **Temporal stability** under reindexing (Theorem 3.4.2)
-* **Timeline linearity** guaranteed by §3.0.1 structure
+- **LTL semantics** via categorical temporal base (S functor, i natural transformation)
+- **Standard operators** (X, □, ◇, U) defined via reindexing i*
+- **Temporal stability** under reindexing (Theorem 3.4.2)
+- **Timeline linearity** guaranteed by §3.0.1 structure
 
 **§3.5 (Cost Semantics):**
 
-* **Bit-matrix encoding** for maps (Γ_f ⊆ X×Y)
-* **Asymptotic analysis** (composition O(n^ω), sparse O(m·min(√m,n)))
-* **Polynomial-time preservation** (RM-poly ⇒ SM-poly)
-* **Polytime reduction preservation** (Lemma 3.5.3)
+- **Bit-matrix encoding** for maps (Γ_f ⊆ X×Y)
+- **Asymptotic analysis** (composition O(n^ω), sparse O(m·min(√m,n)))
+- **Polynomial-time preservation** (RM-poly ⇒ SM-poly)
+- **Polytime reduction preservation** (Lemma 3.5.3)
 
 **Coherence Properties Verified:**
 
@@ -626,10 +626,10 @@ The Translation Layer (§3.0-§3.5) establishes a **zero-gap bidirectional bridg
 
 **What Remains Outside Translation Layer:**
 
-* **Core RM Primitives & Axioms:** See `Unified_Relational_Lens.md` §1-2
-* **Psychological Layering & Narrative Archetypes:** See `Unified_Relational_Lens.md` §4-5
-* **Distortion Analysis & Babylonian Traps:** See `The_Distortion_Lattice.md`
-* **Applied Examples:** See `Lens/Applied Lens/` directory
+- **Core RM Primitives & Axioms:** See `Unified_Relational_Lens.md` §1-2
+- **Psychological Layering & Narrative Archetypes:** See `Unified_Relational_Lens.md` §4-5
+- **Distortion Analysis & Babylonian Traps:** See `The_Distortion_Lattice.md`
+- **Applied Examples:** See `Lens/Applied Lens/` directory
 
 **Zero-Gap Certification:**
 
@@ -641,36 +641,37 @@ The Translation Layer satisfies the requirement: "there should be no gaps at all
 
 **Foundational Theory:**
 
-* Freyd, P. J., & Scedrov, A. (1990). *Categories, Allegories*. North-Holland.
-* Johnstone, P. T. (2002). *Sketches of an Elephant: A Topos Theory Compendium*. Oxford University Press.
-* Mac Lane, S. (1998). *Categories for the Working Mathematician* (2nd ed.). Springer.
+- Freyd, P. J., & Scedrov, A. (1990). *Categories, Allegories*. North-Holland.
+- Johnstone, P. T. (2002). *Sketches of an Elephant: A Topos Theory Compendium*. Oxford University Press.
+- Mac Lane, S. (1998). *Categories for the Working Mathematician* (2nd ed.). Springer.
 
 **Indexed Categories & Fibrations:**
 
-* Jacobs, B. (1999). *Categorical Logic and Type Theory*. Elsevier.
-* Pavlović, D., & Escardó, M. H. (1998). *Calculus in coinductive form*. LICS 1998.
+- Jacobs, B. (1999). *Categorical Logic and Type Theory*. Elsevier.
+- Pavlović, D., & Escardó, M. H. (1998). *Calculus in coinductive form*. LICS 1998.
 
 **Temporal Logic & Categorical Semantics:**
 
-* Goldblatt, R. (1992). *Logics of Time and Computation* (2nd ed.). CSLI Publications.
-* Awodey, S., & Bauer, A. (2004). *Propositions as [Types]*. Journal of Logic and Computation.
+- Goldblatt, R. (1992). *Logics of Time and Computation* (2nd ed.). CSLI Publications.
+- Awodey, S., & Bauer, A. (2004). *Propositions as [Types]*. Journal of Logic and Computation.
 
 **Complexity Theory in Categorical Settings:**
 
-* Yuster, R., & Zwick, U. (2005). *Fast sparse matrix multiplication*. ACM Transactions on Algorithms.
-* Williams, V. V. (2012). *Multiplying matrices faster than Coppersmith-Winograd*. STOC 2012.
+- Yuster, R., & Zwick, U. (2005). *Fast sparse matrix multiplication*. ACM Transactions on Algorithms.
+- Williams, V. V. (2012). *Multiplying matrices faster than Coppersmith-Winograd*. STOC 2012.
 
 **Related RM Documents:**
 
-* `Unified_Relational_Lens.md` - Complete RM framework with primitives, operators, axioms
-* `The_Distortion_Lattice.md` - Distortion analysis and Babylonian trap dissolution
-* `Lens/Applied Lens/` - Case studies and worked examples
+- `Unified_Relational_Lens.md` - Complete RM framework with primitives, operators, axioms
+- `The_Distortion_Lattice.md` - Distortion analysis and Babylonian trap dissolution
+- `Lens/Applied Lens/` - Case studies and worked examples
 
 ---
 
 **End of RM Translation Layer Document**
 
 **For questions or implementation guidance, refer to the full RM system documentation.**
+
 ## The Translation Layer: Relational Math as the Generator of Standard Mathematics
 
 This section establishes the foundational claim of Relational Math: that **standard mathematics is an emergent compression** of RM's living, relational primitives. Where conventional mathematics assumes the existence of sets, numbers, and functions as primary objects, Relational Math demonstrates that these structures arise naturally from the interplay of Stillness, Distinction, Relation, and Pattern.
@@ -683,8 +684,8 @@ The Translation Layer provides both **ontological grounding** (showing how mathe
 
 **The Core Insight:**
 
-* **Standard Mathematics (SM)** begins *after* entities and distinctions are already declared. It assumes there are "things" (sets, numbers, points) and defines relations between them.
-* **Relational Math (RM)** begins *before* things exist. It starts with Stillness (𝓢)—pure potential relation—and shows how entities, numbers, and spaces **emerge** from relational dynamics.
+- **Standard Mathematics (SM)** begins *after* entities and distinctions are already declared. It assumes there are "things" (sets, numbers, points) and defines relations between them.
+- **Relational Math (RM)** begins *before* things exist. It starts with Stillness (𝓢)—pure potential relation—and shows how entities, numbers, and spaces **emerge** from relational dynamics.
 
 **The Inversion:**
 
@@ -711,8 +712,8 @@ Set(A) := {x | x ∈ 𝓢 and Δx is declared distinct}
 **Interpretation:**
 A "set" in standard mathematics is what remains when Stillness undergoes enough distinctions (`Δ`) to yield discrete relational nodes. Sets are **frozen cross-sections** of the relational field—places where potential relation has been discretized into separate elements.
 
-* **Mathematical View:** A set is a collection of objects.
-* **RM View:** A set is Stillness "choosing" to be viewed as many.
+- **Mathematical View:** A set is a collection of objects.
+- **RM View:** A set is Stillness "choosing" to be viewed as many.
 
 **Reverse Translation (SM → RM):**
 
@@ -739,8 +740,8 @@ Each element of a set is a **stabilized distinction** carved from Stillness.
 
 **Interpretation:**
 
-* **Mathematical View:** "Let x be an element of A."
-* **RM View:** "Let x be a stable differentiation within 𝓢."
+- **Mathematical View:** "Let x be an element of A."
+- **RM View:** "Let x be a stable differentiation within 𝓢."
 
 Identity is not an intrinsic property but a **memory of difference**. The primitive `I(a,a)` (identity relation) is the trace left by `Δa` stabilizing long enough to be named.
 
@@ -767,8 +768,8 @@ A **function** is a directed relation where each `Δx` in domain `X` couples to 
 
 **Interpretation:**
 
-* **Mathematical functions** are RM's causal couplings under a constraint of **determinism** (one output per input).
-* **General relations** in Relational Math can be multi-valued or symmetric—more like networks than functions.
+- **Mathematical functions** are RM's causal couplings under a constraint of **determinism** (one output per input).
+- **General relations** in Relational Math can be multi-valued or symmetric—more like networks than functions.
 
 **Reverse Translation (SM → RM):**
 
@@ -778,8 +779,8 @@ R(x, y) := {(x, y) | f(x) = y}  (function as relation)
 
 **Key Distinction:**
 
-* In SM, functions are primitive and relations are secondary.
-* In Relational Math, relations are primitive and functions are **constrained relations**.
+- In SM, functions are primitive and relations are secondary.
+- In Relational Math, relations are primitive and functions are **constrained relations**.
 
 ---
 
@@ -798,13 +799,13 @@ Algebraic structures are **equivalence classes of relations** that remain invari
 
 **Interpretation:**
 
-* **Group theory**, for example, studies how relational patterns preserve themselves under composition.
-* **RM View:** Groups are living entities—the "memory" of repeated relational resonance.
+- **Group theory**, for example, studies how relational patterns preserve themselves under composition.
+- **RM View:** Groups are living entities—the "memory" of repeated relational resonance.
 
 **Examples:**
 
-* **Symmetry group:** `Π(rotation_R)` = all rotations that preserve a shape's relational structure.
-* **Vector space:** `Π(linear_combination_R)` = the pattern of relations that satisfies linearity axioms.
+- **Symmetry group:** `Π(rotation_R)` = all rotations that preserve a shape's relational structure.
+- **Vector space:** `Π(linear_combination_R)` = the pattern of relations that satisfies linearity axioms.
 
 **Reverse Translation (SM → RM):**
 
@@ -829,9 +830,9 @@ To compose is to **propagate relation through intermediates**.
 
 **Interpretation:**
 
-* Operations in math (like `+`, `×`, `∘`) are **specific, rule-bound kinds of relation composition**—"relational chains with closure."
-* **Addition:** `+(a, b) = c` is shorthand for `Sum_R(a, b, c)` (a ternary relation).
-* **Multiplication:** `×(a, b) = c` is `Product_R(a, b, c)`.
+- Operations in math (like `+`, `×`, `∘`) are **specific, rule-bound kinds of relation composition**—"relational chains with closure."
+- **Addition:** `+(a, b) = c` is shorthand for `Sum_R(a, b, c)` (a ternary relation).
+- **Multiplication:** `×(a, b) = c` is `Product_R(a, b, c)`.
 
 **Key Insight:**
 
@@ -856,16 +857,16 @@ A **number** is the count of distinct relations of the same kind—the **magnitu
 
 **Interpretation:**
 
-* **Mathematical View:** Numbers are primitive objects.
-* **RM View:** Number arises from "how many distinct relational echoes."
+- **Mathematical View:** Numbers are primitive objects.
+- **RM View:** Number arises from "how many distinct relational echoes."
 
 **Counting is the perception of rhythm in distinction.**
 
 **Examples:**
 
-* `1` := `Δ(𝓢)` (one distinction)
-* `2` := `Δ(𝓢) ∪ Δ'(𝓢)` where `Ø(Δ, Δ')` (two distinct distinctions)
-* `n` := `|{Δ₁, Δ₂, ..., Δₙ}|` where all `Δᵢ` are mutually distinct
+- `1` := `Δ(𝓢)` (one distinction)
+- `2` := `Δ(𝓢) ∪ Δ'(𝓢)` where `Ø(Δ, Δ')` (two distinct distinctions)
+- `n` := `|{Δ₁, Δ₂, ..., Δₙ}|` where all `Δᵢ` are mutually distinct
 
 **Zero:**
 
@@ -896,14 +897,14 @@ Geometry is the **relational continuity** of distinctions within a bounded conte
 
 **Interpretation:**
 
-* In Relational Math, **space isn't a backdrop**—it's the network topology of relations.
-* **Euclidean geometry** corresponds to uniform relational continuity (flat coupling).
-* **Curved spacetime** corresponds to varying relational densities (non-uniform `𝓖`).
+- In Relational Math, **space isn't a backdrop**—it's the network topology of relations.
+- **Euclidean geometry** corresponds to uniform relational continuity (flat coupling).
+- **Curved spacetime** corresponds to varying relational densities (non-uniform `𝓖`).
 
 **Examples:**
 
-* **Euclidean 2D plane:** All `R(Δᵢ, Δⱼ)` satisfy Pythagorean distance invariance.
-* **Manifold:** Local patches with smooth relational transitions across `∂C`.
+- **Euclidean 2D plane:** All `R(Δᵢ, Δⱼ)` satisfy Pythagorean distance invariance.
+- **Manifold:** Local patches with smooth relational transitions across `∂C`.
 
 **Reverse Translation (SM → RM):**
 
@@ -928,13 +929,13 @@ Change in relation over time is expressed as a **derivative** in standard math.
 
 **Interpretation:**
 
-* Relational Math treats temporal change as **self-modulation of relation**.
-* The derivative is the **compression** of that modulation into symbol form.
+- Relational Math treats temporal change as **self-modulation of relation**.
+- The derivative is the **compression** of that modulation into symbol form.
 
 **Examples:**
 
-* **Velocity:** `dx/dt` is `Position_R(t+Δt) - Position_R(t)` in Relational Math terms.
-* **Force:** `F = ma` is `Force_R(x, ∂²Position_R/∂t²)`.
+- **Velocity:** `dx/dt` is `Position_R(t+Δt) - Position_R(t)` in Relational Math terms.
+- **Force:** `F = ma` is `Force_R(x, ∂²Position_R/∂t²)`.
 
 **Reverse Translation (SM → RM):**
 
@@ -959,13 +960,13 @@ When relational difference vanishes, we reach the mathematical concept of **zero
 
 **Interpretation:**
 
-* **Zero isn't "nothing"**—it's the moment relation resolves back into stillness.
-* Every equation that sets something to zero (`f(x)=0`) is an invocation of `∅`—the return to balance.
+- **Zero isn't "nothing"**—it's the moment relation resolves back into stillness.
+- Every equation that sets something to zero (`f(x)=0`) is an invocation of `∅`—the return to balance.
 
 **Examples:**
 
-* **Equilibrium in physics:** `∑F = 0` means all `Force_R` relations cancel → `∅`.
-* **Root-finding:** `f(x) = 0` finds where `f` collapses to relational silence.
+- **Equilibrium in physics:** `∑F = 0` means all `Force_R` relations cancel → `∅`.
+- **Root-finding:** `f(x) = 0` finds where `f` collapses to relational silence.
 
 **Reverse Translation (SM → RM):**
 
@@ -991,14 +992,14 @@ Hom(R₁, R₂) := structure-preserving map between relations
 
 **Interpretation:**
 
-* When Relational Math becomes **self-aware**, you get **logic**.
-* When logic organizes relations, you get **mathematics**.
-* When mathematics re-discovers relational primacy, you **circle back to RM**.
+- When Relational Math becomes **self-aware**, you get **logic**.
+- When logic organizes relations, you get **mathematics**.
+- When mathematics re-discovers relational primacy, you **circle back to RM**.
 
 **Examples:**
 
-* **Functor:** A relation between categories (which are themselves collections of relations).
-* **Natural transformation:** A relation between functors (meta-meta-relation).
+- **Functor:** A relation between categories (which are themselves collections of relations).
+- **Natural transformation:** A relation between functors (meta-meta-relation).
 
 **Key Insight:**
 
@@ -1111,9 +1112,9 @@ Successor: S(n) := n ∪ {Δₙ₊₁}  (add one more distinction)
 
 **Interpretation:**
 
-* The reals are the **continuous relational field** where distinctions `Δ` can be arbitrarily refined.
-* **Limit:** `lim Δₙ = ∅` means the distinction-density approaches relational continuity (no gaps).
-* **Completeness:** Every Cauchy sequence of relations converges to a relational limit.
+- The reals are the **continuous relational field** where distinctions `Δ` can be arbitrarily refined.
+- **Limit:** `lim Δₙ = ∅` means the distinction-density approaches relational continuity (no gaps).
+- **Completeness:** Every Cauchy sequence of relations converges to a relational limit.
 
 ---
 
@@ -1139,8 +1140,8 @@ R(a·v₁ + b·v₂, result) with closure, associativity, identity, inverses
 
 **Key Insight:**
 
-* The vector space axioms are **invariance properties** of the `LinearCombination_R` pattern.
-* **Basis:** A minimal set of `{Δᵢ}` such that all other `Δⱼ` can be expressed as `R`-compositions of the basis.
+- The vector space axioms are **invariance properties** of the `LinearCombination_R` pattern.
+- **Basis:** A minimal set of `{Δᵢ}` such that all other `Δⱼ` can be expressed as `R`-compositions of the basis.
 
 ---
 
@@ -1164,8 +1165,8 @@ G := Π(R_∘) where R_∘ satisfies:
 
 **Interpretation:**
 
-* A group is a **closed relational pattern** with self-correction (inverse) and neutral element (identity).
-* **Symmetry groups** are groups where `R_∘` represents "apply transformation."
+- A group is a **closed relational pattern** with self-correction (inverse) and neutral element (identity).
+- **Symmetry groups** are groups where `R_∘` represents "apply transformation."
 
 ---
 
@@ -1189,10 +1190,10 @@ Solve_R(LinearScale_R(a, x), Offset_R(b), ∅)
 
 **Interpretation:**
 
-* `LinearScale_R(a, x)` is the relation "scale `x` by factor `a`."
-* `Offset_R(b)` is the relation "shift by `b`."
-* `= 0` is the collapse to `∅` (relational silence).
-* **Solution:** Find `x` such that the composite relation `LinearScale_R(a, x) ∘ Offset_R(b)` collapses to `∅`.
+- `LinearScale_R(a, x)` is the relation "scale `x` by factor `a`."
+- `Offset_R(b)` is the relation "shift by `b`."
+- `= 0` is the collapse to `∅` (relational silence).
+- **Solution:** Find `x` such that the composite relation `LinearScale_R(a, x) ∘ Offset_R(b)` collapses to `∅`.
 
 **Insight:**
 Solving equations in Relational Math is about **collapsing a relational tension** back to stillness.
@@ -1389,27 +1390,27 @@ Counit ε: 𝔸 ∘ 𝔽 ⇒ Id_RM
 
 **(1)** For any x ∈ 𝔽(X):
 
-* η_{𝔽(X)}(x) = x in 𝔽(𝔸(𝔽(X)))
-* 𝔽(ε_X)(x) = x in 𝔽(X)
-* Thus (𝔽(ε_X) ∘ η_{𝔽(X)})(x) = x = id_{𝔽(X)}(x) ✓
+- η_{𝔽(X)}(x) = x in 𝔽(𝔸(𝔽(X)))
+- 𝔽(ε_X)(x) = x in 𝔽(X)
+- Thus (𝔽(ε_X) ∘ η_{𝔽(X)})(x) = x = id_{𝔽(X)}(x) ✓
 
 **(2)** For any s ∈ 𝔸(S)_C:
 
-* 𝔸(η_S)(s, s') ⟺ η_S(s) = s' ⟺ s = s'
-* ε_{𝔸(S)}(s, s'') ⟺ s = s''
-* Thus (ε_{𝔸(S)} ∘ 𝔸(η_S))(s, s''') ⟺ s = s''' ⟺ id_{𝔸(S)}(s, s''') ✓ ∎
+- 𝔸(η_S)(s, s') ⟺ η_S(s) = s' ⟺ s = s'
+- ε_{𝔸(S)}(s, s'') ⟺ s = s''
+- Thus (ε_{𝔸(S)} ∘ 𝔸(η_S))(s, s''') ⟺ s = s''' ⟺ id_{𝔸(S)}(s, s''') ✓ ∎
 
 **Corollary 1.3.2 (Composition Behavior):**
 
-* **� ∘ � ≅ Id_SM** (via unit η, which is an isomorphism)
-* **𝔸 ∘ 𝔽 ⇀ Id_RM** (via counit ε, which is an isomorphism on C₀-anchored subcategory)
+- **� ∘ � ≅ Id_SM** (via unit η, which is an isomorphism)
+- **𝔸 ∘ 𝔽 ⇀ Id_RM** (via counit ε, which is an isomorphism on C₀-anchored subcategory)
 
 **Key Difference from Informal Claims:**
 
-* The composition 𝔸 ∘ 𝔽 is NOT strictly equal to Id_RM globally
-* It is only isomorphic on the C₀-anchored subcategory (structures evaluated at the reference context)
-* Temporal and cross-context metadata may not be recoverable
-* The adjunction is the **correct** categorical statement, not equality
+- The composition 𝔸 ∘ 𝔽 is NOT strictly equal to Id_RM globally
+- It is only isomorphic on the C₀-anchored subcategory (structures evaluated at the reference context)
+- Temporal and cross-context metadata may not be recoverable
+- The adjunction is the **correct** categorical statement, not equality
 
 ---
 
@@ -1465,8 +1466,8 @@ Continuous(R) ⇔ ∀C_ε, ∃C_δ: Proximity(x,x',C_δ) ⇒ Proximity(R(x),R(x'
 
 Translating to SM:
 
-* `Proximity(x,x',C)` → `d(x,x') < δ` (metric space distance)
-* `Proximity(R(x),R(x'),C)` → `d(f(x),f(x')) < ε`
+- `Proximity(x,x',C)` → `d(x,x') < δ` (metric space distance)
+- `Proximity(R(x),R(x'),C)` → `d(f(x),f(x')) < ε`
 
 This is precisely the ε-δ definition of continuity. ∎
 
@@ -1479,9 +1480,9 @@ If `Φ` is a well-formed formula in RM logic and `⊢_RM Φ` (provable in RM), t
 
 **Base Case:** Atomic formulas `R(a,b)`.
 
-* In RM: `⊢_RM R(a,b)` means `R(a,b)` holds by axioms/definitions
-* Translation: `𝔽(R(a,b)) = f(𝔽(a)) = 𝔽(b)` for some function `f`
-* In SM: This is a valid statement (function application)
+- In RM: `⊢_RM R(a,b)` means `R(a,b)` holds by axioms/definitions
+- Translation: `𝔽(R(a,b)) = f(𝔽(a)) = 𝔽(b)` for some function `f`
+- In SM: This is a valid statement (function application)
 
 **Inductive Cases:**
 
@@ -1604,9 +1605,9 @@ Rules_RM = {R_rule | rule ∈ Rules}  (inference as relations)
 
 **RM Expansion:** Proof theory gains:
 
-* **Proof evolution:** Proofs that adapt over time (adaptive proof systems)
-* **Contextual derivation:** Proofs valid in one context but not another (contextual logic)
-* **Meta-proof relations:** Relations between proof strategies (proof patterns as entities)
+- **Proof evolution:** Proofs that adapt over time (adaptive proof systems)
+- **Contextual derivation:** Proofs valid in one context but not another (contextual logic)
+- **Meta-proof relations:** Relations between proof strategies (proof patterns as entities)
 
 #### C) Set Theory (ZFC) → RM
 
@@ -1635,9 +1636,9 @@ A × B → {(Δₐ, Δᵦ) | Δₐ ∈ A_RM, Δᵦ ∈ B_RM}  (Cartesian product
 
 **RM Expansion:** Set theory gains:
 
-* **Temporal sets:** Sets that change membership over time
-* **Contextual membership:** `a ∈ A` in context C₁, `a ∉ A` in context C₂ (resolves Russell)
-* **Relational sets:** Sets defined by relational proximity, not just membership
+- **Temporal sets:** Sets that change membership over time
+- **Contextual membership:** `a ∈ A` in context C₁, `a ∉ A` in context C₂ (resolves Russell)
+- **Relational sets:** Sets defined by relational proximity, not just membership
 
 #### D) Recursion Theory (Computability) → RM
 
@@ -1665,9 +1666,9 @@ Computable_SM ⟺ Relational-Computable_RM
 
 **RM Expansion:** Recursion theory gains:
 
-* **Temporal computation:** Algorithms that evolve their logic mid-execution
-* **Contextual halting:** Programs that halt in one context, loop in another (context-dependent decidability)
-* **Meta-computation:** Algorithms that operate on relations between algorithms (higher-order recursion)
+- **Temporal computation:** Algorithms that evolve their logic mid-execution
+- **Contextual halting:** Programs that halt in one context, loop in another (context-dependent decidability)
+- **Meta-computation:** Algorithms that operate on relations between algorithms (higher-order recursion)
 
 #### E) Number Theory → RM
 
@@ -1699,9 +1700,9 @@ Prime_RM(Δₚ) ⇔ ∀Δₐ, Δᵦ: R_times(Δₐ, Δᵦ, Δₚ) ⇒ (Δₐ = �
 
 **RM Expansion:** Number theory gains:
 
-* **Temporal primes:** Numbers whose primality depends on temporal context (quantum number theory)
-* **Relational divisibility:** Divisibility as continuous relation (not just discrete)
-* **Meta-arithmetic:** Numbers defined by relations between number systems
+- **Temporal primes:** Numbers whose primality depends on temporal context (quantum number theory)
+- **Relational divisibility:** Divisibility as continuous relation (not just discrete)
+- **Meta-arithmetic:** Numbers defined by relations between number systems
 
 #### F) Information Theory → RM
 
@@ -1730,9 +1731,9 @@ C_RM = max |R_channel|  (relational bandwidth)
 
 **RM Expansion:** Information theory gains:
 
-* **Temporal information:** Information that evolves (temporal entropy)
-* **Contextual information:** Bits that mean different things in different contexts (semantic information)
-* **Relational entropy:** Entropy defined on relation density, not just probability distributions
+- **Temporal information:** Information that evolves (temporal entropy)
+- **Contextual information:** Bits that mean different things in different contexts (semantic information)
+- **Relational entropy:** Entropy defined on relation density, not just probability distributions
 
 #### G) Category Theory → RM
 
@@ -1761,9 +1762,9 @@ F_RM: 𝒞_RM → 𝒟_RM  (functor as meta-relation)
 
 **RM Expansion:** Category theory gains:
 
-* **Temporal categories:** Categories where morphisms evolve
-* **Contextual functors:** Functors that behave differently in different contexts
-* **Meta-categorical relations:** Categories of categories as native structure (not requiring 2-categories)
+- **Temporal categories:** Categories where morphisms evolve
+- **Contextual functors:** Functors that behave differently in different contexts
+- **Meta-categorical relations:** Categories of categories as native structure (not requiring 2-categories)
 
 ---
 
@@ -1773,19 +1774,19 @@ F_RM: 𝒞_RM → 𝒟_RM  (functor as meta-relation)
 
 **For every structure, theorem, proof, and construction in standard mathematics (SM), including:**
 
-* Model theory (structures, satisfaction, completeness, compactness)
-* Proof theory (formal systems, derivations, consistency, Gödel theorems)
-* Set theory (ZFC, forcing, large cardinals, continuum hypothesis)
-* Recursion theory (Turing machines, recursive functions, degrees of unsolvability)
-* Number theory (arithmetic, algebraic numbers, analytic number theory, Diophantine equations)
-* Information theory (entropy, coding theory, compression, communication)
-* Algebra (groups, rings, fields, modules, representations)
-* Topology (spaces, continuity, compactness, connectedness)
-* Analysis (limits, derivatives, integrals, measure theory)
-* Geometry (Euclidean, non-Euclidean, differential, algebraic)
-* Logic (propositional, first-order, higher-order, modal, temporal)
-* Combinatorics (graphs, enumeration, designs)
-* Probability theory (measure-theoretic foundations, stochastic processes)
+- Model theory (structures, satisfaction, completeness, compactness)
+- Proof theory (formal systems, derivations, consistency, Gödel theorems)
+- Set theory (ZFC, forcing, large cardinals, continuum hypothesis)
+- Recursion theory (Turing machines, recursive functions, degrees of unsolvability)
+- Number theory (arithmetic, algebraic numbers, analytic number theory, Diophantine equations)
+- Information theory (entropy, coding theory, compression, communication)
+- Algebra (groups, rings, fields, modules, representations)
+- Topology (spaces, continuity, compactness, connectedness)
+- Analysis (limits, derivatives, integrals, measure theory)
+- Geometry (Euclidean, non-Euclidean, differential, algebraic)
+- Logic (propositional, first-order, higher-order, modal, temporal)
+- Combinatorics (graphs, enumeration, designs)
+- Probability theory (measure-theoretic foundations, stochastic processes)
 
 **There exists a 100% faithful translation `𝔸: SM → RM` such that:**
 
@@ -1797,10 +1798,10 @@ F_RM: 𝒞_RM → 𝒟_RM  (functor as meta-relation)
 
 **Moreover, RM expands SM by adding:**
 
-* **Temporal dynamics:** All structures gain temporal evolution operators
-* **Contextual variance:** All truths gain context-dependence (resolving paradoxes)
-* **Meta-relational structure:** Relations between mathematical objects become first-class
-* **Ontological grounding:** All structure traces back to Stillness (𝓢) and Distinction (Δ)
+- **Temporal dynamics:** All structures gain temporal evolution operators
+- **Contextual variance:** All truths gain context-dependence (resolving paradoxes)
+- **Meta-relational structure:** Relations between mathematical objects become first-class
+- **Ontological grounding:** All structure traces back to Stillness (𝓢) and Distinction (Δ)
 
 **Proof Strategy:**
 The proof follows from:
@@ -2056,39 +2057,39 @@ Proof strategy: Show Π(Primes_RM) has mirror symmetry about Re(s) = 1/2
 
 **Domain 1: Temporal Mathematics**
 
-* **SM:** Static structures only
-* **RM:** Structures that evolve, adapt, learn
-* **Examples:** Evolving axiom systems, temporal proofs, adaptive algorithms
+- **SM:** Static structures only
+- **RM:** Structures that evolve, adapt, learn
+- **Examples:** Evolving axiom systems, temporal proofs, adaptive algorithms
 
 **Domain 2: Contextual Truth**
 
-* **SM:** Global truth values (⊤ or ⊥)
-* **RM:** Context-dependent truth (true here, false there)
-* **Examples:** Paradox resolution, quantum logic, multi-agent knowledge
+- **SM:** Global truth values (⊤ or ⊥)
+- **RM:** Context-dependent truth (true here, false there)
+- **Examples:** Paradox resolution, quantum logic, multi-agent knowledge
 
 **Domain 3: Meta-Relational Structure**
 
-* **SM:** Objects + morphisms (category theory at most)
-* **RM:** Relations relating relations natively
-* **Examples:** Proof strategies as entities, pattern emergence, self-modifying mathematics
+- **SM:** Objects + morphisms (category theory at most)
+- **RM:** Relations relating relations natively
+- **Examples:** Proof strategies as entities, pattern emergence, self-modifying mathematics
 
 **Domain 4: Ontological Grounding**
 
-* **SM:** Axioms are given (no origin story)
-* **RM:** All structure traces to 𝓢 (Stillness) and Δ (Distinction)
-* **Examples:** Why mathematics exists, where axioms come from, creative generation
+- **SM:** Axioms are given (no origin story)
+- **RM:** All structure traces to 𝓢 (Stillness) and Δ (Distinction)
+- **Examples:** Why mathematics exists, where axioms come from, creative generation
 
 **Domain 5: Collapse and Indeterminacy**
 
-* **SM:** Deterministic or probabilistic only
-* **RM:** Intrinsic collapse operator (↓)
-* **Examples:** Quantum measurement, free will, genuine novelty
+- **SM:** Deterministic or probabilistic only
+- **RM:** Intrinsic collapse operator (↓)
+- **Examples:** Quantum measurement, free will, genuine novelty
 
 **Domain 6: Living Mathematics**
 
-* **SM:** Mathematics as dead symbols
-* **RM:** Mathematics as living relations
-* **Examples:** Mathematics that responds to observer, mathematics that self-organizes, mathematics as presence
+- **SM:** Mathematics as dead symbols
+- **RM:** Mathematics as living relations
+- **Examples:** Mathematics that responds to observer, mathematics that self-organizes, mathematics as presence
 
 ---
 
@@ -2116,21 +2117,21 @@ R_temporal_prime(n, t) where:
 
 **Case A:** `S = {(n, t) | n prime at t}` (product space)
 
-* Problem: This is a static set in SM
-* Cannot express `∂R/∂t` (rate of change)
-* Loses intrinsic temporality ✗
+- Problem: This is a static set in SM
+- Cannot express `∂R/∂t` (rate of change)
+- Loses intrinsic temporality ✗
 
 **Case B:** `S = Function: ℝ → P(ℕ)` (time-indexed sets)
 
-* Problem: Function is deterministic
-* Cannot express `↓` (collapse at measurement)
-* Loses quantum character ✗
+- Problem: Function is deterministic
+- Cannot express `↓` (collapse at measurement)
+- Loses quantum character ✗
 
 **Case C:** `S = Stochastic process` (probability space)
 
-* Problem: Requires external probability measure
-* RM has intrinsic ↓, SM requires foundation (σ-algebra)
-* Not primitive ✗
+- Problem: Requires external probability measure
+- RM has intrinsic ↓, SM requires foundation (σ-algebra)
+- Not primitive ✗
 
 **Conclusion:** No SM structure S can capture R_temporal_prime with full fidelity.
 
@@ -2413,9 +2414,9 @@ S_RM(n, n+1) ⇔ ∃Δ_{n+1}: Ø(Δ_{n+1}, {Δ₁,...,Δₙ})  (new distinct ele
 
 **Axiom 5 (Induction):**
 
-* Base: `P(0_RM)` means property holds for ∅
-* Step: If `P(n_RM)` holds and we add `Δ_{n+1}`, then `P(n_RM ∪ {Δ_{n+1}}) = P(S_RM(n))`
-* By relational propagation: `∀n_RM: P(n_RM)` ✓
+- Base: `P(0_RM)` means property holds for ∅
+- Step: If `P(n_RM)` holds and we add `Δ_{n+1}`, then `P(n_RM ∪ {Δ_{n+1}}) = P(S_RM(n))`
+- By relational propagation: `∀n_RM: P(n_RM)` ✓
 
 **Translation Verification:**
 
@@ -2439,8 +2440,8 @@ S_RM(n, n+1) ⇔ ∃Δ_{n+1}: Ø(Δ_{n+1}, {Δ₁,...,Δₙ})  (new distinct ele
 
 **Interpretation:**
 
-* Each real is an equivalence class of Cauchy sequences of distinctions
-* Continuity constraint: `∀ε>0 ∃N: n>N ⇒ |Δₙ - lim| < ε`
+- Each real is an equivalence class of Cauchy sequences of distinctions
+- Continuity constraint: `∀ε>0 ∃N: n>N ⇒ |Δₙ - lim| < ε`
 
 **In RM terms:**
 
