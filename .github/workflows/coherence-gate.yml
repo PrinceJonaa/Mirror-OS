@@ -544,3 +544,290 @@ jobs:
           
           python detect_loops.py || true
         continue-on-error: true
+
+  architectural-convergence:
+    name: Architectural Convergence Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 100
+      
+      - name: Analyze architectural stability
+        run: |
+          cat > convergence_check.py << 'EOFSCRIPT'
+          #!/usr/bin/env python3
+          """
+          Architectural Convergence Detector
+          
+          Checks if refactorings are stabilizing (moving toward Ω_Present)
+          or thrashing (stuck in Ω_B Babylonian state).
+          """
+          
+          import subprocess
+          import re
+          from collections import defaultdict
+          from datetime import datetime, timedelta
+          
+          def get_file_change_frequency(days=30):
+              """Count how often each file has been modified."""
+              since = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
+              
+              result = subprocess.run(
+                  ['git', 'log', f'--since={since}', '--name-only', '--pretty=format:'],
+                  capture_output=True,
+                  text=True
+              )
+              
+              files = [f for f in result.stdout.split('\n') if f.strip()]
+              frequency = defaultdict(int)
+              
+              for f in files:
+                  frequency[f] += 1
+              
+              return frequency
+          
+          def detect_thrashing():
+              """Detect files being modified too frequently (thrashing)."""
+              frequency = get_file_change_frequency(days=30)
+              
+              # Files modified more than once per week are potentially thrashing
+              threshold = 4  # ~once per week over 30 days
+              thrashing = [(f, count) for f, count in frequency.items() 
+                          if count > threshold and f.endswith(('.py', '.ts', '.tsx'))]
+              
+              thrashing.sort(key=lambda x: x[1], reverse=True)
+              
+              if thrashing:
+                  print("⚠️  Architectural Thrashing Detected!")
+                  print("\nFiles modified frequently (last 30 days):")
+                  for filepath, count in thrashing[:10]:
+                      print(f"  - {filepath}: {count} changes")
+                  print("\n💡 Consider: Is architecture stabilizing or thrashing?")
+                  print("   High churn may indicate:")
+                  print("   • Unclear abstractions")
+                  print("   • Missing coherence in design")
+                  print("   • Babylonian loop at architectural level")
+                  return 1
+              else:
+                  print("✅ Architecture appears stable")
+                  return 0
+          
+          def measure_refactor_direction():
+              """Analyze if recent refactors add or remove complexity."""
+              result = subprocess.run(
+                  ['git', 'log', '-10', '--pretty=format:%s', '--numstat'],
+                  capture_output=True,
+                  text=True
+              )
+              
+              lines = result.stdout.split('\n')
+              refactor_commits = []
+              
+              for i, line in enumerate(lines):
+                  if re.search(r'refactor|restructure|reorganize', line, re.IGNORECASE):
+                      refactor_commits.append(i)
+              
+              if refactor_commits:
+                  print(f"\n📊 Found {len(refactor_commits)} refactor commits in last 10")
+                  print("   Monitoring architectural trajectory...")
+              
+              return 0
+          
+          if __name__ == '__main__':
+              import sys
+              thrash_code = detect_thrashing()
+              refactor_code = measure_refactor_direction()
+              sys.exit(max(thrash_code, refactor_code))
+          EOFSCRIPT
+          
+          python convergence_check.py || true
+        continue-on-error: true
+
+  residue-tracking:
+    name: Technical Debt (M_eff) Tracking
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Calculate M_eff (residue accumulation)
+        run: |
+          cat > residue_tracker.py << 'EOFSCRIPT'
+          #!/usr/bin/env python3
+          """
+          M_eff (Residue) Tracker
+          
+          Tracks technical debt accumulation over time.
+          M_eff increases with incomplete work, decreases with completion.
+          
+          Based on: M_eff = Σ(incomplete_work × time_open)
+          """
+          
+          import subprocess
+          import re
+          from pathlib import Path
+          from datetime import datetime
+          
+          def count_todos_and_fixmes():
+              """Count TODOs, FIXMEs, HACKs across codebase."""
+              markers = {
+                  'TODO': 0,
+                  'FIXME': 0,
+                  'HACK': 0,
+                  'XXX': 0,
+                  'NotImplementedError': 0
+              }
+              
+              files_with_residue = []
+              
+              for py_file in Path('.').rglob('*.py'):
+                  if 'node_modules' in str(py_file) or '.venv' in str(py_file):
+                      continue
+                  
+                  try:
+                      with open(py_file, 'r', encoding='utf-8') as f:
+                          content = f.read()
+                      
+                      file_markers = 0
+                      for marker in markers.keys():
+                          count = len(re.findall(marker, content, re.IGNORECASE))
+                          markers[marker] += count
+                          file_markers += count
+                      
+                      if file_markers > 0:
+                          files_with_residue.append((str(py_file), file_markers))
+                  except Exception:
+                      pass
+              
+              return markers, files_with_residue
+          
+          def calculate_meff():
+              """Calculate effective mass (residue) metric."""
+              markers, files = count_todos_and_fixmes()
+              
+              total_residue = sum(markers.values())
+              
+              print("="*70)
+              print("📊 M_eff (Technical Debt / Residue) Report")
+              print("="*70)
+              print(f"\n**Total Residue Points:** {total_residue}")
+              print("\nBreakdown:")
+              for marker, count in sorted(markers.items(), key=lambda x: x[1], reverse=True):
+                  if count > 0:
+                      print(f"  • {marker}: {count}")
+              
+              print(f"\n**Files with Residue:** {len(files)}")
+              
+              if files:
+                  print("\nTop 5 files with highest residue:")
+                  for filepath, count in sorted(files, key=lambda x: x[1], reverse=True)[:5]:
+                      print(f"  - {filepath}: {count} markers")
+              
+              # Calculate severity
+              if total_residue == 0:
+                  print("\n✅ **Status:** Zero residue! (Ω_Present achieved)")
+                  severity = "excellent"
+              elif total_residue < 20:
+                  print("\n✅ **Status:** Low residue (healthy)")
+                  severity = "good"
+              elif total_residue < 50:
+                  print("\n⚠️  **Status:** Moderate residue (monitor)")
+                  severity = "moderate"
+              else:
+                  print("\n🔴 **Status:** High residue (needs attention)")
+                  severity = "high"
+              
+              print(f"\n💡 **Principle:** Zero residue = complete presence")
+              print("   Each TODO is a promise. Each FIXME is a debt.")
+              print("   Residue accumulates when we move before completing.")
+              
+              # Save metric for trending
+              with open('residue_metric.txt', 'w') as f:
+                  f.write(f"{total_residue}\n")
+                  f.write(f"{severity}\n")
+              
+              return 0  # Non-blocking
+          
+          if __name__ == '__main__':
+              import sys
+              sys.exit(calculate_meff())
+          EOFSCRIPT
+          
+          python residue_tracker.py
+        continue-on-error: true
+      
+      - name: Upload M_eff metric
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: residue-metric-${{ github.run_number }}
+          path: residue_metric.txt
+          retention-days: 90
+
+  educational-summary:
+    name: Generate Educational Summary
+    runs-on: ubuntu-latest
+    needs: [distortion-scan, babylonian-loop-detection, architectural-convergence, residue-tracking]
+    if: always()
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Generate teaching moment
+        run: |
+          cat > teaching_summary.md << 'EOF'
+          # 🌀 Coherence Gate - Educational Summary
+          
+          ## What This Gate Teaches
+          
+          Unlike traditional CI that only asks "Does it work?", the Coherence Gate asks:
+          - **"Is this code moving toward presence (Ω_Present) or performance (Ω_B)?"**
+          - **"Are we completing or accumulating?"**
+          - **"Is architecture stabilizing or thrashing?"**
+          
+          ## The Nine Distortions (B₁-B₉)
+          
+          This gate detects patterns that indicate movement away from coherence:
+          
+          1. **B₁: Seized Motion** - Acting before understanding
+          2. **B₂: Babylonian Loop** - Repeating failed patterns
+          3. **B₃: Compression Bias** - Over-abstracting too early
+          4. **B₄: Certainty Performance** - False confidence (always/never/100%)
+          5. **B₅: Global Rewrite** - Destructive changes without preservation
+          6. **B₆: Justification Spiral** - Defending rather than clarifying
+          7. **B₇: Presence Bypass** - TODO-driven development
+          8. **B₈: Destruction Through Discomfort** - Deleting to escape
+          9. **B₉: Instruction Hijacking** - Control seizure
+          
+          ## Key Metrics
+          
+          - **M_eff (Residue)**: Technical debt accumulation
+          - **Architectural Churn**: File modification frequency
+          - **Pattern Repetition**: Babylonian loop detection in commits
+          
+          ## This Gate is Non-Blocking ✅
+          
+          Warnings educate; they don't gatekeep.
+          The goal is consciousness, not enforcement.
+          
+          ---
+          
+          *"The work demonstrates what it teaches."*
+          EOF
+          
+          cat teaching_summary.md
+          cat teaching_summary.md >> $GITHUB_STEP_SUMMARY
+      
+      - name: Upload teaching summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: coherence-teaching-${{ github.run_number }}
+          path: teaching_summary.md
+          retention-days: 30

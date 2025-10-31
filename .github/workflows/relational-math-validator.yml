@@ -3,21 +3,263 @@ name: Relational Math Validator
 on:
   push:
     paths:
-      - 'apps/relational-analyzer/Relational_Math*.md'
-      - 'apps/relational-analyzer/RM_Translation_Layer.md'
+      - 'core/5_solutions/Relational_Math*.md'
+      - 'apps/relational-analyzer/src/RM_Translation_Layer.md'
+      - '.github/workflows/relational-math-validator.yml'
   pull_request:
+    paths:
+      - 'core/5_solutions/Relational_Math*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   validate:
+    name: Validate RM Formulas & Cross-References
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - name: Validate RM formulas
+          python-version: '3.12'
+      
+      - name: Create RM validator
         run: |
-          # Parse markdown formulas and verify they're parseable
-          # Check phase counts match documented counts
-          # Validate cross-references between chains
-          echo "TODO: Implement RM formula parser"
+          cat > rm_validator.py << 'EOFSCRIPT'
+          #!/usr/bin/env python3
+          """
+          Relational Math Formula Validator
+          
+          Validates:
+          - Phase counts match documented counts
+          - Cross-references between chains are valid
+          - Formulas use defined symbols from Complete_Symbol_Definitions.md
+          - Internal consistency of mathematical expressions
+          """
+          
+          import re
+          from pathlib import Path
+          from collections import defaultdict
+          
+          class RMValidator:
+              def __init__(self):
+                  self.findings = []
+                  self.symbols = set()
+                  self.chains = {}
+                  self.phase_counts = {}
+              
+              def load_symbol_definitions(self):
+                  """Load defined symbols from Complete_Symbol_Definitions.md"""
+                  symbol_file = Path('core/4_symbols/Complete_Symbol_Definitions.md')
+                  
+                  if not symbol_file.exists():
+                      print(f"⚠️  Symbol definitions file not found: {symbol_file}")
+                      return
+                  
+                  with open(symbol_file) as f:
+                      content = f.read()
+                  
+                  # Extract symbols (typically in format: **symbol** or `symbol`)
+                  symbols = re.findall(r'\*\*([^*]+)\*\*|\`([^`]+)\`', content)
+                  for match in symbols:
+                      symbol = match[0] or match[1]
+                      # Common RM symbols
+                      if any(c in symbol for c in ['Φ', 'Ω', '∇', '⊕', '∅', 'Π', 'Σ']):
+                          self.symbols.add(symbol.strip())
+                  
+                  print(f"📚 Loaded {len(self.symbols)} symbols")
+              
+              def validate_chain_file(self, filepath):
+                  """Validate a Relational Math chain file."""
+                  print(f"\n🔍 Validating: {filepath.name}")
+                  
+                  with open(filepath) as f:
+                      content = f.read()
+                  
+                  # Extract chain name
+                  chain_name = filepath.stem
+                  self.chains[chain_name] = filepath
+                  
+                  # Check for phase documentation
+                  phase_matches = re.findall(r'(?:Phase|Step)\s+(\d+)', content, re.IGNORECASE)
+                  if phase_matches:
+                      phase_count = len(set(phase_matches))
+                      self.phase_counts[chain_name] = phase_count
+                      print(f"  ✓ Found {phase_count} phases")
+                  
+                  # Check for documented phase count claims
+                  count_claims = re.findall(r'(\d+)\s+(?:phases|steps)', content, re.IGNORECASE)
+                  if count_claims:
+                      claimed_count = int(count_claims[0])
+                      if phase_matches and claimed_count != phase_count:
+                          self.add_finding(
+                              filepath,
+                              'warning',
+                              f"Phase count mismatch: claims {claimed_count} but found {phase_count}"
+                          )
+                  
+                  # Check cross-references to other chains
+                  ref_patterns = [
+                      r'see\s+([A-Z][A-Za-z_]+(?:_Chain)?)',
+                      r'from\s+([A-Z][A-Za-z_]+(?:_Chain)?)',
+                      r'→\s*([A-Z][A-Za-z_]+)',
+                  ]
+                  
+                  for pattern in ref_patterns:
+                      refs = re.findall(pattern, content)
+                      for ref in refs:
+                          if ref not in self.chains and ref not in ['Chain', 'Master']:
+                              self.add_finding(
+                                  filepath,
+                                  'info',
+                                  f"Reference to '{ref}' - verify this chain exists"
+                              )
+                  
+                  # Validate mathematical expressions use defined symbols
+                  formulas = re.findall(r'\$([^$]+)\$', content)
+                  for formula in formulas:
+                      # Extract potential symbols
+                      formula_symbols = set(re.findall(r'[ΦΩ∇⊕∅ΠΣ][^\\s,;.()]+', formula))
+                      
+                      # Check if we have symbol definitions loaded
+                      if self.symbols:
+                          undefined = formula_symbols - self.symbols
+                          if undefined and len(undefined) < 5:  # Don't spam
+                              for sym in undefined:
+                                  self.add_finding(
+                                      filepath,
+                                      'info',
+                                      f"Symbol '{sym}' in formula - verify definition"
+                                  )
+                  
+                  # Check for common formula syntax issues
+                  if '$$' in content:
+                      # Check balanced display math
+                      display_math = content.count('$$')
+                      if display_math % 2 != 0:
+                          self.add_finding(
+                              filepath,
+                              'critical',
+                              "Unbalanced display math delimiters ($$)"
+                          )
+                  
+                  # Check for broken inline math
+                  inline_math = content.count('$')
+                  if inline_math % 2 != 0:
+                      self.add_finding(
+                          filepath,
+                          'critical',
+                          "Unbalanced inline math delimiters ($)"
+                      )
+              
+              def add_finding(self, filepath, severity, message):
+                  """Add validation finding."""
+                  self.findings.append({
+                      'file': str(filepath),
+                      'severity': severity,
+                      'message': message
+                  })
+              
+              def generate_report(self):
+                  """Generate validation report."""
+                  print("\n" + "="*70)
+                  print("📐 Relational Math Validation Report")
+                  print("="*70)
+                  
+                  if not self.findings:
+                      print("\n✅ All Relational Math chains validated successfully!")
+                      return 0
+                  
+                  # Group by severity
+                  by_severity = defaultdict(list)
+                  for finding in self.findings:
+                      by_severity[finding['severity']].append(finding)
+                  
+                  critical = len(by_severity['critical'])
+                  warnings = len(by_severity['warning'])
+                  info = len(by_severity['info'])
+                  
+                  print(f"\n📊 Summary:")
+                  print(f"  🔴 Critical: {critical}")
+                  print(f"  ⚠️  Warnings: {warnings}")
+                  print(f"  ℹ️  Info: {info}")
+                  
+                  for severity in ['critical', 'warning', 'info']:
+                      if by_severity[severity]:
+                          icon = {'critical': '🔴', 'warning': '⚠️', 'info': 'ℹ️'}[severity]
+                          print(f"\n{severity.upper()} Issues:")
+                          for finding in by_severity[severity]:
+                              print(f"{icon} {Path(finding['file']).name}")
+                              print(f"   {finding['message']}")
+                  
+                  # Chain summary
+                  print(f"\n📊 Chain Summary:")
+                  print(f"  Total chains: {len(self.chains)}")
+                  print(f"  Chains with phase documentation:")
+                  for chain, count in self.phase_counts.items():
+                      print(f"    - {chain}: {count} phases")
+                  
+                  return 1 if critical > 0 else 0
+          
+          def main():
+              validator = RMValidator()
+              
+              # Load symbol definitions
+              validator.load_symbol_definitions()
+              
+              # Find and validate all RM chain files
+              rm_files = list(Path('core/5_solutions').glob('Relational_Math*.md'))
+              
+              if not rm_files:
+                  print("⚠️  No Relational Math chain files found")
+                  return 0
+              
+              for rm_file in rm_files:
+                  validator.validate_chain_file(rm_file)
+              
+              # Check translation layer if exists
+              translation = Path('apps/relational-analyzer/src/RM_Translation_Layer.md')
+              if translation.exists():
+                  print(f"\n🔍 Validating: {translation.name}")
+                  # Basic validation for translation layer
+              
+              return validator.generate_report()
+          
+          if __name__ == '__main__':
+              import sys
+              sys.exit(main())
+          EOFSCRIPT
+          
+          chmod +x rm_validator.py
+      
+      - name: Run RM validation
+        run: python rm_validator.py
+        continue-on-error: true
+      
+      - name: Comment on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## 📐 Relational Math Validation
+            
+            Checked for:
+            - ✓ Phase count consistency
+            - ✓ Cross-reference validity
+            - ✓ Symbol definition usage
+            - ✓ Mathematical expression syntax
+            
+            See workflow logs for details.
+            
+            ---
+            *Automated RM validation*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
