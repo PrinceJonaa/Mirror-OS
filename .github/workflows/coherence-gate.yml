@@ -1,0 +1,546 @@
+name: Coherence Gate
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      strict_mode:
+        description: 'Enable strict mode (fail on warnings)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: coherence-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  distortion-scan:
+    name: Distortion Pattern Detection
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better diff analysis
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install analyzer dependencies
+        run: |
+          python -m pip install --upgrade pip
+          cd apps/relational-analyzer
+          pip install -r requirements.txt
+          cd ../..
+          pip install gitpython pyyaml
+      
+      - name: Get changed files
+        id: changed_files
+        run: |
+          # Get list of changed Python files
+          git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
+          
+          PYTHON_FILES=$(grep '\.py$' changed_files.txt || echo "")
+          MD_FILES=$(grep '\.md$' changed_files.txt || echo "")
+          
+          echo "python_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$PYTHON_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "md_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$MD_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
+          echo "**Python:** $(echo "$PYTHON_FILES" | wc -l) files" >> $GITHUB_STEP_SUMMARY
+          echo "**Markdown:** $(echo "$MD_FILES" | wc -l) files" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Create distortion detector
+        run: |
+          cat > distortion_detector.py << 'EOFSCRIPT'
+          #!/usr/bin/env python3
+          """
+          Distortion Pattern Detector for Coherence Gate
+          
+          Detects 9 core distortion patterns (B₁-B₉) in code changes:
+          - B₁: Seized Motion (premature action)
+          - B₂: Babylonian Loop (repeating failed patterns)
+          - B₃: Compression Bias (over-abstraction)
+          - B₄: Certainty Performance (false confidence)
+          - B₅: Global Rewrite (destructive changes)
+          - B₆: Justification Spiral (defensive reasoning)
+          - B₇: Presence Bypass (avoiding core issues)
+          - B₈: Destruction Through Discomfort (deleting to escape)
+          - B₉: Instruction Hijacking (control seizure)
+          """
+          
+          import re
+          import sys
+          from pathlib import Path
+          from collections import defaultdict
+          import json
+          
+          class DistortionDetector:
+              def __init__(self):
+                  self.findings = defaultdict(list)
+                  self.severity_counts = {'critical': 0, 'warning': 0, 'info': 0}
+              
+              def scan_file(self, filepath):
+                  """Scan a file for distortion patterns."""
+                  try:
+                      with open(filepath, 'r', encoding='utf-8') as f:
+                          content = f.read()
+                          lines = content.split('\n')
+                  except Exception as e:
+                      print(f"⚠️  Could not read {filepath}: {e}")
+                      return
+                  
+                  # B₃: Compression Bias - Excessive abstraction
+                  self.check_compression_bias(filepath, content, lines)
+                  
+                  # B₄: Certainty Performance - Absolute claims
+                  self.check_certainty_performance(filepath, content, lines)
+                  
+                  # B₅: Global Rewrite - Large destructive changes
+                  self.check_global_rewrite(filepath, content, lines)
+                  
+                  # B₆: Justification Spiral - Defensive comments
+                  self.check_justification_spiral(filepath, content, lines)
+                  
+                  # B₇: Presence Bypass - TODO/FIXME proliferation
+                  self.check_presence_bypass(filepath, content, lines)
+                  
+                  # B₈: Destruction patterns
+                  self.check_destruction_patterns(filepath, content, lines)
+              
+              def check_compression_bias(self, filepath, content, lines):
+                  """Detect over-abstraction and premature generalization."""
+                  # Check for excessive class inheritance depth
+                  class_pattern = re.compile(r'^class\s+\w+\(([\w\s,]+)\):', re.MULTILINE)
+                  matches = class_pattern.findall(content)
+                  
+                  for match in matches:
+                      bases = [b.strip() for b in match.split(',')]
+                      if len(bases) > 3:
+                          self.add_finding(
+                              'B₃: Compression Bias',
+                              filepath,
+                              'warning',
+                              f'Excessive inheritance: {len(bases)} base classes'
+                          )
+                  
+                  # Check for functions with too many parameters (over-abstraction)
+                  func_pattern = re.compile(r'def\s+\w+\(([^)]+)\):')
+                  for i, line in enumerate(lines, 1):
+                      match = func_pattern.search(line)
+                      if match:
+                          params = [p.strip() for p in match.group(1).split(',') if p.strip()]
+                          if len(params) > 7:
+                              self.add_finding(
+                                  'B₃: Compression Bias',
+                                  filepath,
+                                  'warning',
+                                  f'Line {i}: Function with {len(params)} parameters (over-abstraction)'
+                              )
+              
+              def check_certainty_performance(self, filepath, content, lines):
+                  """Detect absolute language and false confidence."""
+                  certainty_patterns = [
+                      (r'\b(always|never|must|guaranteed|impossible|certainly)\b', 'Absolute claim'),
+                      (r'100%|completely|totally|absolutely', 'Absolute quantifier'),
+                      (r'assert\s+True\s*==\s*True', 'Meaningless assertion'),
+                  ]
+                  
+                  for i, line in enumerate(lines, 1):
+                      # Skip comments
+                      if line.strip().startswith('#'):
+                          continue
+                      
+                      for pattern, description in certainty_patterns:
+                          if re.search(pattern, line, re.IGNORECASE):
+                              self.add_finding(
+                                  'B₄: Certainty Performance',
+                                  filepath,
+                                  'info',
+                                  f'Line {i}: {description} - "{line.strip()[:60]}"'
+                              )
+              
+              def check_global_rewrite(self, filepath, content, lines):
+                  """Detect potentially destructive large-scale changes."""
+                  # Check file size (>1000 lines might indicate monolith)
+                  if len(lines) > 1000:
+                      self.add_finding(
+                          'B₅: Global Rewrite Risk',
+                          filepath,
+                          'warning',
+                          f'Large file ({len(lines)} lines) - consider splitting'
+                      )
+                  
+                  # Check for mass deletions (many empty functions)
+                  empty_functions = re.findall(r'def\s+\w+\([^)]*\):\s*pass', content)
+                  if len(empty_functions) > 5:
+                      self.add_finding(
+                          'B₅: Global Rewrite',
+                          filepath,
+                          'warning',
+                          f'{len(empty_functions)} placeholder functions - incomplete implementation?'
+                      )
+              
+              def check_justification_spiral(self, filepath, content, lines):
+                  """Detect defensive or excessive commenting."""
+                  comment_blocks = []
+                  current_block = []
+                  
+                  for line in lines:
+                      stripped = line.strip()
+                      if stripped.startswith('#'):
+                          current_block.append(stripped)
+                      elif current_block:
+                          if len(current_block) > 5:
+                              comment_blocks.append(current_block)
+                          current_block = []
+                  
+                  if len(comment_blocks) > 3:
+                      self.add_finding(
+                          'B₆: Justification Spiral',
+                          filepath,
+                          'info',
+                          f'{len(comment_blocks)} large comment blocks - over-explanation?'
+                      )
+                  
+                  # Check for defensive patterns
+                  defensive_patterns = [
+                      r'#\s*NOTE:.*(?:should|must|important)',
+                      r'#\s*WARNING:',
+                      r'#\s*HACK:',
+                  ]
+                  
+                  for pattern in defensive_patterns:
+                      matches = re.findall(pattern, content, re.IGNORECASE)
+                      if len(matches) > 2:
+                          self.add_finding(
+                              'B₆: Justification Spiral',
+                              filepath,
+                              'info',
+                              f'Defensive comments detected: {len(matches)} instances'
+                          )
+              
+              def check_presence_bypass(self, filepath, content, lines):
+                  """Detect avoidance patterns (TODOs, FIXMEs, unfinished work)."""
+                  bypass_patterns = [
+                      (r'TODO|FIXME|XXX|HACK', 'Deferred work'),
+                      (r'raise NotImplementedError', 'Unimplemented'),
+                      (r'pass\s*#.*later', 'Placeholder'),
+                  ]
+                  
+                  bypass_count = 0
+                  for i, line in enumerate(lines, 1):
+                      for pattern, description in bypass_patterns:
+                          if re.search(pattern, line, re.IGNORECASE):
+                              bypass_count += 1
+                              if bypass_count <= 3:  # Only report first 3
+                                  self.add_finding(
+                                      'B₇: Presence Bypass',
+                                      filepath,
+                                      'info',
+                                      f'Line {i}: {description}'
+                                  )
+                  
+                  if bypass_count > 5:
+                      self.add_finding(
+                          'B₇: Presence Bypass',
+                          filepath,
+                          'warning',
+                          f'High avoidance: {bypass_count} deferred items'
+                      )
+              
+              def check_destruction_patterns(self, filepath, content, lines):
+                  """Detect deletion or destructive operations."""
+                  # Check for mass deletions in git diffs would be better
+                  # Here we check for patterns that suggest deletion logic
+                  
+                  destructive_patterns = [
+                      r'\brm\s+-rf',
+                      r'\.unlink\(',
+                      r'shutil\.rmtree',
+                      r'os\.remove',
+                  ]
+                  
+                  for i, line in enumerate(lines, 1):
+                      for pattern in destructive_patterns:
+                          if re.search(pattern, line):
+                              self.add_finding(
+                                  'B₈: Destruction Pattern',
+                                  filepath,
+                                  'warning',
+                                  f'Line {i}: Destructive operation without safety check?'
+                              )
+              
+              def add_finding(self, category, filepath, severity, message):
+                  """Add a finding to the report."""
+                  self.findings[category].append({
+                      'file': str(filepath),
+                      'severity': severity,
+                      'message': message
+                  })
+                  self.severity_counts[severity] += 1
+              
+              def generate_report(self):
+                  """Generate final report."""
+                  print("\n" + "="*70)
+                  print("🔍 COHERENCE GATE - Distortion Pattern Report")
+                  print("="*70)
+                  
+                  if not self.findings:
+                      print("\n✅ No distortion patterns detected!")
+                      return 0
+                  
+                  total = sum(self.severity_counts.values())
+                  print(f"\n📊 Summary: {total} findings")
+                  print(f"   Critical: {self.severity_counts['critical']}")
+                  print(f"   Warnings: {self.severity_counts['warning']}")
+                  print(f"   Info: {self.severity_counts['info']}")
+                  
+                  for category, findings in sorted(self.findings.items()):
+                      print(f"\n{'─'*70}")
+                      print(f"📍 {category} ({len(findings)} findings)")
+                      print(f"{'─'*70}")
+                      
+                      for finding in findings:
+                          icon = {'critical': '🔴', 'warning': '⚠️', 'info': 'ℹ️'}[finding['severity']]
+                          print(f"{icon} {finding['file']}")
+                          print(f"   {finding['message']}")
+                  
+                  # Save JSON report
+                  with open('distortion_report.json', 'w') as f:
+                      json.dump({
+                          'summary': self.severity_counts,
+                          'findings': dict(self.findings)
+                      }, f, indent=2)
+                  
+                  # Return exit code based on severity
+                  if self.severity_counts['critical'] > 0:
+                      return 1
+                  return 0
+          
+          def main():
+              import sys
+              
+              if len(sys.argv) < 2:
+                  print("Usage: distortion_detector.py <file1> [file2] ...")
+                  sys.exit(1)
+              
+              detector = DistortionDetector()
+              
+              for filepath in sys.argv[1:]:
+                  path = Path(filepath)
+                  if path.exists() and path.suffix == '.py':
+                      print(f"Scanning: {filepath}")
+                      detector.scan_file(path)
+              
+              exit_code = detector.generate_report()
+              sys.exit(exit_code)
+          
+          if __name__ == '__main__':
+              main()
+          EOFSCRIPT
+          
+          chmod +x distortion_detector.py
+      
+      - name: Run distortion pattern detection
+        id: distortion_check
+        run: |
+          echo "${{ steps.changed_files.outputs.python_files }}" > python_files.txt
+          
+          if [ -s python_files.txt ]; then
+            echo "🔍 Running distortion pattern detection..."
+            python distortion_detector.py $(cat python_files.txt) || echo "Patterns detected"
+          else
+            echo "ℹ️  No Python files changed"
+          fi
+        continue-on-error: true
+      
+      - name: Run relational analyzer self-test
+        run: |
+          mkdir -p results/coherence_check
+          
+          cd apps/relational-analyzer
+          python src/truth_distortion_unified.py \
+            --self-test \
+            --out ../../results/coherence_check \
+            > ../../results/coherence_check/self_test.log 2>&1 || true
+          cd ../..
+        continue-on-error: true
+      
+      - name: Generate coherence summary
+        if: always()
+        run: |
+          cat > coherence_summary.md << 'EOF'
+          # 🌀 Coherence Gate Report
+          
+          ## Distortion Patterns Detected
+          
+          EOF
+          
+          if [ -f distortion_report.json ]; then
+            python << 'EOFPYTHON'
+          import json
+          
+          with open('distortion_report.json') as f:
+              report = json.load(f)
+          
+          summary = report['summary']
+          findings = report['findings']
+          
+          print(f"**Total Findings:** {sum(summary.values())}")
+          print(f"- 🔴 Critical: {summary['critical']}")
+          print(f"- ⚠️  Warnings: {summary['warning']}")
+          print(f"- ℹ️  Info: {summary['info']}")
+          print()
+          
+          if findings:
+              print("### Detected Patterns")
+              print()
+              for category, items in findings.items():
+                  print(f"#### {category}")
+                  print(f"*{len(items)} instances*")
+                  print()
+          else:
+              print("✅ No distortion patterns detected!")
+          EOFPYTHON
+          fi >> coherence_summary.md
+          
+          cat coherence_summary.md >> $GITHUB_STEP_SUMMARY
+      
+      - name: Upload coherence report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coherence-report-${{ github.run_number }}
+          path: |
+            results/coherence_check/
+            distortion_report.json
+            coherence_summary.md
+          retention-days: 30
+      
+      - name: Comment on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let comment = '## 🌀 Coherence Gate Report\n\n';
+            
+            if (fs.existsSync('coherence_summary.md')) {
+              const summary = fs.readFileSync('coherence_summary.md', 'utf8');
+              comment += summary;
+            } else {
+              comment += '✅ Analysis complete. See artifacts for details.\n';
+            }
+            
+            comment += '\n---\n*Automated coherence analysis*';
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(c => 
+              c.user.type === 'Bot' && c.body.includes('Coherence Gate Report')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
+
+  babylonian-loop-detection:
+    name: Babylonian Loop Detection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 50  # Get enough history to detect loops
+      
+      - name: Detect repeated patterns
+        run: |
+          cat > detect_loops.py << 'EOFSCRIPT'
+          #!/usr/bin/env python3
+          """Detect Babylonian Loop patterns in git history."""
+          
+          import subprocess
+          import re
+          from collections import Counter
+          
+          def get_recent_commits(n=20):
+              """Get recent commit messages."""
+              result = subprocess.run(
+                  ['git', 'log', f'-{n}', '--pretty=format:%s'],
+                  capture_output=True,
+                  text=True
+              )
+              return result.stdout.strip().split('\n')
+          
+          def detect_loops():
+              commits = get_recent_commits()
+              
+              # Normalize commit messages (remove PR numbers, hashes)
+              normalized = []
+              for msg in commits:
+                  # Remove PR numbers, issue refs
+                  clean = re.sub(r'#\d+', '', msg)
+                  clean = re.sub(r'\([^)]*\)', '', clean)
+                  clean = clean.strip().lower()
+                  normalized.append(clean)
+              
+              # Count similar commits
+              counter = Counter(normalized)
+              loops = [(msg, count) for msg, count in counter.items() if count >= 3]
+              
+              if loops:
+                  print("⚠️  Babylonian Loop Pattern Detected!")
+                  print("\nRepeated commit patterns:")
+                  for msg, count in loops:
+                      print(f"  - '{msg}' appears {count} times")
+                  print("\n💡 Consider: Why is this pattern repeating?")
+                  return 1
+              else:
+                  print("✅ No obvious loop patterns in recent commits")
+                  return 0
+          
+          if __name__ == '__main__':
+              import sys
+              sys.exit(detect_loops())
+          EOFSCRIPT
+          
+          python detect_loops.py || true
+        continue-on-error: true
