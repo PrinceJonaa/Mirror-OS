@@ -1,0 +1,194 @@
+{
+  "play_analyses": [
+    {
+      "game_id": 2023090700,
+      "play_id": 101,
+      "n_players": 9,
+      "meff_min": 1.5568440689055194,
+      "collapse_ratio": 0.17298267432283548,
+      "rfi": 0.0,
+      "modularity_Q": 0.0,
+      "shape": "Complete Graph",
+      "lattice_position": "Fragmented Collapse",
+      "collapse_potential": "Medium",
+      "top_eigenvalues": [
+        8.443155931094484,
+        0.49482136413520483,
+        0.03582782767481481
+      ],
+      "status": "computed"
+    },
+    {
+      "game_id": 2023090700,
+      "play_id": 194,
+      "n_players": 13,
+      "meff_min": 1.2861781250400335,
+      "collapse_ratio": 0.09893677884923334,
+      "rfi": -0.0,
+      "modularity_Q": -0.022682445759368782,
+      "shape": "Complete Graph",
+      "lattice_position": "Fragmented Collapse",
+      "collapse_potential": "Medium",
+      "top_eigenvalues": [
+        12.713821874959969,
+        0.22291419558167097,
+        0.03625822392138154
+      ],
+      "status": "computed"
+    },
+    {
+      "game_id": 2023090700,
+      "play_id": 219,
+      "n_players": 13,
+      "meff_min": 1.4704625044546034,
+      "collapse_ratio": 0.11311250034266179,
+      "rfi": -0.0,
+      "modularity_Q": -0.022682445759368782,
+      "shape": "Complete Graph",
+      "lattice_position": "Fragmented Collapse",
+      "collapse_potential": "Medium",
+      "top_eigenvalues": [
+        12.529537495545393,
+        0.4292500526167831,
+        0.028793398207773043
+      ],
+      "status": "computed"
+    },
+    {
+      "game_id": 2023090700,
+      "play_id": 361,
+      "n_players": 11,
+      "meff_min": 2.666303577092144,
+      "collapse_ratio": 0.24239123428110398,
+      "rfi": 0.0,
+      "modularity_Q": -0.012302960399846283,
+      "shape": "Complete Graph",
+      "lattice_position": "Fragmented Collapse",
+      "collapse_potential": "Medium",
+      "top_eigenvalues": [
+        8.841596614330342,
+        1.4920998085775163,
+        0.5696737501694
+      ],
+      "status": "computed"
+    },
+    {
+      "game_id": 2023090700,
+      "play_id": 436,
+      "n_players": 11,
+      "meff_min": 2.186302202335185,
+      "collapse_ratio": 0.19875474566683501,
+      "rfi": 0.0,
+      "modularity_Q": -0.013888888888888753,
+      "shape": "Complete Graph",
+      "lattice_position": "Fragmented Collapse",
+      "collapse_potential": "Medium",
+      "top_eigenvalues": [
+        9.433213553025482,
+        1.3804842446393377,
+        0.07587008636133749
+      ],
+      "status": "computed"
+    }
+  ],
+  "role_analysis": {
+    "roles": [
+      "Defensive Coverage",
+      "Other Route Runner",
+      "Passer",
+      "Targeted Receiver"
+    ],
+    "n_roles": 4,
+    "meff_min": 1.3545705411065019,
+    "collapse_ratio": 0.33864263527662547,
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "correlation_matrix": [
+      [
+        0.9999999999999998,
+        0.9937356886468552,
+        0.9620670562576767,
+        0.8414042256654777
+      ],
+      [
+        0.9937356886468552,
+        0.9999999999999998,
+        0.9514980075997795,
+        0.7965585872619649
+      ],
+      [
+        0.9620670562576769,
+        0.9514980075997795,
+        0.9999999999999999,
+        0.7295502525315191
+      ],
+      [
+        0.8414042256654777,
+        0.7965585872619649,
+        0.7295502525315191,
+        1.0
+      ]
+    ],
+    "role_profiles": {
+      "s": {
+        "Defensive Coverage": 3.962825570776256,
+        "Other Route Runner": 5.47163251595566,
+        "Passer": 1.7704523227383864,
+        "Targeted Receiver": 5.554078144078144
+      },
+      "a": {
+        "Defensive Coverage": 2.499501369863014,
+        "Other Route Runner": 2.6378871346993615,
+        "Passer": 1.5174083129584353,
+        "Targeted Receiver": 3.0974114774114776
+      },
+      "dist_to_ball": {
+        "Defensive Coverage": 18.382465338019333,
+        "Other Route Runner": 21.103240322683,
+        "Passer": 20.931482347013155,
+        "Targeted Receiver": 6.369144940231982
+      },
+      "speed_toward_ball": {
+        "Defensive Coverage": -0.10865732957898729,
+        "Other Route Runner": -0.16111857269017105,
+        "Passer": -0.04422097968357603,
+        "Targeted Receiver": -0.006690476774798005
+      },
+      "x": {
+        "Defensive Coverage": 24.19532754574009,
+        "Other Route Runner": 24.03385372562589,
+        "Passer": 25.838492409771426,
+        "Targeted Receiver": 23.83899923467005
+      },
+      "y": {
+        "Defensive Coverage": 10.964596719695892,
+        "Other Route Runner": 12.376170011997193,
+        "Passer": 4.253443967756243,
+        "Targeted Receiver": 12.480780598141397
+      }
+    },
+    "interpretation": {
+      "summary": "Roles are MODERATELY coupled",
+      "implication": "Some shared behavior patterns across roles",
+      "recommendation": "Use role embeddings + shared base model"
+    }
+  },
+  "feature_importance": {
+    "top_features": [
+      "dist_to_ball",
+      "speed_toward_ball",
+      "s",
+      "vx",
+      "accel_toward_ball"
+    ],
+    "collapse_scores": [
+      0.2897641703828358,
+      0.2884490574532397,
+      0.28396231311704156,
+      0.2762683310453416,
+      0.2671894655253312
+    ],
+    "meff_min": 4.1649912902555855,
+    "interpretation": "Top collapse driver: dist_to_ball (drives 20.6% of structure)"
+  }
+}

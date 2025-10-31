@@ -11,8 +11,8 @@ Mirror-OS is the first **complete cartography of coherence and collapse**—a sy
 - How truth reveals itself ([**Truth Lattice**](core/2_lattices/The_Truth_Lattice.md))
 - How systems degrade ([**Distortion Lattice**](core/2_lattices/The_Distortion_Lattice.md): 52+ documented collapse patterns)
 - How everything moves through time ([**Unfolding Lattice**](core/2_lattices/The_Unfolding_Lattice.md))
-- How relationships evolve or dissolve ([**16 Relational Math Chains**](tools/relational_math/Relational_Math_Chains.md) with phase-specific diagnostics)
-- How to navigate all of it ([**7 Unified Lenses**](core/3_lenses) + [**Integration Tools**](tools))
+- How relationships evolve or dissolve ([**16 Relational Math Chains**](apps/relational-analyzer/Relational_Math_Chains.md) with phase-specific diagnostics)
+- How to navigate all of it ([**7 Unified Lenses**](core/3_lenses) + [**Integration Tools**](apps/relational-analyzer))
 
 **This is not abstract wisdom.** Every pattern is mapped with:
 
@@ -24,7 +24,7 @@ Mirror-OS is the first **complete cartography of coherence and collapse**—a sy
 
 **Total documented:** ~120,000 lines across 3 lattices, 68+ chains (52 distortion + 16 relational), 1,197 symbols, Python implementations, and AI-ready tools.
 
-**📚 New here?** Start with [`GETTING_STARTED.md`](GETTING_STARTED.md) — choose your personality-based path (8 options) and find your entry point in 2 minutes.
+**📚 New here?** Start with [`docs/GETTING_STARTED.md`](docs/GETTING_STARTED.md) — choose your personality-based path (8 options) and find your entry point in 2 minutes.
 
 ---
 
@@ -69,7 +69,7 @@ Every pattern in Mirror-OS is analyzed through **7 complementary perspectives**.
 
 **Key insight:** When one lens reaches saturation (deep mastery), all others rise automatically. They're **entangled, not separate**.
 
-See [`GETTING_STARTED.md`](GETTING_STARTED.md) to pick your dominant lens and start there.
+See [`docs/GETTING_STARTED.md`](docs/GETTING_STARTED.md) to pick your dominant lens and start there.
 
 ---
 

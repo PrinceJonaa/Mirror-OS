@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "input_path": "/Users/princejona/a1/tools/relational_math/data/insurance.csv",
+    "input_shape": [
+      1338,
+      7
+    ],
+    "input_type": "tabular",
+    "n_samples": 1338,
+    "n_features": 4,
+    "corr_method": "pearson",
+    "corr_shape": [
+      4,
+      4
+    ],
+    "adj_shape": [
+      4,
+      4
+    ],
+    "validation": {
+      "corr_symmetry_delta_max": 2.7755575615628914e-17,
+      "adj_symmetry_delta_max": 0.0,
+      "adj_density": 0.0,
+      "corr_offdiag_mean_abs": 0.12164119499003993,
+      "notes": []
+    }
+  },
+  "meff": {
+    "meff_liji": 3.7256513295118188,
+    "meff_min": 3.5719307648613787,
+    "meff_pr": 3.7256513295118188,
+    "meff_entropy": 3.8595315017463885,
+    "m_total": 4,
+    "m_effective": 4,
+    "collapse_ratio": 0.8929826912153447,
+    "eigenvalues": [
+      1.428069235138621,
+      0.9924941005230973,
+      0.8965235933307117,
+      0.6829130710075696
+    ],
+    "eigenvectors": [
+      [
+        -0.5858197393987119,
+        -0.032147493365245465,
+        0.5345626232175812,
+        -0.6082964519540575
+      ],
+      [
+        -0.45483226183724723,
+        -0.2790985968071729,
+        -0.8061465790369743,
+        -0.25565461067476153
+      ],
+      [
+        -0.17455716075143354,
+        0.9591418897100187,
+        -0.21179355007938222,
+        -0.06870316716618466
+      ],
+      [
+        -0.6476670781761548,
+        -0.033426745789754096,
+        0.1396924733494745,
+        0.7482620005066251
+      ]
+    ],
+    "eigenvectors_available": true,
+    "top_10_eigenvalues": [
+      1.428069235138621,
+      0.9924941005230973,
+      0.8965235933307117,
+      0.6829130710075696
+    ],
+    "explained_variance_ratio": [
+      0.35701730878465526,
+      0.24812352513077432,
+      0.22413089833267794,
+      0.1707282677518924
+    ]
+  },
+  "collapse_map": {
+    "top_features": [
+      1,
+      0,
+      3,
+      2
+    ],
+    "scores": [
+      0.45596374353907876,
+      0.44078973664952686,
+      0.3985811939510689,
+      0.3595046458957198
+    ],
+    "status": "computed"
+  },
+  "residue_profile": {
+    "residue_mean": 0.12164119499003993,
+    "residue_max": 0.29900819333064765,
+    "residue_std": 0.09873876815909285,
+    "residue_median": 0.08863505419821993,
+    "residue_level": "Low",
+    "note": null
+  },
+  "rfi": {
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "homophily_h": 0.0,
+    "lambda_2": 1e-06,
+    "n_communities": 0,
+    "n_components": 4,
+    "avg_degree": 0.0,
+    "density": 0.0,
+    "transitivity": 0.0,
+    "diameter": null,
+    "avg_path_length": null,
+    "n_nodes": 1,
+    "n_edges": 0
+  },
+  "shape": {
+    "shape": "Intermediate",
+    "archetype": "Mixed Field",
+    "glyph": "\u03a8",
+    "degree_cv": 0.0,
+    "degree_mean": 0.0,
+    "degree_std": 0.0,
+    "degree_max": 0,
+    "assortativity": NaN
+  },
+  "lattice": {
+    "lattice_position": "Irreducible Distortion (\u221e_B)",
+    "status": "NP-Hard Expansion - Reparameterize",
+    "recommended_protocol": "High-dimensional expander detected. Use approximation algorithms, anchor-based strategies, or accept bounded solution.",
+    "collapse_potential": "Low",
+    "traversal_strategy": "Approximation"
+  },
+  "interpretation": {
+    "coherence_direction": "N/A",
+    "dominant_mode": "Degenerate",
+    "distortion_core": "N/A",
+    "narrative_state": "No Relational Field",
+    "residue_level": "N/A",
+    "collapse_potential": "N/A",
+    "status": "degenerate_graph"
+  },
+  "version": "2.2.5",
+  "runtime_seconds": 0.007925748825073242
+}

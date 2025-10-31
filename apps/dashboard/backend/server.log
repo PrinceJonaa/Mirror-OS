@@ -1,0 +1,244 @@
+INFO:     Will watch for changes in these directories: ['/Users/princejona/a1/dashboard/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [91056] using WatchFiles
+FastAPI app created
+CORS middleware added
+INFO:     Started server process [91102]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+FastAPI app created
+CORS middleware added
+FastAPI app created
+CORS middleware added
+Database connected
+INFO:     127.0.0.1:50638 - "GET / HTTP/1.1" 404 Not Found
+Raw points: [<Record run_id=UUID('17c13c83-593e-4b7d-b13b-1c8528a4cceb') collapse_ratio=Decimal('0.8929826912153446816233781646587885916233062744140625') rfi=Decimal('0') shape='Unknown' status='completed' created_at=datetime.datetime(2025, 10, 29, 1, 53, 33, 193838, tzinfo=datetime.timezone.utc)>]
+Result: {'points': [{'run_id': '17c13c83-593e-4b7d-b13b-1c8528a4cceb', 'collapse_ratio': 0.8929826912153447, 'rfi': 0.0, 'shape': 'Unknown', 'status': 'completed', 'created_at': '2025-10-29T01:53:33.193838+00:00'}]}
+INFO:     127.0.0.1:50645 - "GET /api/analytics/lattice-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50652 - "GET /api/analytics/collapse-map HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50660 - "GET /api/runs/17c13c83-593e-4b7d-b13b-1c8528a4cceb/topology-graph HTTP/1.1" 404 Not Found
+WARNING:  WatchFiles detected changes in 'check_data_structure.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [91102]
+INFO:     Started server process [91818]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'check_data_structure.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [91818]
+INFO:     Started server process [91821]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'check_data_structure.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [91821]
+INFO:     Started server process [91985]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+FastAPI app created
+CORS middleware added
+FastAPI app created
+CORS middleware added
+Database connected
+INFO:     127.0.0.1:50880 - "GET /health HTTP/1.1" 200 OK
+Raw points: [<Record run_id=UUID('17c13c83-593e-4b7d-b13b-1c8528a4cceb') collapse_ratio=Decimal('0.8929826912153446816233781646587885916233062744140625') rfi=Decimal('0') shape='Unknown' status='completed' created_at=datetime.datetime(2025, 10, 29, 1, 53, 33, 193838, tzinfo=datetime.timezone.utc)>]
+Result: {'points': [{'run_id': '17c13c83-593e-4b7d-b13b-1c8528a4cceb', 'collapse_ratio': 0.8929826912153447, 'rfi': 0.0, 'shape': 'Unknown', 'status': 'completed', 'created_at': '2025-10-29T01:53:33.193838+00:00'}]}
+INFO:     127.0.0.1:50883 - "GET /api/analytics/lattice-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50885 - "GET /api/analytics/collapse-map HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50887 - "GET /api/runs/17c13c83-593e-4b7d-b13b-1c8528a4cceb/topology-graph HTTP/1.1" 404 Not Found
+WARNING:  WatchFiles detected changes in 'test_db_queries.py', 'check_data_structure.py', 'run_server.py', 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [91985]
+INFO:     Started server process [98931]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [98931]
+INFO:     Started server process [99152]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [99152]
+INFO:     Started server process [99229]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test_edge_cases.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [99229]
+INFO:     Started server process [99797]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [99797]
+INFO:     Started server process [2308]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2308]
+INFO:     Started server process [2401]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2401]
+INFO:     Started server process [2455]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2455]
+INFO:     Started server process [2493]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2493]
+INFO:     Started server process [2870]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test_edge_cases.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2870]
+INFO:     Started server process [2872]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test_file_endpoints.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2872]
+INFO:     Started server process [3932]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test_file_endpoints.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [3932]
+INFO:     Started server process [4010]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+FastAPI app created
+CORS middleware added
+FastAPI app created
+CORS middleware added
+Database connected
+INFO:     127.0.0.1:54086 - "POST /api/files/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54088 - "GET /api/files/validate?path=/tmp/dashboard_uploads/20251029_173848_test_data.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54090 - "GET /api/files/browse?path=/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54092 - "GET /api/files/browse?path=/tmp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54094 - "GET /api/files/browse?path=/Users/princejona/a1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54096 - "GET /api/files/validate?path=/nonexistent/file.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54098 - "GET /api/files/browse?path=/nonexistent/directory HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'test_file_endpoints.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4010]
+INFO:     Started server process [5287]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'check_runs.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [5287]
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'check_runs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'check_runs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'check_runs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'run_batch_diagnostics.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'run_batch_diagnostics.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'run_batch_diagnostics.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'run_batch_diagnostics.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'test_single_dataset.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'test_single_dataset.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f13a0c80 (most recent call first):
+  <no Python frame>

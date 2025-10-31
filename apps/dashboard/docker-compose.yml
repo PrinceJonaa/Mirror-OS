@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # PostgreSQL with pgvector
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: dashboard_db
+      POSTGRES_USER: dashboard_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dashboard_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI backend
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://dashboard_user:${DB_PASSWORD:-password}@postgres:5432/dashboard_db
+      DIAGNOSTIC_SCRIPT_PATH: /app/tools/relational_math/truth_distortion_unified.py
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - ../tools:/app/tools  # Mount diagnostic script
+      - diagnostic_results:/app/results
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+volumes:
+  postgres_data:
+  diagnostic_results:

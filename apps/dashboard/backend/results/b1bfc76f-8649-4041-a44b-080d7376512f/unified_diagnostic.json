@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "input_path": "/Users/princejona/a1/tools/relational_math/data/gdp_data_clean.csv",
+    "input_shape": [
+      181,
+      6
+    ],
+    "input_type": "tabular",
+    "n_samples": 181,
+    "n_features": 5,
+    "corr_method": "pearson",
+    "corr_shape": [
+      5,
+      5
+    ],
+    "adj_shape": [
+      5,
+      5
+    ],
+    "validation": {
+      "corr_symmetry_delta_max": 1.1102230246251565e-16,
+      "adj_symmetry_delta_max": 0.0,
+      "adj_density": 0.08,
+      "corr_offdiag_mean_abs": 0.2662685636694311,
+      "notes": []
+    }
+  },
+  "meff": {
+    "meff_liji": 2.94100075516894,
+    "meff_min": 3.469811662957281,
+    "meff_pr": 2.94100075516894,
+    "meff_entropy": 3.380572668282875,
+    "m_total": 5,
+    "m_effective": 5,
+    "collapse_ratio": 0.6939623325914562,
+    "eigenvalues": [
+      2.489204057075488,
+      1.0409842799672306,
+      1.0000000000000002,
+      0.4698113866246786,
+      2.7633260239045673e-07
+    ],
+    "eigenvectors": [
+      [
+        -0.6153600857573052,
+        -0.027186054274763588,
+        -9.529764522644195e-17,
+        -0.3472420905520804,
+        0.7071179631848933
+      ],
+      [
+        -1.1102230246251565e-16,
+        4.65599780952175e-15,
+        1.0,
+        -1.3877787807814457e-16,
+        1.1102230246251565e-16
+      ],
+      [
+        -0.1850206660007335,
+        -0.8984515724942295,
+        4.135580766728708e-15,
+        0.39818604283812575,
+        -1.8005717647996775e-05
+      ],
+      [
+        -0.6153541340007592,
+        -0.027183870508827878,
+        2.220446049250313e-16,
+        -0.34729834748167854,
+        -0.707095598055051
+      ],
+      [
+        -0.45655077239840747,
+        0.43738624523386127,
+        -1.942890293094024e-15,
+        0.7747610364973385,
+        -3.206574183261015e-05
+      ]
+    ],
+    "eigenvectors_available": true,
+    "top_10_eigenvalues": [
+      2.489204057075488,
+      1.0409842799672306,
+      1.0000000000000002,
+      0.4698113866246786,
+      2.7633260239045673e-07
+    ],
+    "explained_variance_ratio": [
+      0.49784081141509756,
+      0.20819685599344612,
+      0.20000000000000004,
+      0.09396227732493571,
+      5.526652047809134e-08
+    ]
+  },
+  "collapse_map": {
+    "top_features": [
+      4,
+      3,
+      0,
+      2,
+      1
+    ],
+    "scores": [
+      0.3911503594691711,
+      0.34464098047152236,
+      0.3446391121240482,
+      0.3165800985311038,
+      0.20000000000000107
+    ],
+    "status": "computed"
+  },
+  "residue_profile": {
+    "residue_mean": 0.2662685636694311,
+    "residue_max": 0.9999997228773885,
+    "residue_std": 0.32268629409463656,
+    "residue_median": 0.14886580810593725,
+    "residue_level": "Low",
+    "note": null
+  },
+  "rfi": {
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "homophily_h": 0.0,
+    "lambda_2": 2.0,
+    "n_communities": 1,
+    "n_components": 4,
+    "avg_degree": 1.0,
+    "density": 1.0,
+    "transitivity": 0.0,
+    "diameter": 1.0,
+    "avg_path_length": 1.0,
+    "n_nodes": 2,
+    "n_edges": 1
+  },
+  "shape": {
+    "shape": "Complete Graph",
+    "archetype": "Fully Connected (Maximal Redundancy)",
+    "glyph": "\u25cf",
+    "degree_cv": 0.0,
+    "degree_mean": 1.0,
+    "degree_std": 0.0,
+    "degree_max": 1,
+    "assortativity": NaN
+  },
+  "lattice": {
+    "lattice_position": "Unknown Configuration",
+    "status": "Edge Case - Manual Inspection Required",
+    "recommended_protocol": "Metrics outside standard classification bounds. Verify data quality and check for anomalies.",
+    "collapse_potential": "Unknown",
+    "traversal_strategy": "Approximation"
+  },
+  "interpretation": {
+    "coherence_direction": "Decreasing",
+    "dominant_mode": "Fragmented",
+    "distortion_core": "Axes [0, 1, 2] (\u03bb = [2.489204057075488, 1.0409842799672306, 1.0000000000000002])",
+    "narrative_state": "Unknown Configuration",
+    "residue_level": "Low",
+    "collapse_potential": "Unknown"
+  },
+  "version": "2.2.5",
+  "runtime_seconds": 0.7555530071258545
+}

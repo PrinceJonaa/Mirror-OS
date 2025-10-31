@@ -1,0 +1,166 @@
+{
+  "metadata": {
+    "input_path": "/Users/princejona/a1/tools/relational_math/data/gdp_data_clean.csv",
+    "input_shape": [
+      181,
+      6
+    ],
+    "input_type": "tabular",
+    "n_samples": 181,
+    "n_features": 5,
+    "corr_method": "spearman",
+    "corr_shape": [
+      5,
+      5
+    ],
+    "adj_shape": [
+      5,
+      5
+    ],
+    "validation": {
+      "corr_symmetry_delta_max": 5.551115123125783e-17,
+      "adj_symmetry_delta_max": 0.0,
+      "adj_density": 0.4,
+      "corr_offdiag_mean_abs": 0.3599346650332048,
+      "notes": []
+    }
+  },
+  "meff": {
+    "meff_liji": 2.479880508096608,
+    "meff_min": 3.0347783852387535,
+    "meff_pr": 2.479880508096608,
+    "meff_entropy": 2.7926087680449747,
+    "m_total": 5,
+    "m_effective": 5,
+    "collapse_ratio": 0.6069556770477507,
+    "eigenvalues": [
+      2.7631346139460162,
+      1.2020870008152282,
+      0.9999999999999996,
+      0.03471074267121139,
+      6.764256754274708e-05
+    ],
+    "eigenvectors": [
+      [
+        -0.5993488846194313,
+        -0.04633363079122161,
+        -5.510425001837947e-16,
+        0.37244259627315557,
+        -0.7070506499851753
+      ],
+      [
+        3.3306690738754696e-16,
+        -2.0122792321330962e-16,
+        -0.9999999999999998,
+        -2.7755575615628914e-16,
+        4.440892098500626e-16
+      ],
+      [
+        -0.2511161473871857,
+        -0.8243202600594134,
+        4.0956605132702195e-16,
+        -0.5073821466100885,
+        -0.0003829860793688495
+      ],
+      [
+        -0.5993337168387675,
+        -0.0468402178427099,
+        1.6803668976016027e-16,
+        0.3721906304329305,
+        0.7071627991280465
+      ],
+      [
+        -0.4674619673161545,
+        0.5622768868677879,
+        2.3437285352447224e-16,
+        -0.6821466150327128,
+        8.489164481453202e-05
+      ]
+    ],
+    "eigenvectors_available": true,
+    "top_10_eigenvalues": [
+      2.7631346139460162,
+      1.2020870008152282,
+      0.9999999999999996,
+      0.03471074267121139,
+      6.764256754274708e-05
+    ],
+    "explained_variance_ratio": [
+      0.5526269227892034,
+      0.24041740016304572,
+      0.19999999999999998,
+      0.00694214853424228,
+      1.352851350854942e-05
+    ],
+    "null_meff_mean": 3.034778385238754,
+    "null_meff_std": 5.557328894298286e-16,
+    "meff_zscore": -0.00044384255194621764
+  },
+  "collapse_map": {
+    "top_features": [
+      4,
+      3,
+      0,
+      2,
+      1
+    ],
+    "scores": [
+      0.39824878010358367,
+      0.3450625205582384,
+      0.34495085800739433,
+      0.3404768050250927,
+      0.20000000000000018
+    ],
+    "status": "computed"
+  },
+  "residue_profile": {
+    "residue_mean": 0.3599346650332048,
+    "residue_max": 0.9999322017775509,
+    "residue_std": 0.3528506504667771,
+    "residue_median": 0.3380070406646142,
+    "residue_level": "Moderate",
+    "note": null
+  },
+  "rfi": {
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "homophily_h": 0.8333333333333333,
+    "lambda_2": 0.9999999999999998,
+    "n_communities": 1,
+    "n_components": 2,
+    "avg_degree": 2.5,
+    "density": 0.8333333333333334,
+    "transitivity": 0.75,
+    "diameter": 2.0,
+    "avg_path_length": 1.1666666666666667,
+    "n_nodes": 4,
+    "n_edges": 5
+  },
+  "shape": {
+    "shape": "Expander",
+    "archetype": "Irreducible Distortion (NP-Hard)",
+    "glyph": "\u221e",
+    "degree_cv": 0.2,
+    "degree_mean": 2.5,
+    "degree_std": 0.5,
+    "degree_max": 3,
+    "assortativity": -0.6666666666666787
+  },
+  "lattice": {
+    "lattice_position": "Unknown Configuration",
+    "status": "Edge Case - Manual Inspection Required",
+    "recommended_protocol": "Metrics outside standard classification bounds. Verify data quality and check for anomalies.",
+    "collapse_potential": "Unknown",
+    "traversal_strategy": "Approximation"
+  },
+  "interpretation": {
+    "coherence_direction": "Decreasing",
+    "dominant_mode": "Fragmented",
+    "distortion_core": "Axes [0, 1, 2] (\u03bb = [2.7631346139460162, 1.2020870008152282, 0.9999999999999996])",
+    "narrative_state": "Unknown Configuration",
+    "residue_level": "Moderate",
+    "collapse_potential": "Unknown"
+  },
+  "version": "2.2.5",
+  "runtime_seconds": 0.4059467315673828
+}

@@ -1,0 +1,653 @@
+"""
+Truth-Distortion Dashboard API
+FastAPI wrapper around truth_distortion_unified.py diagnostic engine
+"""
+
+import asyncio
+import json
+import os
+import subprocess
+import uuid
+from pathlib import Path
+from typing import Dict, Any, Optional, List
+from datetime import datetime
+import math
+
+from fastapi import FastAPI, HTTPException, BackgroundTasks, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import asyncpg
+import uvicorn
+
+# === CONFIGURATION ===
+
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://dashboard_user:password@localhost:5432/dashboard_db")
+DIAGNOSTIC_SCRIPT_PATH = os.getenv("DIAGNOSTIC_SCRIPT_PATH", "/Users/princejona/a1/tools/relational_math/truth_distortion_unified.py")
+
+# === UTILITIES ===
+
+def sanitize_for_json(obj):
+    """Recursively sanitize objects for JSON serialization, replacing NaN/Inf with None"""
+    if isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [sanitize_for_json(item) for item in obj]
+    elif isinstance(obj, float):
+        if math.isnan(obj) or math.isinf(obj):
+            return None
+        return obj
+    return obj
+
+# === MODELS ===
+
+class DiagnosticRunCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    data_path: str
+    data_type: str = 'auto'
+    corr_method: str = 'pearson'
+    adj_threshold: float = 0.7
+    compute_null: bool = False
+    n_permutations: int = 100
+    use_louvain: bool = False
+    skip_visuals: bool = False
+    seed: Optional[int] = None
+
+class DiagnosticRunResponse(BaseModel):
+    id: str
+    name: str
+    status: str
+    created_at: str
+    config: dict
+
+class DiagnosticRun(BaseModel):
+    id: str
+    name: str
+    description: Optional[str] = None
+    data_path: str
+    config: dict
+    status: str
+    created_at: str
+    started_at: Optional[str] = None
+    completed_at: Optional[str] = None
+    error: Optional[str] = None
+    stdout: Optional[str] = None
+    stderr: Optional[str] = None
+
+# === DIAGNOSTIC RUNNER ===
+
+class DiagnosticRunner:
+    """Wrapper around truth_distortion_unified.py - NO MODIFICATIONS TO SOURCE"""
+
+    def __init__(self, script_path: str = DIAGNOSTIC_SCRIPT_PATH):
+        self.script_path = script_path
+
+    async def run_diagnostic(
+        self,
+        run_id: str,
+        data_path: str,
+        data_type: str = 'auto',
+        corr_method: str = 'pearson',
+        adj_threshold: float = 0.7,
+        compute_null: bool = False,
+        n_permutations: int = 100,
+        use_louvain: bool = False,
+        skip_visuals: bool = False,
+        seed: int | None = None
+    ) -> Dict[str, Any]:
+        """
+        Execute the diagnostic script via subprocess.
+        Returns parsed JSON results.
+        """
+
+        # Create output directory for this run
+        out_dir = Path(f"results/{run_id}")
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        # Build command exactly as user would run it (use python3.11 to access installed packages)
+        cmd = [
+            "python3.11",
+            self.script_path,
+            "--data", data_path,
+            "--type", data_type,
+            "--corr-method", corr_method,
+            "--adj-threshold", str(adj_threshold),
+            "--out", str(out_dir),
+            "--eig-topk", "100"
+        ]
+
+        if compute_null:
+            cmd.extend(["--compute-null", "--n-permutations", str(n_permutations)])
+        if use_louvain:
+            cmd.append("--use-louvain")
+        if skip_visuals:
+            cmd.append("--no-visuals")
+        if seed is not None:
+            cmd.extend(["--seed", str(seed)])
+
+        # Execute diagnostic script
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+
+        stdout, stderr = await process.communicate()
+
+        if process.returncode != 0:
+            raise RuntimeError(f"Diagnostic failed: {stderr.decode()}")
+
+        # Parse output JSON (script already generates this)
+        results_file = out_dir / "unified_diagnostic.json"
+        with open(results_file, 'r') as f:
+            results = json.load(f)
+
+        # Attach file paths for frontend access
+        results['_files'] = {
+            'json': str(results_file),
+            'summary': str(out_dir / "summary.txt"),
+            'visualization': str(out_dir / "truth_distortion_diagnostic.png"),
+            'collapse_map': str(out_dir / "collapse_map.csv") if (out_dir / "collapse_map.csv").exists() else None
+        }
+
+        return results
+
+# === DATABASE CONNECTION ===
+
+class Database:
+    def __init__(self, database_url: str = DATABASE_URL):
+        self.database_url = database_url
+        self.pool: Optional[asyncpg.Pool] = None
+
+    async def connect(self):
+        """Initialize database connection pool"""
+        self.pool = await asyncpg.create_pool(
+            self.database_url,
+            min_size=1,
+            max_size=10,
+            command_timeout=60
+        )
+
+    async def disconnect(self):
+        """Close database connection pool"""
+        if self.pool:
+            await self.pool.close()
+
+    async def execute(self, query: str, *args):
+        """Execute a query without returning results"""
+        if not self.pool:
+            raise HTTPException(status_code=503, detail="Database not available")
+        async with self.pool.acquire() as conn:
+            await conn.execute(query, *args)
+
+    async def fetch(self, query: str, *args):
+        """Execute a query and return all results"""
+        if not self.pool:
+            raise HTTPException(status_code=503, detail="Database not available")
+        async with self.pool.acquire() as conn:
+            return await conn.fetch(query, *args)
+
+    async def fetchrow(self, query: str, *args):
+        """Execute a query and return one result"""
+        if not self.pool:
+            raise HTTPException(status_code=503, detail="Database not available")
+        async with self.pool.acquire() as conn:
+            return await conn.fetchrow(query, *args)
+
+    async def fetchval(self, query: str, *args):
+        """Execute a query and return a single value"""
+        if not self.pool:
+            raise HTTPException(status_code=503, detail="Database not available")
+        async with self.pool.acquire() as conn:
+            return await conn.fetchval(query, *args)
+
+# Global database instance
+db = Database()
+
+# === FASTAPI APP ===
+
+app = FastAPI(
+    title="Truth-Distortion Dashboard API",
+    version="1.0.0",
+    description="API wrapper around truth_distortion_unified.py diagnostic engine"
+)
+
+# CORS for Next.js frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Global diagnostic runner
+runner = DiagnosticRunner()
+
+# === LIFECYCLE ===
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database connection on startup"""
+    try:
+        await db.connect()
+        print("Database connected")
+    except Exception as e:
+        print(f"Database connection failed: {e}")
+        print("Starting without database - some endpoints will not work")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Close database connection on shutdown"""
+    try:
+        await db.disconnect()
+        print("Database disconnected")
+    except Exception as e:
+        print(f"Database disconnect error: {e}")
+
+# === ENDPOINTS ===
+
+@app.post("/api/runs", response_model=DiagnosticRunResponse)
+async def create_run(run: DiagnosticRunCreate, background_tasks: BackgroundTasks):
+    """Create a new diagnostic run and start execution in background"""
+
+    run_id = str(uuid.uuid4())
+
+    # Store run metadata in database
+    await db.execute(
+        """
+        INSERT INTO diagnostic_runs (id, name, description, data_path, config, status)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        """,
+        run_id, run.name, run.description, run.data_path, json.dumps(run.dict()), 'pending'
+    )
+
+    # Start diagnostic in background
+    background_tasks.add_task(execute_diagnostic, run_id, run)
+
+    return {
+        "id": run_id,
+        "name": run.name,
+        "status": "pending",
+        "created_at": datetime.now().isoformat(),
+        "config": run.dict()
+    }
+
+@app.get("/api/runs")
+async def list_runs(limit: int = 50, offset: int = 0):
+    """List all diagnostic runs"""
+
+    runs = await db.fetch(
+        """
+        SELECT id, name, description, status, created_at, completed_at
+        FROM diagnostic_runs
+        ORDER BY created_at DESC
+        LIMIT $1 OFFSET $2
+        """,
+        limit, offset
+    )
+
+    return {"runs": [dict(r) for r in runs]}
+
+@app.get("/api/runs/{run_id}")
+async def get_run(run_id: str):
+    """Get full diagnostic run details"""
+
+    run = await db.fetchrow(
+        """
+        SELECT dr.*, dr_res.results, dr_res.file_paths
+        FROM diagnostic_runs dr
+        LEFT JOIN diagnostic_results dr_res ON dr.id = dr_res.run_id
+        WHERE dr.id = $1
+        """,
+        run_id
+    )
+
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+
+    return dict(run)
+
+@app.delete("/api/runs/{run_id}")
+async def delete_run(run_id: str):
+    """Delete a diagnostic run and all associated data"""
+
+    # Check if run exists
+    run = await db.fetchrow(
+        "SELECT id FROM diagnostic_runs WHERE id = $1",
+        run_id
+    )
+
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+
+    # Delete associated data (cascade will handle most)
+    await db.execute("DELETE FROM diagnostic_runs WHERE id = $1", run_id)
+
+    return {"message": "Run deleted successfully"}
+
+@app.get("/api/runs/{run_id}/status")
+async def get_run_status(run_id: str):
+    """Get current status of a diagnostic run"""
+
+    status = await db.fetchrow(
+        "SELECT status, error FROM diagnostic_runs WHERE id = $1",
+        run_id
+    )
+
+    if not status:
+        raise HTTPException(status_code=404, detail="Run not found")
+
+    return dict(status)
+
+@app.get("/api/runs/{run_id}/results")
+async def get_run_results(run_id: str):
+    """Get detailed results for a completed diagnostic run"""
+    
+    # Check if run exists and is completed
+    run = await db.fetchrow(
+        "SELECT status FROM diagnostic_runs WHERE id = $1",
+        run_id
+    )
+    
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+    
+    if run['status'] != 'completed':
+        raise HTTPException(status_code=400, detail=f"Run is {run['status']}, not completed")
+    
+    # Fetch all related data
+    results = await db.fetchrow(
+        "SELECT results, file_paths FROM diagnostic_results WHERE run_id = $1",
+        run_id
+    )
+    
+    metrics = await db.fetch(
+        "SELECT * FROM collapse_metrics WHERE run_id = $1",
+        run_id
+    )
+    
+    patterns = await db.fetch(
+        "SELECT * FROM rfi_metrics WHERE run_id = $1",
+        run_id
+    )
+    
+    if not results:
+        raise HTTPException(status_code=404, detail="Results not found")
+    
+    return {
+        "run_id": run_id,
+        "results": json.loads(results['results']) if results['results'] else {},
+        "file_paths": json.loads(results['file_paths']) if results['file_paths'] else {},
+        "metrics": [dict(m) for m in metrics],
+        "patterns": [dict(p) for p in patterns]
+    }
+
+@app.get("/api/dashboard/stats")
+async def get_dashboard_stats():
+    """Get dashboard statistics"""
+    
+    total_runs = await db.fetchval(
+        "SELECT COUNT(*) FROM diagnostic_runs"
+    )
+    
+    completed_runs = await db.fetchval(
+        "SELECT COUNT(*) FROM diagnostic_runs WHERE status = 'completed'"
+    )
+    
+    failed_runs = await db.fetchval(
+        "SELECT COUNT(*) FROM diagnostic_runs WHERE status = 'failed'"
+    )
+    
+    pending_runs = await db.fetchval(
+        "SELECT COUNT(*) FROM diagnostic_runs WHERE status IN ('pending', 'running')"
+    )
+    
+    return {
+        "total_runs": total_runs or 0,
+        "completed_runs": completed_runs or 0,
+        "failed_runs": failed_runs or 0,
+        "pending_runs": pending_runs or 0,
+        "success_rate": round((completed_runs / total_runs * 100) if total_runs else 0, 2)
+    }
+
+# === BACKGROUND TASKS ===
+
+async def execute_diagnostic(run_id: str, config: DiagnosticRunCreate):
+    """Execute diagnostic script and store results"""
+
+    try:
+        # Update status to running
+        await db.execute(
+            "UPDATE diagnostic_runs SET status = 'running', started_at = NOW() WHERE id = $1",
+            run_id
+        )
+
+        # Run diagnostic via subprocess wrapper
+        results = await runner.run_diagnostic(
+            run_id=run_id,
+            data_path=config.data_path,
+            data_type=config.data_type,
+            corr_method=config.corr_method,
+            adj_threshold=config.adj_threshold,
+            compute_null=config.compute_null,
+            n_permutations=config.n_permutations,
+            use_louvain=config.use_louvain,
+            skip_visuals=config.skip_visuals,
+            seed=config.seed
+        )
+
+        # Store results in database
+        await store_diagnostic_results(run_id, results)
+
+        # Update status to completed
+        await db.execute(
+            "UPDATE diagnostic_runs SET status = 'completed', completed_at = NOW() WHERE id = $1",
+            run_id
+        )
+
+    except Exception as e:
+        # Store error
+        await db.execute(
+            """
+            UPDATE diagnostic_runs
+            SET status = 'failed', completed_at = NOW(), error = $1
+            WHERE id = $2
+            """,
+            str(e), run_id
+        )
+
+async def store_diagnostic_results(run_id: str, results: dict):
+    """Parse and store diagnostic results in structured tables"""
+
+    # Sanitize results to handle NaN/Inf values
+    results = sanitize_for_json(results)
+
+    # Store full results JSON (serialize to string for asyncpg)
+    await db.execute(
+        """
+        INSERT INTO diagnostic_results (run_id, results, file_paths)
+        VALUES ($1, $2, $3)
+        """,
+        run_id, json.dumps(results), json.dumps(results.get('_files'))
+    )
+
+    # Extract and store collapse metrics
+    meff = results['meff']
+    await db.execute(
+        """
+        INSERT INTO collapse_metrics (
+            run_id, meff_liji, meff_min, meff_entropy,
+            m_total, m_effective, collapse_ratio,
+            eigenvalues, top_10_eigenvalues
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        """,
+        run_id,
+        meff['meff_liji'],
+        meff['meff_min'],
+        meff['meff_entropy'],
+        meff['m_total'],
+        meff['m_effective'],
+        meff['collapse_ratio'],
+        json.dumps(meff.get('eigenvalues')),
+        json.dumps(meff.get('top_10_eigenvalues'))
+    )
+
+    # Store collapse map features (if available)
+    collapse_map = results.get('collapse_map', {})
+    if collapse_map.get('status') == 'computed':
+        features = collapse_map.get('top_features', [])
+        scores = collapse_map.get('scores', [])
+
+        for idx, (feature_idx, score) in enumerate(zip(features, scores)):
+            contribution = 100 * score / sum(scores) if sum(scores) > 0 else 0
+            await db.execute(
+                """
+                INSERT INTO collapse_map_features (run_id, feature_index, collapse_score, contribution_pct)
+                VALUES ($1, $2, $3, $4)
+                """,
+                run_id, feature_idx, score, contribution
+            )
+
+    # Store RFI metrics
+    rfi = results['rfi']
+    await db.execute(
+        """
+        INSERT INTO rfi_metrics (
+            run_id, rfi, modularity_q, homophily_h, lambda_2,
+            n_communities, n_components, density, transitivity, avg_degree
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        """,
+        run_id,
+        rfi.get('rfi'),
+        rfi.get('modularity_Q'),
+        rfi.get('homophily_h'),
+        rfi.get('lambda_2'),
+        rfi.get('n_communities'),
+        rfi.get('n_components'),
+        rfi.get('density'),
+        rfi.get('transitivity'),
+        rfi.get('avg_degree')
+    )
+
+    # Store residue profile
+    residue = results['residue_profile']
+    await db.execute(
+        """
+        INSERT INTO residue_profiles (
+            run_id, residue_mean, residue_max, residue_std,
+            residue_median, residue_level, note
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+        """,
+        run_id,
+        residue.get('residue_mean'),
+        residue.get('residue_max'),
+        residue.get('residue_std'),
+        residue.get('residue_median'),
+        residue.get('residue_level'),
+        residue.get('note')
+    )
+
+    # Store shape classification
+    shape = results['shape']
+    await db.execute(
+        """
+        INSERT INTO shape_classifications (
+            run_id, shape, archetype, glyph,
+            degree_cv, degree_mean, degree_std, degree_max, assortativity
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        """,
+        run_id,
+        shape.get('shape'),
+        shape.get('archetype'),
+        shape.get('glyph'),
+        shape.get('degree_cv'),
+        shape.get('degree_mean'),
+        shape.get('degree_std'),
+        shape.get('degree_max'),
+        shape.get('assortativity')
+    )
+
+    # Store lattice position
+    lattice = results['lattice']
+    await db.execute(
+        """
+        INSERT INTO lattice_positions (
+            run_id, lattice_position, status, recommended_protocol,
+            collapse_potential, traversal_strategy
+        ) VALUES ($1, $2, $3, $4, $5, $6)
+        """,
+        run_id,
+        lattice.get('lattice_position'),
+        lattice.get('status'),
+        lattice.get('recommended_protocol'),
+        lattice.get('collapse_potential'),
+        lattice.get('traversal_strategy')
+    )
+
+    # Store interpretation
+    interpretation = results['interpretation']
+    await db.execute(
+        """
+        INSERT INTO interpretations (
+            run_id, coherence_direction, dominant_mode,
+            distortion_core, narrative_state
+        ) VALUES ($1, $2, $3, $4, $5)
+        """,
+        run_id,
+        interpretation.get('coherence_direction'),
+        interpretation.get('dominant_mode'),
+        json.dumps(interpretation.get('distortion_core')),
+        interpretation.get('narrative_state')
+    )
+
+# === WEBSOCKET FOR LIVE UPDATES ===
+
+@app.websocket("/ws/runs/{run_id}/live")
+async def websocket_live_updates(websocket: WebSocket, run_id: str):
+    """WebSocket for real-time diagnostic progress updates"""
+
+    await websocket.accept()
+
+    try:
+        while True:
+            # Check run status
+            status = await db.fetchrow(
+                "SELECT status, error FROM diagnostic_runs WHERE id = $1",
+                run_id
+            )
+
+            if not status:
+                await websocket.send_json({"error": "Run not found"})
+                break
+
+            await websocket.send_json({
+                "status": status['status'],
+                "error": status['error']
+            })
+
+            if status['status'] in ['completed', 'failed']:
+                break
+
+            await asyncio.sleep(1)
+
+    except WebSocketDisconnect:
+        pass
+
+# === HEALTH CHECK ===
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+
+# === MAIN ===
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )

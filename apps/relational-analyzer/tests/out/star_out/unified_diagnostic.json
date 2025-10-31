@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "input_type": "edgelist",
+    "input_shape": [
+      5,
+      2
+    ],
+    "n_nodes": 6,
+    "n_edges": 5,
+    "corr_shape": [
+      6,
+      6
+    ],
+    "adj_shape": [
+      6,
+      6
+    ]
+  },
+  "meff": {
+    "meff_liji": 1.3846153846153848,
+    "meff_min": 2.0,
+    "meff_pr": 1.3846153846153848,
+    "meff_entropy": 1.5691925832110585,
+    "m_total": 6,
+    "m_effective": 2,
+    "collapse_ratio": 0.3333333333333333,
+    "eigenvalues": [
+      4.999999999999998,
+      1.0
+    ],
+    "eigenvectors": [
+      [
+        0.0,
+        1.0,
+        -0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.44721359549995815,
+        0.0,
+        -0.5888025651336556,
+        0.0,
+        0.0,
+        -0.6732841445422779
+      ],
+      [
+        0.4472135954999577,
+        0.0,
+        -0.5047039284860237,
+        0.0,
+        -8.326672684688674e-17,
+        0.7384266683772835
+      ],
+      [
+        0.4472135954999579,
+        0.0,
+        0.36450216453989326,
+        0.0,
+        -0.8164965809277259,
+        -0.021714174611668413
+      ],
+      [
+        0.4472135954999579,
+        0.0,
+        0.3645021645398931,
+        -0.7071067811865475,
+        0.408248290463863,
+        -0.021714174611668302
+      ],
+      [
+        0.4472135954999579,
+        0.0,
+        0.3645021645398931,
+        0.7071067811865475,
+        0.408248290463863,
+        -0.021714174611668302
+      ]
+    ],
+    "eigenvectors_available": true,
+    "top_10_eigenvalues": [
+      4.999999999999998,
+      1.0
+    ],
+    "explained_variance_ratio": [
+      0.8333333333333333,
+      0.1666666666666667
+    ]
+  },
+  "collapse_map": {
+    "top_features": [
+      1,
+      5,
+      4,
+      3,
+      2,
+      0
+    ],
+    "scores": [
+      0.3726779962499651,
+      0.3726779962499649,
+      0.3726779962499649,
+      0.3726779962499649,
+      0.3726779962499647,
+      0.1666666666666667
+    ],
+    "status": "computed"
+  },
+  "residue_profile": {
+    "residue_mean": 0.6666666666666666,
+    "residue_max": 1.0,
+    "residue_std": 0.4714045207910316,
+    "residue_median": 1.0,
+    "residue_level": "High",
+    "note": "Binary input\u2014residue = edge density"
+  },
+  "rfi": {
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "homophily_h": 0.0,
+    "lambda_2": 0.9999999999999998,
+    "n_communities": 0,
+    "n_components": 1,
+    "avg_degree": 1.6666666666666667,
+    "density": 0.3333333333333333,
+    "transitivity": 0.0,
+    "diameter": 2.0,
+    "avg_path_length": 1.6666666666666667,
+    "n_nodes": 6,
+    "n_edges": 5
+  },
+  "shape": {
+    "shape": "Intermediate",
+    "archetype": "Mixed Field",
+    "glyph": "\u03a8",
+    "degree_cv": 0.8944271909999157,
+    "degree_mean": 1.6666666666666667,
+    "degree_std": 1.4907119849998596,
+    "degree_max": 5,
+    "assortativity": -1.0
+  },
+  "lattice": {
+    "lattice_position": "Unknown Configuration",
+    "status": "Edge Case - Manual Inspection Required",
+    "recommended_protocol": "Metrics outside standard classification bounds. Verify data quality and check for anomalies.",
+    "collapse_potential": "Unknown",
+    "traversal_strategy": "Approximation"
+  },
+  "interpretation": {
+    "coherence_direction": "Stable",
+    "dominant_mode": "Fragmented",
+    "distortion_core": "Axes [0, 1, 2] (\u03bb = [4.999999999999998, 1.0, 0])",
+    "narrative_state": "Unknown Configuration",
+    "residue_level": "High",
+    "collapse_potential": "Unknown"
+  },
+  "version": "2.2.2-patched",
+  "runtime_seconds": 0.0041751861572265625
+}

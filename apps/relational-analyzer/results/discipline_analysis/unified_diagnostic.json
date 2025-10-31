@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "input_path": "discipline_data_clean.csv",
+    "input_shape": [
+      53161,
+      7
+    ],
+    "input_type": "tabular",
+    "n_samples": 53161,
+    "n_features": 7,
+    "corr_method": "pearson",
+    "corr_shape": [
+      7,
+      7
+    ],
+    "adj_shape": [
+      7,
+      7
+    ],
+    "validation": {
+      "corr_symmetry_delta_max": 1.1102230246251565e-16,
+      "adj_symmetry_delta_max": 0.0,
+      "adj_density": 0.8571428571428571,
+      "corr_offdiag_mean_abs": 0.961648066118541,
+      "notes": []
+    }
+  },
+  "meff": {
+    "meff_liji": 1.066314285879202,
+    "meff_min": 1.2240714183601988,
+    "meff_pr": 1.066314285879202,
+    "meff_entropy": 1.1685694388059154,
+    "m_total": 7,
+    "m_effective": 6,
+    "collapse_ratio": 0.1748673454800284,
+    "eigenvalues": [
+      6.775928581639803,
+      0.19744231816472024,
+      0.021911521354017503,
+      0.002614383480420388,
+      0.0011389407665863187,
+      0.0009642545944544634
+    ],
+    "eigenvectors": [
+      [
+        -0.34983411632984074,
+        -0.9290656858877271,
+        0.11887350139123898,
+        0.01772633685341928,
+        0.002715301302952078,
+        0.0007329019496664298,
+        -1.5313794498571406e-14
+      ],
+      [
+        -0.38347559967135725,
+        0.12726430012217993,
+        -0.12877440783619962,
+        -0.033721411632381765,
+        -0.03189426612188191,
+        0.1040673041855276,
+        -0.898433655114925
+      ],
+      [
+        -0.38162729058887024,
+        0.056134981572841275,
+        -0.7412138015055516,
+        0.39390950609382275,
+        0.000458047045842338,
+        -0.3087688324330956,
+        0.22651374064067678
+      ],
+      [
+        -0.38335768187385055,
+        0.11526811504596746,
+        -0.17916688313265045,
+        -0.31900225247147773,
+        -0.22618012859897643,
+        0.746536154467727,
+        0.31211097354659023
+      ],
+      [
+        -0.3829673825268482,
+        0.1478944721520609,
+        0.1349749400486079,
+        -0.6625864813763183,
+        -0.16574303673951832,
+        -0.5744928326388731,
+        0.12927242669088107
+      ],
+      [
+        -0.3824886524663075,
+        0.1804110881440115,
+        0.2549201064328253,
+        0.06376373915966098,
+        0.8549512311679571,
+        0.06982962526489375,
+        0.12761822234154765
+      ],
+      [
+        -0.3807866449726958,
+        0.22311866595940194,
+        0.55189226837744,
+        0.5463834254184983,
+        -0.43520726170870805,
+        -0.03996055463400989,
+        0.10534449142426988
+      ]
+    ],
+    "eigenvectors_available": true,
+    "top_10_eigenvalues": [
+      6.775928581639803,
+      0.19744231816472024,
+      0.021911521354017503,
+      0.002614383480420388,
+      0.0011389407665863187,
+      0.0009642545944544634
+    ],
+    "explained_variance_ratio": [
+      0.9679897973771145,
+      0.028206045452102885,
+      0.0031302173362882137,
+      0.0003734833543457696,
+      0.00016270582379804548,
+      0.0001377506563506376
+    ]
+  },
+  "collapse_map": {
+    "top_features": [
+      6,
+      5,
+      4,
+      1,
+      3,
+      2,
+      0
+    ],
+    "scores": [
+      0.37689880575368545,
+      0.3763042912049587,
+      0.3756561072588529,
+      0.3752253016507297,
+      0.375157192476579,
+      0.37350455610365785,
+      0.36522038748555125
+    ],
+    "status": "computed"
+  },
+  "residue_profile": {
+    "residue_mean": 0.961648066118541,
+    "residue_max": 0.9996310373394898,
+    "residue_std": 0.05174724752450236,
+    "residue_median": 0.9934500351715406,
+    "residue_level": "Extreme",
+    "note": null
+  },
+  "rfi": {
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "homophily_h": 1.0,
+    "lambda_2": 1.1666666666666665,
+    "n_communities": 1,
+    "n_components": 1,
+    "avg_degree": 6.0,
+    "density": 1.0,
+    "transitivity": 1.0,
+    "diameter": 1.0,
+    "avg_path_length": 1.0,
+    "n_nodes": 7,
+    "n_edges": 21
+  },
+  "shape": {
+    "shape": "Complete Graph",
+    "archetype": "Fully Connected (Maximal Redundancy)",
+    "glyph": "\u25cf",
+    "degree_cv": 0.0,
+    "degree_mean": 6.0,
+    "degree_std": 0.0,
+    "degree_max": 6,
+    "assortativity": NaN
+  },
+  "lattice": {
+    "lattice_position": "Fragmented Collapse",
+    "status": "Disconnected Modules",
+    "recommended_protocol": "Low connectivity despite collapse. Reconnect weakly connected components or treat as independent subsystems.",
+    "collapse_potential": "Medium",
+    "traversal_strategy": "Approximation"
+  },
+  "interpretation": {
+    "coherence_direction": "Stable",
+    "dominant_mode": "Collapsed but Disconnected",
+    "distortion_core": "Axes [0, 1, 2] (\u03bb = [6.775928581639803, 0.19744231816472024, 0.021911521354017503])",
+    "narrative_state": "Fragmented Collapse",
+    "residue_level": "Extreme",
+    "collapse_potential": "Medium"
+  },
+  "version": "2.2.5",
+  "runtime_seconds": 0.38820791244506836
+}

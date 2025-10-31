@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "input_path": "data/gdp_data_clean.csv",
+    "input_shape": [
+      181,
+      6
+    ],
+    "input_type": "tabular",
+    "n_samples": 181,
+    "n_features": 5,
+    "corr_method": "pearson",
+    "corr_shape": [
+      5,
+      5
+    ],
+    "adj_shape": [
+      5,
+      5
+    ],
+    "validation": {
+      "corr_symmetry_delta_max": 1.1102230246251565e-16,
+      "adj_symmetry_delta_max": 0.0,
+      "adj_density": 0.08,
+      "corr_offdiag_mean_abs": 0.2662685636694312,
+      "notes": []
+    }
+  },
+  "meff": {
+    "meff_liji": 2.941000755168938,
+    "meff_min": 3.46981166295728,
+    "meff_pr": 2.941000755168938,
+    "meff_entropy": 3.380572668282866,
+    "m_total": 5,
+    "m_effective": 5,
+    "collapse_ratio": 0.693962332591456,
+    "eigenvalues": [
+      2.489204057075489,
+      1.0409842799672309,
+      1.0,
+      0.46981138662467853,
+      2.763326015439505e-07
+    ],
+    "eigenvectors": [
+      [
+        -0.6153600857573055,
+        -0.027186054274763817,
+        -4.506405770551243e-16,
+        -0.3472420905520807,
+        0.7071179631848933
+      ],
+      [
+        -1.1102230246251565e-16,
+        -6.312441888645104e-15,
+        1.0,
+        -2.220446049250313e-16,
+        1.1102230246251565e-16
+      ],
+      [
+        -0.18502066600073358,
+        -0.8984515724942296,
+        -5.467848396278896e-15,
+        0.3981860428381257,
+        -1.8005717648114154e-05
+      ],
+      [
+        -0.6153541340007592,
+        -0.02718387050882785,
+        -2.220446049250313e-16,
+        -0.34729834748167865,
+        -0.7070955980550511
+      ],
+      [
+        -0.45655077239840747,
+        0.437386245233861,
+        2.886579864025407e-15,
+        0.7747610364973387,
+        -3.206574183227375e-05
+      ]
+    ],
+    "eigenvectors_available": true,
+    "top_10_eigenvalues": [
+      2.489204057075489,
+      1.0409842799672309,
+      1.0,
+      0.46981138662467853,
+      2.763326015439505e-07
+    ],
+    "explained_variance_ratio": [
+      0.49784081141509784,
+      0.20819685599344617,
+      0.2,
+      0.0939622773249357,
+      5.5266520308790096e-08
+    ]
+  },
+  "collapse_map": {
+    "top_features": [
+      4,
+      3,
+      0,
+      2,
+      1
+    ],
+    "scores": [
+      0.3911503594691714,
+      0.3446409804715224,
+      0.34463911212404863,
+      0.3165800985311043,
+      0.2000000000000014
+    ],
+    "status": "computed"
+  },
+  "residue_profile": {
+    "residue_mean": 0.2662685636694312,
+    "residue_max": 0.9999997228773891,
+    "residue_std": 0.3226862940946367,
+    "residue_median": 0.14886580810593728,
+    "residue_level": "Low",
+    "note": null
+  },
+  "rfi": {
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "homophily_h": 0.0,
+    "lambda_2": 2.0,
+    "n_communities": 1,
+    "n_components": 4,
+    "avg_degree": 1.0,
+    "density": 1.0,
+    "transitivity": 0.0,
+    "diameter": 1.0,
+    "avg_path_length": 1.0,
+    "n_nodes": 2,
+    "n_edges": 1
+  },
+  "shape": {
+    "shape": "Complete Graph",
+    "archetype": "Fully Connected (Maximal Redundancy)",
+    "glyph": "\u25cf",
+    "degree_cv": 0.0,
+    "degree_mean": 1.0,
+    "degree_std": 0.0,
+    "degree_max": 1,
+    "assortativity": NaN
+  },
+  "lattice": {
+    "lattice_position": "Unknown Configuration",
+    "status": "Edge Case - Manual Inspection Required",
+    "recommended_protocol": "Metrics outside standard classification bounds. Verify data quality and check for anomalies.",
+    "collapse_potential": "Unknown",
+    "traversal_strategy": "Approximation"
+  },
+  "interpretation": {
+    "coherence_direction": "Decreasing",
+    "dominant_mode": "Fragmented",
+    "distortion_core": "Axes [0, 1, 2] (\u03bb = [2.489204057075489, 1.0409842799672309, 1.0])",
+    "narrative_state": "Unknown Configuration",
+    "residue_level": "Low",
+    "collapse_potential": "Unknown"
+  },
+  "version": "2.2.5",
+  "runtime_seconds": 0.4130890369415283
+}
