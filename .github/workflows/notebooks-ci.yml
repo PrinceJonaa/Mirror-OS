@@ -1,0 +1,200 @@
+name: Notebooks CI
+
+on:
+  push:
+    paths:
+      - '**/*.ipynb'
+      - '.github/workflows/notebooks-ci.yml'
+  pull_request:
+    paths:
+      - '**/*.ipynb'
+  workflow_dispatch:
+
+concurrency:
+  group: notebooks-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint:
+    name: Lint Notebooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install nbqa and linters
+        run: |
+          python -m pip install --upgrade pip
+          pip install nbqa ruff black isort nbformat jupyter
+      
+      - name: Check notebook formatting with black
+        run: |
+          nbqa black --check projects/ research/ || true
+        continue-on-error: true
+      
+      - name: Lint notebooks with ruff
+        run: |
+          nbqa ruff projects/ research/ --output-format=github || true
+        continue-on-error: true
+      
+      - name: Check import sorting
+        run: |
+          nbqa isort --check-only projects/ research/ || true
+        continue-on-error: true
+      
+      - name: Validate notebook structure
+        run: |
+          # Check for valid JSON structure
+          find projects/ research/ -name "*.ipynb" -exec python -m nbformat.validator {} \; || true
+        continue-on-error: true
+
+  execute:
+    name: Execute Notebooks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    strategy:
+      fail-fast: false
+      matrix:
+        notebook-dir:
+          - projects/
+          - research/training/
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install papermill jupyter nbconvert ipykernel
+          pip install -r requirements.txt || true
+          
+          # Install project-specific requirements
+          if [ -f apps/relational-analyzer/requirements.txt ]; then
+            pip install -r apps/relational-analyzer/requirements.txt
+          fi
+      
+      - name: Execute notebooks with papermill
+        run: |
+          # Find and execute all notebooks
+          find ${{ matrix.notebook-dir }} -name "*.ipynb" -not -path "*/.*" | while read notebook; do
+            output="${notebook%.ipynb}_executed.ipynb"
+            echo "Executing: $notebook"
+            papermill "$notebook" "$output" \
+              --kernel python3 \
+              --execution-timeout 300 \
+              --log-output \
+              || echo "Failed to execute $notebook"
+          done
+        continue-on-error: true
+        timeout-minutes: 30
+      
+      - name: Upload executed notebooks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: executed-notebooks-${{ matrix.notebook-dir }}
+          path: |
+            **/*_executed.ipynb
+          retention-days: 7
+
+  output-validation:
+    name: Validate Notebook Outputs
+    runs-on: ubuntu-latest
+    needs: execute
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Download executed notebooks
+        uses: actions/download-artifact@v4
+        with:
+          pattern: executed-notebooks-*
+          merge-multiple: true
+      
+      - name: Check for execution errors
+        run: |
+          python << 'EOF'
+          import json
+          import glob
+          import sys
+          
+          error_count = 0
+          for notebook_path in glob.glob("**/*_executed.ipynb", recursive=True):
+              try:
+                  with open(notebook_path) as f:
+                      nb = json.load(f)
+                  
+                  for cell in nb.get('cells', []):
+                      for output in cell.get('outputs', []):
+                          if output.get('output_type') == 'error':
+                              print(f"❌ Error in {notebook_path}:")
+                              print(f"   {output.get('ename')}: {output.get('evalue')}")
+                              error_count += 1
+              except Exception as e:
+                  print(f"⚠️  Could not parse {notebook_path}: {e}")
+          
+          if error_count > 0:
+              print(f"\n❌ Found {error_count} execution errors")
+              sys.exit(1)
+          else:
+              print("✅ All notebooks executed successfully")
+          EOF
+        continue-on-error: true
+
+  clear-outputs:
+    name: Check for Cleared Outputs
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for committed outputs
+        run: |
+          python << 'EOF'
+          import json
+          import glob
+          
+          notebooks_with_output = []
+          for notebook_path in glob.glob("**/*.ipynb", recursive=True):
+              if '.ipynb_checkpoints' in notebook_path:
+                  continue
+              
+              try:
+                  with open(notebook_path) as f:
+                      nb = json.load(f)
+                  
+                  for cell in nb.get('cells', []):
+                      if cell.get('outputs') or cell.get('execution_count'):
+                          notebooks_with_output.append(notebook_path)
+                          break
+              except Exception:
+                  pass
+          
+          if notebooks_with_output:
+              print("⚠️  The following notebooks have outputs committed:")
+              for path in notebooks_with_output:
+                  print(f"   - {path}")
+              print("\nConsider clearing outputs before committing:")
+              print("   jupyter nbconvert --clear-output --inplace <notebook>")
+          else:
+              print("✅ All notebooks have cleared outputs")
+          EOF

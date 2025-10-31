@@ -1,0 +1,208 @@
+name: NFL Competition Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      data_path:
+        description: 'Path to tracking data (glob pattern)'
+        required: false
+        default: 'projects/nfl-big-data-bowl-2026/data/tracking_week_*.csv'
+      enable_gpu:
+        description: 'Enable GPU support'
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2am
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  run-analysis:
+    name: Relational Analysis
+    runs-on: ${{ github.event.inputs.enable_gpu == 'true' && 'ubuntu-latest-gpu' || 'ubuntu-latest' }}
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          
+          # Install relational analyzer
+          cd apps/relational-analyzer
+          pip install -r requirements.txt
+          cd ../..
+          
+          # Install NFL project dependencies
+          if [ -f projects/nfl-big-data-bowl-2026/requirements.txt ]; then
+            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt
+          fi
+      
+      - name: Check data availability
+        id: check_data
+        run: |
+          DATA_PATH="${{ github.event.inputs.data_path || 'projects/nfl-big-data-bowl-2026/data/tracking_week_*.csv' }}"
+          if ls $DATA_PATH 1> /dev/null 2>&1; then
+            echo "data_available=true" >> $GITHUB_OUTPUT
+            echo "✅ Data files found"
+            ls -lh $DATA_PATH | head -5
+          else
+            echo "data_available=false" >> $GITHUB_OUTPUT
+            echo "⚠️  No data files found at: $DATA_PATH"
+          fi
+      
+      - name: Run relational analysis
+        if: steps.check_data.outputs.data_available == 'true'
+        run: |
+          DATA_PATH="${{ github.event.inputs.data_path || 'projects/nfl-big-data-bowl-2026/data/tracking_week_*.csv' }}"
+          OUTPUT_DIR="results/nfl_daily_$(date +%Y%m%d)"
+          
+          mkdir -p "$OUTPUT_DIR"
+          
+          python apps/relational-analyzer/src/truth_distortion_unified.py \
+            --data $DATA_PATH \
+            --out "$OUTPUT_DIR" \
+            --config '{"adj_threshold": 0.3, "rfi_weighted": true}' \
+            > "$OUTPUT_DIR/analysis.log" 2>&1 || true
+          
+          echo "OUTPUT_DIR=$OUTPUT_DIR" >> $GITHUB_ENV
+        timeout-minutes: 60
+      
+      - name: Generate analysis summary
+        if: steps.check_data.outputs.data_available == 'true'
+        run: |
+          python << 'EOF'
+          import json
+          import os
+          from pathlib import Path
+          
+          output_dir = Path(os.environ.get('OUTPUT_DIR', 'results/nfl_daily'))
+          summary = {
+              'timestamp': '$(date -u +"%Y-%m-%dT%H:%M:%SZ")',
+              'files_processed': 0,
+              'metrics': {}
+          }
+          
+          # Count processed files
+          if output_dir.exists():
+              json_files = list(output_dir.glob('*.json'))
+              summary['files_processed'] = len(json_files)
+              
+              # Extract key metrics if available
+              for json_file in json_files[:5]:  # First 5 files
+                  try:
+                      with open(json_file) as f:
+                          data = json.load(f)
+                      summary['metrics'][json_file.name] = {
+                          'rfi': data.get('rfi', 'N/A'),
+                          'nodes': data.get('n_nodes', 'N/A')
+                      }
+                  except Exception:
+                      pass
+          
+          # Save summary
+          summary_path = output_dir / 'summary.json'
+          with open(summary_path, 'w') as f:
+              json.dump(summary, f, indent=2)
+          
+          print(f"✅ Processed {summary['files_processed']} files")
+          print(f"📊 Summary saved to {summary_path}")
+          EOF
+      
+      - name: Upload analysis results
+        if: steps.check_data.outputs.data_available == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nfl-analysis-${{ github.run_number }}
+          path: |
+            ${{ env.OUTPUT_DIR }}/
+            !${{ env.OUTPUT_DIR }}/**/*.csv
+          retention-days: 30
+          compression-level: 9
+
+  train-model:
+    name: Train GNN Model
+    runs-on: ubuntu-latest
+    needs: run-analysis
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f projects/nfl-big-data-bowl-2026/requirements.txt ]; then
+            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt
+          fi
+      
+      - name: Download analysis results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: nfl-analysis-*
+          path: results/
+          merge-multiple: true
+      
+      - name: Train GNN model
+        run: |
+          cd projects/nfl-big-data-bowl-2026
+          if [ -f scripts/train_gnn.py ]; then
+            python scripts/train_gnn.py \
+              --data ../../results/ \
+              --output models/gnn_$(date +%Y%m%d) \
+              > ../../results/training.log 2>&1 || true
+          else
+            echo "⚠️  GNN training script not found"
+          fi
+        timeout-minutes: 60
+      
+      - name: Upload model artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nfl-model-${{ github.run_number }}
+          path: |
+            projects/nfl-big-data-bowl-2026/models/
+            results/training.log
+          retention-days: 60
+
+  report-status:
+    name: Report Status
+    runs-on: ubuntu-latest
+    needs: [run-analysis, train-model]
+    if: failure() && github.event_name == 'schedule'
+    steps:
+      - name: Create issue on failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 NFL Competition Workflow Failed - ${new Date().toISOString().split('T')[0]}`,
+              body: `The automated NFL competition workflow failed.
+              
+              **Run Details:**
+              - Run ID: ${context.runId}
+              - Run URL: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+              
+              Please check the logs for more details.`,
+              labels: ['automated', 'nfl-competition', 'bug']
+            });

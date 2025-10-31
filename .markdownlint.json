@@ -1,0 +1,17 @@
+{
+  "default": true,
+  "line-length": false,
+  "no-inline-html": {
+    "allowed_elements": ["details", "summary", "br", "img"]
+  },
+  "no-duplicate-heading": false,
+  "no-trailing-punctuation": false,
+  "code-block-style": {
+    "style": "fenced"
+  },
+  "fenced-code-language": false,
+  "first-line-heading": false,
+  "heading-style": {
+    "style": "atx"
+  }
+}

@@ -1,0 +1,306 @@
+name: Documentation Sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**/README.md'
+      - 'core/**/*.md'
+      - 'docs/**/*.md'
+      - '.github/workflows/docs-sync.yml'
+  pull_request:
+    paths:
+      - '**/*.md'
+  workflow_dispatch:
+
+concurrency:
+  group: docs-sync-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  lint-markdown:
+    name: Lint Markdown Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli2
+      
+      - name: Lint markdown files
+        run: |
+          markdownlint-cli2 "**/*.md" \
+            --config .markdownlint.json \
+            --ignore node_modules \
+            --ignore .next \
+            || true
+        continue-on-error: true
+
+  check-links:
+    name: Check Broken Links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
+      
+      - name: Check for broken links
+        run: |
+          find . -name "*.md" \
+            -not -path "*/node_modules/*" \
+            -not -path "*/.next/*" \
+            -not -path "*/dist/*" \
+            -exec markdown-link-check {} \; \
+            --config .markdown-link-check.json \
+            || true
+        continue-on-error: true
+
+  validate-glossary:
+    name: Validate Glossary References
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Create glossary validator script
+        run: |
+          cat > validate_glossary.py << 'EOFSCRIPT'
+          #!/usr/bin/env python3
+          """Validate that GLOSSARY.md terms are referenced in docs."""
+          
+          import re
+          from pathlib import Path
+          from collections import defaultdict
+          
+          def extract_glossary_terms(glossary_path):
+              """Extract terms from GLOSSARY.md."""
+              if not glossary_path.exists():
+                  print(f"⚠️  Glossary not found at {glossary_path}")
+                  return []
+              
+              with open(glossary_path) as f:
+                  content = f.read()
+              
+              # Match markdown headers that define terms
+              terms = re.findall(r'^#+\s+(.+?)(?:\s*\{#.*?\})?$', content, re.MULTILINE)
+              return [term.strip() for term in terms if term.strip()]
+          
+          def find_term_references(term, docs_paths):
+              """Find references to a term in documentation."""
+              references = []
+              term_pattern = re.compile(re.escape(term), re.IGNORECASE)
+              
+              for doc_path in docs_paths:
+                  try:
+                      with open(doc_path) as f:
+                          content = f.read()
+                      
+                      if term_pattern.search(content):
+                          references.append(doc_path)
+                  except Exception:
+                      pass
+              
+              return references
+          
+          def main():
+              glossary_path = Path('docs/GLOSSARY.md')
+              docs_paths = list(Path('.').rglob('*.md'))
+              docs_paths = [p for p in docs_paths if 'node_modules' not in str(p) and '.next' not in str(p)]
+              
+              terms = extract_glossary_terms(glossary_path)
+              print(f"📚 Found {len(terms)} terms in glossary")
+              
+              unreferenced = []
+              term_usage = defaultdict(list)
+              
+              for term in terms:
+                  refs = find_term_references(term, docs_paths)
+                  term_usage[term] = refs
+                  
+                  # Term unreferenced if only in glossary itself
+                  if len(refs) <= 1:
+                      unreferenced.append(term)
+              
+              # Report
+              if unreferenced:
+                  print(f"\n⚠️  {len(unreferenced)} terms are not referenced outside glossary:")
+                  for term in unreferenced[:10]:  # Show first 10
+                      print(f"   - {term}")
+              else:
+                  print("\n✅ All glossary terms are referenced in documentation")
+              
+              # Show top referenced terms
+              top_terms = sorted(term_usage.items(), key=lambda x: len(x[1]), reverse=True)[:5]
+              print("\n📊 Most referenced terms:")
+              for term, refs in top_terms:
+                  print(f"   - {term}: {len(refs)} references")
+          
+          if __name__ == '__main__':
+              main()
+          EOFSCRIPT
+          
+          chmod +x validate_glossary.py
+      
+      - name: Run glossary validation
+        run: python validate_glossary.py
+        continue-on-error: true
+
+  validate-structure:
+    name: Validate Doc Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check required docs exist
+        run: |
+          REQUIRED_DOCS=(
+            "README.md"
+            "docs/ARCHITECTURE.md"
+            "docs/GETTING_STARTED.md"
+            "LICENSE.md"
+          )
+          
+          missing=0
+          for doc in "${REQUIRED_DOCS[@]}"; do
+            if [ ! -f "$doc" ]; then
+              echo "❌ Missing: $doc"
+              missing=$((missing + 1))
+            else
+              echo "✅ Found: $doc"
+            fi
+          done
+          
+          if [ $missing -gt 0 ]; then
+            echo "⚠️  $missing required documents are missing"
+          else
+            echo "✅ All required documents present"
+          fi
+      
+      - name: Check for broken internal links
+        run: |
+          python << 'EOF'
+          import re
+          from pathlib import Path
+          
+          def check_internal_links(md_path):
+              """Check if internal markdown links are valid."""
+              with open(md_path) as f:
+                  content = f.read()
+              
+              # Find markdown links [text](path)
+              links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+              broken = []
+              
+              for text, link in links:
+                  # Skip external links
+                  if link.startswith(('http://', 'https://', '#')):
+                      continue
+                  
+                  # Resolve relative path
+                  link_path = (md_path.parent / link).resolve()
+                  if not link_path.exists():
+                      broken.append((text, link))
+              
+              return broken
+          
+          # Check all markdown files
+          md_files = list(Path('.').rglob('*.md'))
+          md_files = [p for p in md_files if 'node_modules' not in str(p)]
+          
+          total_broken = 0
+          for md_path in md_files:
+              try:
+                  broken = check_internal_links(md_path)
+                  if broken:
+                      print(f"\n❌ Broken links in {md_path}:")
+                      for text, link in broken[:3]:  # Show first 3
+                          print(f"   [{text}]({link})")
+                      total_broken += len(broken)
+              except Exception:
+                  pass
+          
+          if total_broken > 0:
+              print(f"\n⚠️  Found {total_broken} broken internal links")
+          else:
+              print("✅ No broken internal links found")
+          EOF
+
+  build-docs:
+    name: Build Documentation Site
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [lint-markdown, check-links, validate-glossary]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Generate static docs
+        run: |
+          # Create a simple index.html for docs
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Mirror-OS Documentation</title>
+              <meta charset="utf-8">
+              <style>
+                  body { font-family: system-ui; max-width: 1200px; margin: 0 auto; padding: 2rem; }
+                  h1 { color: #2c3e50; }
+                  .doc-list { list-style: none; padding: 0; }
+                  .doc-list li { margin: 1rem 0; }
+                  .doc-list a { color: #3498db; text-decoration: none; }
+                  .doc-list a:hover { text-decoration: underline; }
+              </style>
+          </head>
+          <body>
+              <h1>Mirror-OS Documentation</h1>
+              <ul class="doc-list">
+                  <li><a href="ARCHITECTURE.md">Architecture</a></li>
+                  <li><a href="GETTING_STARTED.md">Getting Started</a></li>
+                  <li><a href="GLOSSARY.md">Glossary</a></li>
+              </ul>
+          </body>
+          </html>
+          EOF
+      
+      - name: Upload docs artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+
+  deploy-docs:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build-docs
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
