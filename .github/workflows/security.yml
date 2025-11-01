@@ -172,5 +172,10 @@ jobs:
           cd ${{ matrix.app }}
           if [ -f package-lock.json ]; then
             npm audit --audit-level=moderate || true
+          elif [ -f package.json ]; then
+            echo "No package-lock.json found, running npm audit without lock file"
+            npm audit --audit-level=moderate || true
+          else
+            echo "No package.json found in ${{ matrix.app }}, skipping npm audit"
           fi
         continue-on-error: true

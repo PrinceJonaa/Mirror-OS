@@ -90,15 +90,23 @@ jobs:
       - name: Execute notebooks with papermill
         run: |
           # Find and execute all notebooks
-          find ${{ matrix.notebook-dir }} -name "*.ipynb" -not -path "*/.*" | while read notebook; do
-            output="${notebook%.ipynb}_executed.ipynb"
-            echo "Executing: $notebook"
-            papermill "$notebook" "$output" \
-              --kernel python3 \
-              --execution-timeout 300 \
-              --log-output \
-              || echo "Failed to execute $notebook"
+          notebook_count=0
+          find ${{ matrix.notebook-dir }} -name "*.ipynb" -not -path "*/.*" 2>/dev/null | while read notebook; do
+            if [ -f "$notebook" ]; then
+              notebook_count=$((notebook_count + 1))
+              output="${notebook%.ipynb}_executed.ipynb"
+              echo "Executing: $notebook"
+              papermill "$notebook" "$output" \
+                --kernel python3 \
+                --execution-timeout 300 \
+                --log-output \
+                || echo "Failed to execute $notebook"
+            fi
           done
+          
+          if [ $notebook_count -eq 0 ]; then
+            echo "No notebooks found in ${{ matrix.notebook-dir }}"
+          fi
         continue-on-error: true
         timeout-minutes: 30
       
@@ -110,6 +118,7 @@ jobs:
           path: |
             **/*_executed.ipynb
           retention-days: 7
+          if-no-files-found: warn
 
   output-validation:
     name: Validate Notebook Outputs

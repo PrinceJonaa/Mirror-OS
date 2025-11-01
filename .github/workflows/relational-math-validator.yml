@@ -19,6 +19,7 @@ jobs:
   validate:
     name: Validate RM Formulas & Cross-References
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       

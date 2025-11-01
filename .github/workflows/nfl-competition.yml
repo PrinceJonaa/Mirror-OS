@@ -39,14 +39,20 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           
-          # Install relational analyzer
-          cd apps/relational-analyzer
-          pip install -r requirements.txt
-          cd ../..
+          # Install relational analyzer with retry
+          if [ -f apps/relational-analyzer/requirements.txt ]; then
+            cd apps/relational-analyzer
+            pip install -r requirements.txt || pip install --no-cache-dir -r requirements.txt
+            cd ../..
+          else
+            echo "⚠️  apps/relational-analyzer/requirements.txt not found"
+          fi
           
           # Install NFL project dependencies
           if [ -f projects/nfl-big-data-bowl-2026/requirements.txt ]; then
-            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt
+            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt || echo "Failed to install NFL requirements"
+          else
+            echo "⚠️  NFL project requirements.txt not found"
           fi
       
       - name: Check data availability
@@ -130,6 +136,7 @@ jobs:
             !${{ env.OUTPUT_DIR }}/**/*.csv
           retention-days: 30
           compression-level: 9
+          if-no-files-found: warn
 
   train-model:
     name: Train GNN Model
@@ -150,7 +157,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f projects/nfl-big-data-bowl-2026/requirements.txt ]; then
-            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt
+            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt || echo "Failed to install requirements"
+          else
+            echo "⚠️  NFL project requirements not found"
           fi
       
       - name: Download analysis results
@@ -182,6 +191,7 @@ jobs:
             projects/nfl-big-data-bowl-2026/models/
             results/training.log
           retention-days: 60
+          if-no-files-found: warn
 
   report-status:
     name: Report Status

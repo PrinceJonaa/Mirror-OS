@@ -50,10 +50,15 @@ jobs:
         id: changed_files
         run: |
           # Get list of changed Python files
-          git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
+          if git rev-parse origin/${{ github.base_ref }} >/dev/null 2>&1; then
+            git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt || echo "" > changed_files.txt
+          else
+            echo "Base ref not found, listing all tracked Python and MD files"
+            git ls-files '*.py' '*.md' > changed_files.txt || echo "" > changed_files.txt
+          fi
           
-          PYTHON_FILES=$(grep '\.py$' changed_files.txt || echo "")
-          MD_FILES=$(grep '\.md$' changed_files.txt || echo "")
+          PYTHON_FILES=$(grep '\.py$' changed_files.txt 2>/dev/null || echo "")
+          MD_FILES=$(grep '\.md$' changed_files.txt 2>/dev/null || echo "")
           
           echo "python_files<<EOF" >> $GITHUB_OUTPUT
           echo "$PYTHON_FILES" >> $GITHUB_OUTPUT
@@ -364,9 +369,23 @@ jobs:
         run: |
           echo "${{ steps.changed_files.outputs.python_files }}" > python_files.txt
           
-          if [ -s python_files.txt ]; then
+          if [ -s python_files.txt ] && [ -n "$(cat python_files.txt | tr -d '[:space:]')" ]; then
             echo "🔍 Running distortion pattern detection..."
-            python distortion_detector.py $(cat python_files.txt) || echo "Patterns detected"
+            # Filter out non-existent files
+            existing_files=""
+            while IFS= read -r file; do
+              if [ -f "$file" ]; then
+                existing_files="$existing_files $file"
+              else
+                echo "⚠️  File $file not found, skipping"
+              fi
+            done < python_files.txt
+            
+            if [ -n "$existing_files" ]; then
+              python distortion_detector.py $existing_files || echo "Patterns detected"
+            else
+              echo "ℹ️  No existing Python files to scan"
+            fi
           else
             echo "ℹ️  No Python files changed"
           fi
@@ -376,12 +395,17 @@ jobs:
         run: |
           mkdir -p results/coherence_check
           
-          cd apps/relational-analyzer
-          python src/truth_distortion_unified.py \
-            --self-test \
-            --out ../../results/coherence_check \
-            > ../../results/coherence_check/self_test.log 2>&1 || true
-          cd ../..
+          if [ -f apps/relational-analyzer/src/truth_distortion_unified.py ]; then
+            cd apps/relational-analyzer
+            python src/truth_distortion_unified.py \
+              --self-test \
+              --out ../../results/coherence_check \
+              > ../../results/coherence_check/self_test.log 2>&1 || true
+            cd ../..
+          else
+            echo "⚠️  truth_distortion_unified.py not found, skipping self-test"
+            echo "Skipped: file not found" > results/coherence_check/self_test.log
+          fi
         continue-on-error: true
       
       - name: Generate coherence summary
@@ -434,6 +458,7 @@ jobs:
             distortion_report.json
             coherence_summary.md
           retention-days: 30
+          if-no-files-found: warn
       
       - name: Comment on PR
         if: always() && github.event_name == 'pull_request'
@@ -770,6 +795,7 @@ jobs:
           name: residue-metric-${{ github.run_number }}
           path: residue_metric.txt
           retention-days: 90
+          if-no-files-found: warn
 
   educational-summary:
     name: Generate Educational Summary
@@ -831,3 +857,4 @@ jobs:
           name: coherence-teaching-${{ github.run_number }}
           path: teaching_summary.md
           retention-days: 30
+          if-no-files-found: warn
