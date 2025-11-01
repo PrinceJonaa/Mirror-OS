@@ -90,10 +90,10 @@ jobs:
       - name: Execute notebooks with papermill
         run: |
           # Find and execute all notebooks
-          notebook_count=0
-          find ${{ matrix.notebook-dir }} -name "*.ipynb" -not -path "*/.*" 2>/dev/null | while read notebook; do
+          notebooks_found=0
+          while IFS= read -r notebook; do
             if [ -f "$notebook" ]; then
-              notebook_count=$((notebook_count + 1))
+              notebooks_found=$((notebooks_found + 1))
               output="${notebook%.ipynb}_executed.ipynb"
               echo "Executing: $notebook"
               papermill "$notebook" "$output" \
@@ -102,9 +102,9 @@ jobs:
                 --log-output \
                 || echo "Failed to execute $notebook"
             fi
-          done
+          done < <(find ${{ matrix.notebook-dir }} -name "*.ipynb" -not -path "*/.*" 2>/dev/null)
           
-          if [ $notebook_count -eq 0 ]; then
+          if [ $notebooks_found -eq 0 ]; then
             echo "No notebooks found in ${{ matrix.notebook-dir }}"
           fi
         continue-on-error: true

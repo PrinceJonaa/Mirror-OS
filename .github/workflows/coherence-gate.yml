@@ -369,7 +369,7 @@ jobs:
         run: |
           echo "${{ steps.changed_files.outputs.python_files }}" > python_files.txt
           
-          if [ -s python_files.txt ] && [ -n "$(cat python_files.txt | tr -d '[:space:]')" ]; then
+          if [ -s python_files.txt ] && [ -n "$(tr -d '[:space:]' < python_files.txt)" ]; then
             echo "🔍 Running distortion pattern detection..."
             # Filter out non-existent files
             existing_files=""
