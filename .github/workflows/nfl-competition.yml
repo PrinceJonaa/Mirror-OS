@@ -45,8 +45,8 @@ jobs:
           cd ../..
           
           # Install NFL project dependencies
-          if [ -f projects/nfl-big-data-bowl-2026/requirements.txt ]; then
-            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt
+          if [ -f projects/nfl-big-data-bowl-2026/nfl_big_data_bowl_2026/requirements.txt ]; then
+            pip install -r projects/nfl-big-data-bowl-2026/nfl_big_data_bowl_2026/requirements.txt
           fi
       
       - name: Check data availability
@@ -149,8 +149,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f projects/nfl-big-data-bowl-2026/requirements.txt ]; then
-            pip install -r projects/nfl-big-data-bowl-2026/requirements.txt
+          if [ -f projects/nfl-big-data-bowl-2026/nfl_big_data_bowl_2026/requirements.txt ]; then
+            pip install -r projects/nfl-big-data-bowl-2026/nfl_big_data_bowl_2026/requirements.txt
           fi
       
       - name: Download analysis results

@@ -1,0 +1,17 @@
+# Relational Analyzer Dependencies
+# Core scientific computing
+numpy>=1.22
+scipy>=1.9
+pandas>=1.5
+
+# Machine learning
+scikit-learn>=1.1
+
+# Graph analysis
+networkx>=2.8
+
+# Visualization
+matplotlib>=3.6
+
+# Optional for Louvain modularity
+python-louvain>=0.16
