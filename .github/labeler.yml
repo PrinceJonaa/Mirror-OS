@@ -1,0 +1,52 @@
+# Auto-labeler configuration
+# Automatically adds labels to PRs based on changed files
+
+# Python code
+python:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.py', '**/requirements*.txt']
+
+# TypeScript/JavaScript
+typescript:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']
+
+# Frontend
+frontend:
+  - changed-files:
+    - any-glob-to-any-file: ['apps/dashboard/frontend/**', 'apps/mirror-os-app/**']
+
+# Documentation
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.md', 'docs/**']
+
+# Core framework
+core:
+  - changed-files:
+    - any-glob-to-any-file: ['core/**']
+
+# Tests
+tests:
+  - changed-files:
+    - any-glob-to-any-file: ['**/tests/**', '**/*test.py', '**/*.test.ts', '**/*.spec.ts']
+
+# CI/CD
+ci-cd:
+  - changed-files:
+    - any-glob-to-any-file: ['.github/**']
+
+# Relational Analyzer
+relational-analyzer:
+  - changed-files:
+    - any-glob-to-any-file: ['apps/relational-analyzer/**']
+
+# Notebooks
+notebooks:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.ipynb']
+
+# Dependencies
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file: ['**/package.json', '**/package-lock.json', '**/requirements*.txt']
