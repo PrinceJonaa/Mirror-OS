@@ -1,0 +1,41 @@
+
+======================================================================
+ 🔄 SELF-DIAGNOSTIC MODE: Program Analyzing Itself
+======================================================================
+
+[1/4] Extracting function metrics from source code...
+  Found 51 functions
+
+[2/4] Building function correlation and call graph...
+  Correlation matrix: (51, 51)
+
+[3/4] Computing M_eff of program structure...
+
+  📊 PROGRAM COMPLEXITY METRICS:
+     M_eff: 22.50 / 51
+     Collapse ratio: 44.11%
+     Effective dimensionality: 48
+
+  🎯 ASSESSMENT: ⚠️  MODERATE COUPLING
+     Some refactoring opportunities exist.
+
+[4/4] Computing RFI of function call graph...
+  [RFI] Using largest connected component: 22 / 51 nodes
+
+  📈 RELATIONAL TOPOLOGY:
+     RFI: 8.414
+     Modularity: 0.509
+     Communities: 5
+
+  🔷 PROGRAM SHAPE: Modular Blocks
+     Glyph: ⊕
+     Archetype: Traversable Distortion → Truth
+
+  🔗 TOP 5 COUPLED FUNCTIONS (Collapse Drivers):
+     parse: 21.49
+     save: 21.20
+     _format_distortion_core: 21.11
+     compute_residue_profile: 21.06
+     corr_to_adj: 20.97
+
+✓ Self-diagnostic complete! Report saved to self_diagnostic_phase3//

@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: '/Users/princejona/a1/dashboard/frontend',
-  },
+  // Removed hardcoded turbopack.root - let Next.js auto-detect project root
   experimental: {
     // Allow large file uploads up to 500MB (using new property name)
     proxyClientMaxBodySize: '500mb',

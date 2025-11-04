@@ -1,0 +1,394 @@
+{
+  "metadata": {
+    "input_path": "tests/out/identity.csv",
+    "input_shape": [
+      10,
+      10
+    ],
+    "input_type": "corr",
+    "corr_shape": [
+      10,
+      10
+    ],
+    "adj_shape": [
+      10,
+      10
+    ],
+    "validation": {
+      "corr_symmetry_delta_max": 0.0,
+      "adj_symmetry_delta_max": 0.0,
+      "adj_density": 0.0,
+      "corr_offdiag_mean_abs": 0.0,
+      "notes": []
+    }
+  },
+  "meff": {
+    "meff_liji": 10.0,
+    "meff_min": 10.0,
+    "meff_pr": 10.0,
+    "meff_entropy": 9.999999999899998,
+    "m_total": 10,
+    "m_effective": 10,
+    "collapse_ratio": 1.0,
+    "eigenvalues": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "eigenvectors": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "eigenvectors_available": true,
+    "top_10_eigenvalues": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "explained_variance_ratio": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ]
+  },
+  "collapse_map": {
+    "top_features": [
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      1,
+      0
+    ],
+    "scores": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "status": "computed"
+  },
+  "residue_profile": {
+    "residue_mean": 0.0,
+    "residue_max": 0.0,
+    "residue_std": 0.0,
+    "residue_median": 0.0,
+    "residue_level": "Minimal",
+    "note": "Binary input\u2014residue = edge density"
+  },
+  "rfi": {
+    "rfi": 0.0,
+    "modularity_Q": 0.0,
+    "homophily_h": 0.0,
+    "lambda_2": 1e-06,
+    "n_communities": 0,
+    "n_components": 10,
+    "avg_degree": 0.0,
+    "density": 0.0,
+    "transitivity": 0.0,
+    "diameter": null,
+    "avg_path_length": null,
+    "n_nodes": 1,
+    "n_edges": 0,
+    "community_mapping": {},
+    "adjacency_matrix": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ]
+  },
+  "shape": {
+    "shape": "Identity",
+    "archetype": "Perfectly Orthogonal",
+    "glyph": "I",
+    "degree_cv": 0.0,
+    "degree_mean": 0.0,
+    "degree_std": 0.0,
+    "degree_max": 0,
+    "assortativity": 0.0
+  },
+  "lattice": {
+    "lattice_position": "Irreducible Distortion (\u221e_B)",
+    "status": "NP-Hard Expansion - Reparameterize",
+    "recommended_protocol": "High-dimensional expander detected. Use approximation algorithms, anchor-based strategies, or accept bounded solution.",
+    "collapse_potential": "Low",
+    "traversal_strategy": "Approximation"
+  },
+  "interpretation": {
+    "coherence_direction": "N/A",
+    "dominant_mode": "Degenerate",
+    "distortion_core": "N/A",
+    "narrative_state": "No Relational Field",
+    "residue_level": "N/A",
+    "collapse_potential": "N/A",
+    "status": "degenerate_graph"
+  },
+  "version": "2.2.5",
+  "runtime_seconds": 0.005585908889770508
+}

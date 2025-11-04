@@ -49,8 +49,7 @@ jobs:
         with:
           python-version: '3.12'
           cache: 'pip'
-          cache-dependency-path: |
-            apps/relational-analyzer/requirements.txt
+          cache-dependency-path: 'requirements.txt'
       
       - name: Clear corrupted pip cache (if any)
         run: |
@@ -132,7 +131,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.11', '3.12']
         os: [ubuntu-latest]
     
     steps:
@@ -154,8 +153,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
-          cache-dependency-path: |
-            apps/relational-analyzer/requirements.txt
+          cache-dependency-path: 'requirements.txt'
       
       - name: Clear pip cache if corrupted
         run: |
