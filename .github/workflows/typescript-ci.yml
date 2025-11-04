@@ -123,17 +123,28 @@ jobs:
         env:
           NODE_ENV: production
       
+      - name: Cleanup and check for zombie processes
+        if: always()
+        run: |
+          echo "=== Checking for zombie processes ==="
+          ps aux | grep -E "node|npm|jest|playwright" | grep -v grep || echo "No lingering processes"
+          
+          echo "=== Final disk usage ==="
+          df -h
+          du -sh apps/*/node_modules 2>/dev/null || true
+      
       - name: Upload build artifacts
-        if: steps.check_app.outputs.exists == 'true' && matrix.node-version == '20.x'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.app.name }}-build
+          name: build-artifacts-node-${{ matrix.node-version }}-${{ matrix.app.name }}
           path: |
-            ${{ matrix.app.path }}/.next
             ${{ matrix.app.path }}/dist
             ${{ matrix.app.path }}/build
-          retention-days: 7
+            ${{ matrix.app.path }}/.next
           if-no-files-found: warn
+          retention-days: 7
+          compression-level: 6
 
   bundle-analysis:
     name: Bundle Size Analysis
