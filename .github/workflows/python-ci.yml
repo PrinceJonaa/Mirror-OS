@@ -254,17 +254,6 @@ jobs:
         run: |
           ps aux | grep -E 'pytest|python' | grep -v grep || echo "No lingering processes"
       
-      - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest' && hashFiles('coverage.xml') != ''
-        uses: codecov/codecov-action@v4
-        with:
-          file: ./coverage.xml
-          flags: unittests
-          name: python-${{ matrix.python-version }}
-          fail_ci_if_error: false
-          verbose: false
-        continue-on-error: true
-      
       - name: Upload test results
         if: always() && (hashFiles('pytest-results.xml') != '' || hashFiles('pytest-report.json') != '')
         uses: actions/upload-artifact@v4
