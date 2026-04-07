@@ -32,7 +32,7 @@ jobs:
           - name: mirror-os-app
             path: apps/mirror-os-app
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Check if app exists
         id: check_app
@@ -47,7 +47,7 @@ jobs:
       
       - name: Setup Node.js
         if: steps.check_app.outputs.exists == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
       
@@ -86,7 +86,7 @@ jobs:
           - name: mirror-os-app
             path: apps/mirror-os-app
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Check if app exists
         id: check_app
@@ -99,7 +99,7 @@ jobs:
       
       - name: Setup Node.js ${{ matrix.node-version }}
         if: steps.check_app.outputs.exists == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
       
@@ -135,7 +135,7 @@ jobs:
       
       - name: Upload build artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: build-artifacts-node-${{ matrix.node-version }}-${{ matrix.app.name }}
           path: |
@@ -153,7 +153,7 @@ jobs:
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Check if dashboard exists
         id: check_dashboard
@@ -166,7 +166,7 @@ jobs:
       
       - name: Setup Node.js
         if: steps.check_dashboard.outputs.exists == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
       
@@ -190,7 +190,7 @@ jobs:
     timeout-minutes: 20
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Check if dashboard exists
         id: check_dashboard
@@ -203,7 +203,7 @@ jobs:
       
       - name: Setup Node.js
         if: steps.check_dashboard.outputs.exists == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
       
@@ -232,7 +232,7 @@ jobs:
       
       - name: Upload Playwright report
         if: always() && steps.check_dashboard.outputs.exists == 'true' && hashFiles('apps/dashboard/frontend/playwright-report/**') != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report
           path: apps/dashboard/frontend/playwright-report/
