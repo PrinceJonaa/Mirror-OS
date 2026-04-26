@@ -23,4 +23,4 @@ jupyter>=1.0.0
 ipykernel>=6.0.0
 
 # Utilities
-tqdm>=4.65.0
+tqdm>=4.67.3
