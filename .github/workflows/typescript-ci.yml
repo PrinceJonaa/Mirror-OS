@@ -32,7 +32,7 @@ jobs:
           - name: mirror-os-app
             path: apps/mirror-os-app
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Check if app exists
         id: check_app
@@ -86,7 +86,7 @@ jobs:
           - name: mirror-os-app
             path: apps/mirror-os-app
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Check if app exists
         id: check_app
@@ -153,7 +153,7 @@ jobs:
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Check if dashboard exists
         id: check_dashboard
@@ -190,7 +190,7 @@ jobs:
     timeout-minutes: 20
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Check if dashboard exists
         id: check_dashboard
