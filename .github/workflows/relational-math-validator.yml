@@ -20,7 +20,7 @@ jobs:
     name: Validate RM Formulas & Cross-References
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - uses: actions/setup-python@v6
         with:
@@ -241,7 +241,7 @@ jobs:
       
       - name: Comment on PR
         if: always() && github.event_name == 'pull_request'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const comment = `## 📐 Relational Math Validation
